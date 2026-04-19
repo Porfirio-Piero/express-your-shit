@@ -1,0 +1,13 @@
+{
+  "date": null,
+  "actions": [
+    {
+      "action title": "Close missing standups",
+      "recommended owner/team": "engineering",
+      "why": "42 missed reports",
+      "links": [
+        "C:/Users/devpi/.openclaw/workspace/ops/drift-None.json"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "agent": "opportunity-prioritizer",
+  "date": "2026-02-22T09:00:00.000Z",
+  "status": "red",
+  "today": [
+    "Advance Opportunity Prioritizer"
+  ],
+  "milestones": [],
+  "blockers": [],
+  "wins": [],
+  "requests": [],
+  "tasks_in_progress": [],
+  "completed": [],
+  "notes": "Seeded by Consiglio"
+}

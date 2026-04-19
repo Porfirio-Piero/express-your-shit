@@ -1,0 +1,15 @@
+﻿{
+    "build_estimate":  2,
+    "complexity_flags":  [
+                             "Multi-user System"
+                         ],
+    "action_required":  "proceed",
+    "grade":  "B",
+    "phase":  "pre",
+    "timestamp":  "\/Date(1776610788390)\/",
+    "suitable":  true,
+    "reasons":  [
+                    "Has: Multi-user System"
+                ],
+    "project_path":  "~/.openclaw/workspace/overnight-factory/2026-04-19/meeting-availability-tool"
+}

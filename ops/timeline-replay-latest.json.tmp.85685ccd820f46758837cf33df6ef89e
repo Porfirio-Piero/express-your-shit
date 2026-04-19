@@ -1,0 +1,272 @@
+{
+  "date": "2026-02-18",
+  "events": [
+    {
+      "at": "2026-02-18T12:57:26.186527+00:00",
+      "type": "rollup",
+      "title": "executive-2026-02-18",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/rollups/executive-2026-02-18.md"
+    },
+    {
+      "at": "2026-02-18T12:57:26.186527+00:00",
+      "type": "rollup",
+      "title": "executive-latest",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/rollups/executive-latest.md"
+    },
+    {
+      "at": "2026-02-18T12:35:45+00:00",
+      "type": "decision",
+      "title": "DEC-20260218-route-urgent-custome",
+      "path": "C:/Users/devpi/.openclaw/workspace/inbox/decisions/DEC-20260218-route-urgent-custome.json",
+      "status": "approved"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "ai-integration-engineer",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/ai-integration-engineer-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "api-engineer",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/api-engineer-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "automation-tester",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/automation-tester-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "backend-engineer",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/backend-engineer-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "build-engineer",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/build-engineer-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "business-analyst",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/business-analyst-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "cloud-architect",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/cloud-architect-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "cloud-engineering-lead",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/cloud-engineering-lead-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "concept-architect",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/concept-architect-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "content-strategist",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/content-strategist-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "dev-scrum-master",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/dev-scrum-master-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "dev-team-lead",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/dev-team-lead-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "devops-lead",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/devops-lead-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "devops-scrum-master",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/devops-scrum-master-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "devsecops-engineer",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/devsecops-engineer-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "frontend-engineer",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/frontend-engineer-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "growth-lead",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/growth-lead-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "head-of-engineering",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/head-of-engineering-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "head-of-infrastructure",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/head-of-infrastructure-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "head-of-marketing",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/head-of-marketing-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "head-of-product",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/head-of-product-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "head-of-security",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/head-of-security-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "identity-engineer",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/identity-engineer-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "infra-scrum-master",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/infra-scrum-master-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "network-engineer",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/network-engineer-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "opportunity-prioritizer",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/opportunity-prioritizer-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "performance-tester",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/performance-tester-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "pipeline-architect",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/pipeline-architect-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "platform-reliability-lead",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/platform-reliability-lead-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "problem-scout-agent",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/problem-scout-agent-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "product-manager",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/product-manager-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "product-owner",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/product-owner-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "product-scrum-master",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/product-scrum-master-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "qa-scrum-master",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/qa-scrum-master-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "qa-team-lead",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/qa-team-lead-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "release-manager",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/release-manager-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "requirements-generator",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/requirements-generator-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "security-engineer",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/security-engineer-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "the-botfather",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/the-botfather-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T09:00:00Z",
+      "type": "daily-report",
+      "title": "trend-signal-analyzer",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/daily/trend-signal-analyzer-2026-02-18.json"
+    },
+    {
+      "at": "2026-02-18T04:02:57+00:00",
+      "type": "decision",
+      "title": "DEC-20260218-approve-recovery-sco",
+      "path": "C:/Users/devpi/.openclaw/workspace/inbox/decisions/DEC-20260218-approve-recovery-sco.json",
+      "status": "approved"
+    }
+  ],
+  "generatedAt": "2026-02-18T12:58:31+00:00"
+}

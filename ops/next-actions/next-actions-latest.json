@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-02-22T18:24:39.897Z",
+  "top_actions": [
+    {
+      "title": "Ingest new problems into task tracker before execution",
+      "owner": "problem-scout-agent",
+      "why": "Prevents untracked work and enforces approval gate."
+    },
+    {
+      "title": "Route approved items to product-manager for requirement mapping",
+      "owner": "product-manager",
+      "why": "Ensures implementation-ready planning."
+    },
+    {
+      "title": "Run QA + OWASP check on current deployments",
+      "owner": "security-engineer",
+      "why": "Maintains release safety baseline."
+    }
+  ]
+}

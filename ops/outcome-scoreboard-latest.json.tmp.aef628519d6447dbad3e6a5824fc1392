@@ -1,0 +1,14 @@
+{
+  "date": "2026-02-19",
+  "metrics": {
+    "tasksTotal": 0,
+    "tasksDone": 0,
+    "completionPercent": 0.0,
+    "blockedCount": 0,
+    "blockedPercent": 0.0,
+    "atRiskTeams": 0,
+    "missedCheckins": 42,
+    "avgBlockerAge": 0.0
+  },
+  "generatedAt": "2026-02-19T03:20:35+00:00"
+}

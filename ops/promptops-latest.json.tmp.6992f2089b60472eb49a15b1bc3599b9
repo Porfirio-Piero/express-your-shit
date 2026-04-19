@@ -1,0 +1,25 @@
+{
+  "summary": {
+    "totalSkills": 2,
+    "validSkills": 2,
+    "invalidSkills": 0
+  },
+  "invalid": [],
+  "riskLedger": [
+    {
+      "id": "skill:consiglio",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/consiglio/SKILL.md",
+      "risk": "low",
+      "owner": "agent:botfather",
+      "errors": []
+    },
+    {
+      "id": "skill:build-dependency-map",
+      "path": "C:/Users/devpi/.openclaw/workspace/workspace-consiglio-scout/SKILLS/build-dependency-map.md",
+      "risk": "medium",
+      "owner": "role:ops-capo",
+      "errors": []
+    }
+  ],
+  "generatedAt": "2026-02-18T04:58:39+00:00"
+}

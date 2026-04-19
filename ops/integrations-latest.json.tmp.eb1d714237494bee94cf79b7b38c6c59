@@ -1,0 +1,21 @@
+{
+  "connectors": [
+    {
+      "name": "pain-point-task-app",
+      "status": "connected",
+      "path": "C:/Users/devpi/.openclaw/workspace/task_app.html"
+    },
+    {
+      "name": "pain-point-miner",
+      "status": "connected",
+      "path": "C:/Users/devpi/.openclaw/workspace/projects/pain-point-miner/data/pain-points.json"
+    },
+    {
+      "name": "opportunity-submissions",
+      "status": "connected",
+      "fileCount": 0,
+      "path": "C:/Users/devpi/.openclaw/workspace/opportunities/submissions"
+    }
+  ],
+  "generatedAt": "2026-02-19T04:41:55+00:00"
+}

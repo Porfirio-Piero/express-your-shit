@@ -1,0 +1,102 @@
+# Docker Compose for Norm's OpenClaw + Ollama Stack
+# Usage: docker-compose up -d
+
+version: '3.8'
+
+services:
+  # Ollama - LLM Server
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0:11434
+      - OLLAMA_ORIGINS=*
+    # GPU support (if available)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # OpenClaw Gateway
+  openclaw:
+    image: openclaw/gateway:latest
+    container_name: openclaw
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - openclaw-config:/root/.openclaw
+      - openclaw-memory:/root/.openclaw/memory
+      - /var/run/docker.sock:/var/run/docker.sock  # For Docker skill
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - OPENCLAW_PORT=8080
+      - OPENCLAW_HOST=0.0.0.0
+      - LOG_LEVEL=info
+    depends_on:
+      ollama:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Optional: Web UI for Ollama
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: unless-stopped
+    ports:
+      - "3000:8080"
+    volumes:
+      - open-webui-data:/app/backend/data
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - WEBUI_AUTH=false  # Set to true to enable auth
+    depends_on:
+      - ollama
+    # Optional: enable for external access
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+
+  # Optional: Ngrok for external access (development only)
+  # ngrok:
+  #   image: ngrok/ngrok:latest
+  #   container_name: ngrok
+  #   restart: unless-stopped
+  #   command: http openclaw:8080 --domain=your-domain.ngrok.io
+  #   environment:
+  #     - NGROK_AUTHTOKEN=your_ngrok_token
+  #   depends_on:
+  #     - openclaw
+
+volumes:
+  ollama-data:
+    driver: local
+  openclaw-config:
+    driver: local
+  openclaw-memory:
+    driver: local
+  open-webui-data:
+    driver: local
+
+networks:
+  default:
+    name: norm-openclaw-network
+    driver: bridge

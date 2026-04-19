@@ -1,0 +1,57 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - img [ref=e7]
+          - heading "LandlordMinder" [level=1] [ref=e10]
+        - img [ref=e12]
+    - navigation [ref=e15]:
+      - generic [ref=e17]:
+        - button "Dashboard" [ref=e18]:
+          - img [ref=e19]
+          - text: Dashboard
+        - button "Properties" [ref=e22]:
+          - img [ref=e23]
+          - text: Properties
+        - button "Tasks" [ref=e26]:
+          - img [ref=e27]
+          - text: Tasks
+        - button "Expenses" [ref=e29]:
+          - img [ref=e30]
+          - text: Expenses
+    - main [ref=e32]:
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - heading "Your Properties" [level=2] [ref=e35]
+          - button "Add Property" [ref=e36]:
+            - img [ref=e37]
+            - text: Add Property
+        - generic [ref=e39]:
+          - img [ref=e40]
+          - heading "No properties yet" [level=3] [ref=e43]
+          - paragraph [ref=e44]: Add your first property to start tracking maintenance
+          - button "Add Your First Property" [ref=e45]
+    - generic [ref=e49]:
+      - generic [ref=e50]:
+        - heading "Add Property" [level=3] [ref=e51]
+        - button [ref=e52]:
+          - img [ref=e53]
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - generic [ref=e58]: Property Name
+          - textbox "e.g., 123 Main St Apartment" [active] [ref=e59]: Delete Test Property
+        - generic [ref=e60]:
+          - generic [ref=e61]: Address
+          - textbox "e.g., 123 Main St, City, State" [ref=e62]
+        - generic [ref=e63]:
+          - generic [ref=e64]: Number of Units
+          - spinbutton [ref=e65]: "1"
+        - generic [ref=e66]:
+          - button "Cancel" [ref=e67]
+          - button "Add Property" [ref=e68]
+  - alert [ref=e69]
+```

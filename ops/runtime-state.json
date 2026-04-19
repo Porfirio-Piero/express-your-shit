@@ -1,0 +1,18 @@
+{
+  "processes": {
+    "gateway": {
+      "name": "OpenClaw Gateway",
+      "status": "running",
+      "lastActionAt": null,
+      "lastAction": "none"
+    },
+    "ollama": {
+      "name": "Ollama",
+      "status": "running",
+      "lastActionAt": null,
+      "lastAction": "none"
+    }
+  },
+  "pausedNewRuns": false,
+  "lastHealthCheckAt": null
+}

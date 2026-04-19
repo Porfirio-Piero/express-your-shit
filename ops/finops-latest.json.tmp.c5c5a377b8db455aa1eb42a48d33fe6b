@@ -1,0 +1,25 @@
+{
+  "date": "2026-02-19",
+  "estimatedDailyCostUsd": 0.0,
+  "estimatedMonthlyCostUsd": 0.0,
+  "modelMix": [
+    {
+      "model": "primary",
+      "share": 0.6
+    },
+    {
+      "model": "fast-lane",
+      "share": 0.25
+    },
+    {
+      "model": "economy",
+      "share": 0.15
+    }
+  ],
+  "drivers": {
+    "activeTasks": 0,
+    "blockedTasks": 0,
+    "queueTotal": 0
+  },
+  "generatedAt": "2026-02-19T04:43:01+00:00"
+}

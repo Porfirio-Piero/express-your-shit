@@ -1,0 +1,1080 @@
+{
+  "summary": {
+    "totalSkills": 54,
+    "validSkills": 1,
+    "invalidSkills": 53
+  },
+  "invalid": [
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/ai-integration-engineer/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/api-engineer/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/automation-tester/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/backend-engineer/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/breaking-ben/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/build-engineer/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/business-analyst/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/cloud-architect/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/cloud-engineering-lead/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/concept-architect/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/consiglio/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/content strategist/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/content-strategist/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/dev-scrum-master/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/dev-team-lead/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/devops-lead/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/devops-scrum-master/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/devsecops-engineer/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/frontend-engineer/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/growth-lead/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/head-of-engineering/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/head-of-infrastructure/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/head-of-marketing/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/head-of-product/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/head-of-security/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/identity-engineer/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/infra-scrum-master/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/network-engineer/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/opportunity-prioritizer/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    },
+    {
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/performance-tester/SKILL.md",
+      "id": "",
+      "name": "SKILL",
+      "owner": "",
+      "status": "invalid",
+      "valid": false,
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ],
+      "frontMatter": {}
+    }
+  ],
+  "riskLedger": [
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/ai-integration-engineer/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/api-engineer/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/automation-tester/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/backend-engineer/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/breaking-ben/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/build-engineer/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/business-analyst/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/cloud-architect/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/cloud-engineering-lead/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/concept-architect/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/consiglio/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/content strategist/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/content-strategist/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/dev-scrum-master/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/dev-team-lead/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/devops-lead/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/devops-scrum-master/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/devsecops-engineer/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/frontend-engineer/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/growth-lead/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/head-of-engineering/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/head-of-infrastructure/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/head-of-marketing/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/head-of-product/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/head-of-security/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/identity-engineer/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/infra-scrum-master/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/network-engineer/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/opportunity-prioritizer/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/performance-tester/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/pipeline-architect/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/platform-reliability-lead/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/pm-builder/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing front matter key: id",
+        "Missing front matter key: version",
+        "Missing front matter key: owner",
+        "Missing front matter key: applies_to",
+        "Missing front matter key: status",
+        "Missing front matter key: risk",
+        "Missing front matter key: tags",
+        "Missing front matter key: subtask_policy",
+        "Missing front matter key: agent_spawn_policy",
+        "Missing front matter key: org_update_policy",
+        "Missing section heading: purpose",
+        "Missing section heading: trigger",
+        "Missing section heading: inputs",
+        "Missing section heading: outputs",
+        "Missing section heading: tools allowed",
+        "Missing section heading: procedure",
+        "Missing section heading: guardrails",
+        "Missing section heading: validation",
+        "Missing section heading: logging",
+        "subtask_policy missing: allowed",
+        "subtask_policy missing: recursion_allowed",
+        "subtask_policy missing: max_subtasks_per_run",
+        "subtask_policy missing: max_total_descendants_per_root",
+        "subtask_policy missing: explosion_guard",
+        "subtask_policy.explosion_guard must include enabled and require_approval_if_exceeds",
+        "agent_spawn_policy missing: allowed",
+        "agent_spawn_policy missing: when",
+        "agent_spawn_policy missing: crew_assignment",
+        "agent_spawn_policy missing: initial_state",
+        "agent_spawn_policy missing: capo_must_finalize_skills_within_heartbeats",
+        "org_update_policy missing: allowed",
+        "org_update_policy missing: update_mode",
+        "org_update_policy missing: required_fields_on_add"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/problem-scout-agent/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/product-manager/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/product-owner/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/product-scrum-master/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/production-pete/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing front matter key: id",
+        "Missing front matter key: version",
+        "Missing front matter key: owner",
+        "Missing front matter key: applies_to",
+        "Missing front matter key: status",
+        "Missing front matter key: risk",
+        "Missing front matter key: tags",
+        "Missing front matter key: subtask_policy",
+        "Missing front matter key: agent_spawn_policy",
+        "Missing front matter key: org_update_policy",
+        "Missing section heading: purpose",
+        "Missing section heading: trigger",
+        "Missing section heading: inputs",
+        "Missing section heading: outputs",
+        "Missing section heading: tools allowed",
+        "Missing section heading: procedure",
+        "Missing section heading: guardrails",
+        "Missing section heading: validation",
+        "Missing section heading: logging",
+        "subtask_policy missing: allowed",
+        "subtask_policy missing: recursion_allowed",
+        "subtask_policy missing: max_subtasks_per_run",
+        "subtask_policy missing: max_total_descendants_per_root",
+        "subtask_policy missing: explosion_guard",
+        "subtask_policy.explosion_guard must include enabled and require_approval_if_exceeds",
+        "agent_spawn_policy missing: allowed",
+        "agent_spawn_policy missing: when",
+        "agent_spawn_policy missing: crew_assignment",
+        "agent_spawn_policy missing: initial_state",
+        "agent_spawn_policy missing: capo_must_finalize_skills_within_heartbeats",
+        "org_update_policy missing: allowed",
+        "org_update_policy missing: update_mode",
+        "org_update_policy missing: required_fields_on_add"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/qa-rita/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing front matter key: id",
+        "Missing front matter key: version",
+        "Missing front matter key: owner",
+        "Missing front matter key: applies_to",
+        "Missing front matter key: status",
+        "Missing front matter key: risk",
+        "Missing front matter key: tags",
+        "Missing front matter key: subtask_policy",
+        "Missing front matter key: agent_spawn_policy",
+        "Missing front matter key: org_update_policy",
+        "Missing section heading: purpose",
+        "Missing section heading: trigger",
+        "Missing section heading: inputs",
+        "Missing section heading: outputs",
+        "Missing section heading: tools allowed",
+        "Missing section heading: procedure",
+        "Missing section heading: guardrails",
+        "Missing section heading: validation",
+        "Missing section heading: logging",
+        "subtask_policy missing: allowed",
+        "subtask_policy missing: recursion_allowed",
+        "subtask_policy missing: max_subtasks_per_run",
+        "subtask_policy missing: max_total_descendants_per_root",
+        "subtask_policy missing: explosion_guard",
+        "subtask_policy.explosion_guard must include enabled and require_approval_if_exceeds",
+        "agent_spawn_policy missing: allowed",
+        "agent_spawn_policy missing: when",
+        "agent_spawn_policy missing: crew_assignment",
+        "agent_spawn_policy missing: initial_state",
+        "agent_spawn_policy missing: capo_must_finalize_skills_within_heartbeats",
+        "org_update_policy missing: allowed",
+        "org_update_policy missing: update_mode",
+        "org_update_policy missing: required_fields_on_add"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/qa-scrum-master/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/qa-team-lead/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/release-manager/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/requirements-generator/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/security-engineer/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/security-steve/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing front matter key: id",
+        "Missing front matter key: version",
+        "Missing front matter key: owner",
+        "Missing front matter key: applies_to",
+        "Missing front matter key: status",
+        "Missing front matter key: risk",
+        "Missing front matter key: tags",
+        "Missing front matter key: subtask_policy",
+        "Missing front matter key: agent_spawn_policy",
+        "Missing front matter key: org_update_policy",
+        "Missing section heading: purpose",
+        "Missing section heading: trigger",
+        "Missing section heading: inputs",
+        "Missing section heading: outputs",
+        "Missing section heading: tools allowed",
+        "Missing section heading: procedure",
+        "Missing section heading: guardrails",
+        "Missing section heading: validation",
+        "Missing section heading: logging",
+        "subtask_policy missing: allowed",
+        "subtask_policy missing: recursion_allowed",
+        "subtask_policy missing: max_subtasks_per_run",
+        "subtask_policy missing: max_total_descendants_per_root",
+        "subtask_policy missing: explosion_guard",
+        "subtask_policy.explosion_guard must include enabled and require_approval_if_exceeds",
+        "agent_spawn_policy missing: allowed",
+        "agent_spawn_policy missing: when",
+        "agent_spawn_policy missing: crew_assignment",
+        "agent_spawn_policy missing: initial_state",
+        "agent_spawn_policy missing: capo_must_finalize_skills_within_heartbeats",
+        "org_update_policy missing: allowed",
+        "org_update_policy missing: update_mode",
+        "org_update_policy missing: required_fields_on_add"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/social-hunter/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing front matter key: id",
+        "Missing front matter key: version",
+        "Missing front matter key: owner",
+        "Missing front matter key: applies_to",
+        "Missing front matter key: status",
+        "Missing front matter key: risk",
+        "Missing front matter key: tags",
+        "Missing front matter key: subtask_policy",
+        "Missing front matter key: agent_spawn_policy",
+        "Missing front matter key: org_update_policy",
+        "Missing section heading: purpose",
+        "Missing section heading: trigger",
+        "Missing section heading: inputs",
+        "Missing section heading: outputs",
+        "Missing section heading: tools allowed",
+        "Missing section heading: procedure",
+        "Missing section heading: guardrails",
+        "Missing section heading: validation",
+        "Missing section heading: logging",
+        "subtask_policy missing: allowed",
+        "subtask_policy missing: recursion_allowed",
+        "subtask_policy missing: max_subtasks_per_run",
+        "subtask_policy missing: max_total_descendants_per_root",
+        "subtask_policy missing: explosion_guard",
+        "subtask_policy.explosion_guard must include enabled and require_approval_if_exceeds",
+        "agent_spawn_policy missing: allowed",
+        "agent_spawn_policy missing: when",
+        "agent_spawn_policy missing: crew_assignment",
+        "agent_spawn_policy missing: initial_state",
+        "agent_spawn_policy missing: capo_must_finalize_skills_within_heartbeats",
+        "org_update_policy missing: allowed",
+        "org_update_policy missing: update_mode",
+        "org_update_policy missing: required_fields_on_add"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/sub-agent-orchestrator/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing front matter key: id",
+        "Missing front matter key: version",
+        "Missing front matter key: owner",
+        "Missing front matter key: applies_to",
+        "Missing front matter key: status",
+        "Missing front matter key: risk",
+        "Missing front matter key: tags",
+        "Missing front matter key: subtask_policy",
+        "Missing front matter key: agent_spawn_policy",
+        "Missing front matter key: org_update_policy",
+        "Missing section heading: purpose",
+        "Missing section heading: trigger",
+        "Missing section heading: inputs",
+        "Missing section heading: outputs",
+        "Missing section heading: tools allowed",
+        "Missing section heading: procedure",
+        "Missing section heading: guardrails",
+        "Missing section heading: validation",
+        "Missing section heading: logging",
+        "subtask_policy missing: allowed",
+        "subtask_policy missing: recursion_allowed",
+        "subtask_policy missing: max_subtasks_per_run",
+        "subtask_policy missing: max_total_descendants_per_root",
+        "subtask_policy missing: explosion_guard",
+        "subtask_policy.explosion_guard must include enabled and require_approval_if_exceeds",
+        "agent_spawn_policy missing: allowed",
+        "agent_spawn_policy missing: when",
+        "agent_spawn_policy missing: crew_assignment",
+        "agent_spawn_policy missing: initial_state",
+        "agent_spawn_policy missing: capo_must_finalize_skills_within_heartbeats",
+        "org_update_policy missing: allowed",
+        "org_update_policy missing: update_mode",
+        "org_update_policy missing: required_fields_on_add"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/taskmaster-guardian/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/the-botfather/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/trend-signal-analyzer/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/vercel-auto-deploy/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/vercel-deploy/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing YAML front matter opening ---"
+      ]
+    },
+    {
+      "id": "",
+      "path": "C:/Users/devpi/.openclaw/workspace/skills/what-should-we-do-next/SKILL.md",
+      "risk": "unknown",
+      "owner": "",
+      "errors": [
+        "Missing front matter key: id",
+        "Missing front matter key: version",
+        "Missing front matter key: owner",
+        "Missing front matter key: applies_to",
+        "Missing front matter key: status",
+        "Missing front matter key: risk",
+        "Missing front matter key: tags",
+        "Missing front matter key: subtask_policy",
+        "Missing front matter key: agent_spawn_policy",
+        "Missing front matter key: org_update_policy",
+        "Missing section heading: purpose",
+        "Missing section heading: trigger",
+        "Missing section heading: inputs",
+        "Missing section heading: outputs",
+        "Missing section heading: tools allowed",
+        "Missing section heading: procedure",
+        "Missing section heading: guardrails",
+        "Missing section heading: validation",
+        "Missing section heading: logging",
+        "subtask_policy missing: allowed",
+        "subtask_policy missing: recursion_allowed",
+        "subtask_policy missing: max_subtasks_per_run",
+        "subtask_policy missing: max_total_descendants_per_root",
+        "subtask_policy missing: explosion_guard",
+        "subtask_policy.explosion_guard must include enabled and require_approval_if_exceeds",
+        "agent_spawn_policy missing: allowed",
+        "agent_spawn_policy missing: when",
+        "agent_spawn_policy missing: crew_assignment",
+        "agent_spawn_policy missing: initial_state",
+        "agent_spawn_policy missing: capo_must_finalize_skills_within_heartbeats",
+        "org_update_policy missing: allowed",
+        "org_update_policy missing: update_mode",
+        "org_update_policy missing: required_fields_on_add"
+      ]
+    },
+    {
+      "id": "skill:build-dependency-map",
+      "path": "C:/Users/devpi/.openclaw/workspace/workspace-consiglio-scout/SKILLS/build-dependency-map.md",
+      "risk": "medium",
+      "owner": "role:ops-capo",
+      "errors": []
+    }
+  ],
+  "generatedAt": "2026-02-19T06:09:42+00:00"
+}

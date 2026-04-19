@@ -1,0 +1,158 @@
+{
+  "project": "TaskMaster Tracker (LEGACY BACKUP)",
+  "lastUpdated": "2026-02-21T00:04:00-05:00",
+  "deprecated": true,
+  "migrationNotice": "MIGRATED 2026-02-20: TaskMaster is now a legacy backup. Consiglio (C:/Users/devpi/.openclaw/consiglio/tasktracker/tasktracker.json) is the PRIMARY source of truth. This file receives one-way sync updates from Consiglio for backwards compatibility only.",
+  "columns": [
+    "backlog",
+    "in-progress",
+    "completed",
+    "blocked",
+    "on-hold"
+  ],
+  "tasks": [
+    {
+      "id": "task-011",
+      "title": "Automated Config Validator - Daily Version Check",
+      "description": "Daily check of OpenClaw and Ollama GitHub releases for new versions. Parse changelogs for breaking changes, validate current config compatibility, propose updates.",
+      "status": "completed",
+      "column": "completed",
+      "priority": "medium",
+      "createdBy": "cron",
+      "createdAt": "2026-02-20T07:01:00-05:00",
+      "tier": "2-Important",
+      "tags": [
+        "config",
+        "validator",
+        "version-check",
+        "security"
+      ],
+      "location": "memory/taskmaster.json",
+      "liveUrl": null,
+      "notes": "**📊 Daily Config Validator Check - 2026-02-20 07:01 AM**\n\n**OpenClaw Status:**\n- Current: v2026.2.13 (installed via npm)\n- Latest: v2026.2.19 (released 2026-02-19)\n- Gap: 6 days behind\n\n**Ollama Status:**\n- Latest: v0.16.2 (released 2026-02-14)\n- Windows installer: OllamaSetup.exe (1.26GB)\n\n**🔍 Breaking Changes Analysis - OpenClaw v2026.2.19:**\n\n**CONFIG-RELATED (Review Required):**\n1. `gateway.auth.token` now auto-generated on startup if not set\n2. `hooks.token` + `gateway.auth.token` collision now FAILS startup (security fix)\n3. Frontmatter YAML parsing now uses YAML 1.2 schema (affects `on`/`off` values)\n4. `memory.backend=qmd` skips embedding-provider warnings (new behavior)\n\n**SECURITY HARDENING:**\n- SSRF: IPv4 literals now strict dotted-decimal only\n- Network: `ws://` plaintext blocked for non-loopback hosts\n- Gateway: rate-limit on config.write RPCs (3/min)\n- Plugins: path containment enforced with realpath checks\n\n**⚠️ POTENTIAL CONFIG IMPACT:**\n| Setting | Old Behavior | New Behavior | Action |\n|---------|-------------|--------------|--------|\n| `gateway.auth.mode=none` | Allowed | Warning/critical audit | Review if intentional |\n| `hooks.token` = `gateway.auth.token` | Allowed | Startup FAILS | Must fix if collision |\n| Frontmatter `on`/`off` | Boolean | String (YAML 1.2) | Check SKILL.md files |\n\n**📋 Ollama v0.16.2 Changes:**\n- New: `OLLAMA_NO_CLOUD=1` env var for sensitive tasks\n- Fix: PowerShell rendering (Windows users)\n- Fix: Image generation models (0.16.0/0.16.1 regression)\n\n**🎯 Recommendations:**\n1. **OpenClaw:** Update from 2026.2.13 → 2026.2.19 (security fixes)\n2. **Pre-update check:** Verify `hooks.token` ≠ `gateway.auth.token`\n3. **Post-update:** Validate SKILL.md frontmatter booleans\n4. **Ollama:** Update if using experimental image generation models\n\n**Update Command:**\n```powershell\nnpm update -g openclaw\n```",
+      "checklist": [
+        {
+          "item": "Check OpenClaw GitHub releases",
+          "done": true
+        },
+        {
+          "item": "Check Ollama GitHub releases",
+          "done": true
+        },
+        {
+          "item": "Parse changelogs for breaking changes",
+          "done": true
+        },
+        {
+          "item": "Compare current vs latest versions",
+          "done": true
+        },
+        {
+          "item": "Identify config impact",
+          "done": true
+        },
+        {
+          "item": "Create update recommendations",
+          "done": true
+        },
+        {
+          "item": "Update taskmaster.json",
+          "done": true
+        }
+      ]
+    },
+    {
+      "id": "task-009",
+      "title": "Auto-Builder - Local Model Benchmarker",
+      "description": "Daily automated benchmark of local Ollama models. Check for new small models, run benchmark suite, track performance over time.",
+      "status": "active",
+      "column": "in-progress",
+      "priority": "medium",
+      "createdBy": "cron",
+      "createdAt": "2026-02-20T06:01:00-05:00",
+      "tier": "3-Low",
+      "tags": [
+        "benchmark",
+        "ollama",
+        "local-models",
+        "performance"
+      ],
+      "location": "projects/local-model-benchmarker/",
+      "liveUrl": null,
+      "notes": "**📊 Daily Check - 2026-02-20 06:01 AM**\n\n**Ollama Status:** ✅ Running (http://localhost:11434)\n\n**Available Models (13 total):**\n- llama3.1:8b (4.9GB) - Core benchmark model\n- mistral:7b (4.4GB) - Core benchmark model\n- qwen2.5-coder:7b (4.7GB) - Code-focused benchmark\n- codellama:7b (3.8GB) - Code benchmark model\n- qwen2.5:7b (4.7GB) - General benchmark\n- phi4-reasoning (11GB) - NEW: Microsoft reasoning model\n- gpt-oss:20b (14GB) - NEW: OpenAI open-source model\n- gemma3:27b (17GB) - NEW: Google Gemma 3\n- minimax-m2:cloud, deepseek-v3.1:671b-cloud, kimi-k2.5:cloud - Cloud API configs\n- nemotron-3-nano (24GB), glm-4.7-flash (19GB) - Large models\n\n**🔍 New Models Detected (vs last check):**\n- phi4-reasoning:latest (~11GB) - Reasoning-focused\n- gpt-oss:20b (~14GB) - OpenAI's open model\n- gemma3:27b (~17GB) - Google's latest\n\n**⚠️ Benchmark Execution:** BLOCKED - Model inference timeout (>60s) in cron context\n- qwen2.5-coder:7b test started but didn't complete in 90s\n- Local Ollama is functional but requires more time than cron allows\n\n**📋 Auto-Worker Check (2:34 PM, Friday 2/20):** ✅ No automated actions available. Benchmark execution still blocked by timeout. Manual run recommended when time permits.\n\n**📁 Files Available:**\n- benchmark.py - Full benchmark suite\n- benchmark.ps1 - PowerShell version\n- quick-test.py - Quick smoke test\n\n**🎯 Recommendation:** Run full benchmark manually when time permits:\n```\ncd projects/local-model-benchmarker\npython benchmark.py\n```\n\n**✅ Update - 2026-02-21 12:04 AM:** Added a cron-friendly smoke benchmark to get daily signal without long inference timeouts.\n- New file: `projects/local-model-benchmarker/cron-smoke.py`\n- Writes: `projects/local-model-benchmarker/reports/cron_smoke-YYYY-MM-DD.json`\n- Run (manual or cron):\n```\ncd projects/local-model-benchmarker\npython cron-smoke.py\n```\n- Env knobs: `SMOKE_TIMEOUT_S` (default 45), `SMOKE_MAX_MODELS` (default 2)",
+      "checklist": [
+        {
+          "item": "Check Ollama status and available models",
+          "done": true
+        },
+        {
+          "item": "Identify new small models to benchmark",
+          "done": true
+        },
+        {
+          "item": "Add cron-friendly smoke benchmark script",
+          "done": true,
+          "output": "projects/local-model-benchmarker/cron-smoke.py"
+        },
+        {
+          "item": "Run benchmark.py on priority models",
+          "done": false,
+          "blocked": "Model inference >60s timeout in cron context"
+        },
+        {
+          "item": "Generate benchmark_report.json",
+          "done": false
+        },
+        {
+          "item": "Compare results with previous runs",
+          "done": false
+        }
+      ]
+    },
+    {
+      "id": "task-027",
+      "title": "World Model Builder - Daily Intelligence Cycle",
+      "description": "Automated daily world modeling for AI/ML Infrastructure domain. Scrape latest data, update knowledge graph, run predictions, validate against reality, refine model.",
+      "status": "completed",
+      "column": "completed",
+      "priority": "medium",
+      "createdBy": "cron",
+      "createdAt": "2026-02-20T05:00:00-05:00",
+      "tier": "2-Important",
+      "tags": [
+        "world-model",
+        "intelligence",
+        "predictions",
+        "automation"
+      ],
+      "location": "projects/world-model-builder/",
+      "notes": "✅ **DAILY CYCLE COMPLETE - 2026-02-20**\n\n**📊 Execution Summary:**\n- Scrape: 3 sources (GitHub, HF Blog, Reddit) - 2 new entities discovered\n- Knowledge Graph: 13 entities, 14 relationships (3 new relationships added)\n- Predictions: 10 active (7 carry-forward + 3 new today)\n- Validation: 7 predictions checked against reality\n- Refinement: 1 new category added (hardware_economics), confidence adjustments made\n\n**🔍 Key Findings:**\n1. **STRONG VALIDATION:** vLLM Realtime API shipped - validates WebSocket audio streaming prediction (confidence +10% to 0.70)\n2. **CONFIRMED CRISIS:** DDR5 RDIMM prices exceed 3090 per GB - memory cost crisis now documented with 442 upvote Reddit post\n3. **NEW TREND:** Enterprise evaluation frameworks (IT-Bench, MAST) emerging as response to black-box leaderboard distrust\n\n**📈 Prediction Accuracy Tracking:**\n- Day 2 of 30-day horizon\n- 2 predictions ON_TRACK, 1 showing EARLY_INDICATORS\n- Net confidence trend: +0.19 (positive)\n- Highest confidence: Realtime API adoption (0.70)\n- Lowest confidence: GPU vRAM cost-competitive (0.48)\n\n**📁 Files Generated:**\n- `raw-data/2026-02-20/scrape-2026-02-20.json` - Raw scrape data\n- `knowledge-graph/graph-2026-02-20.json` - Updated graph (13 nodes, 14 edges)\n- `predictions/forecasts-2026-02-20.json` - 10 predictions (avg confidence 0.61)\n- `validation/validation-2026-02-20.json` - Day 2 validation results\n- `refinement/refinement-2026-02-20.json` - Model adjustments\n\n**🎯 Next Run:** 2026-02-21 05:00 AM",
+      "checklist": [
+        {
+          "item": "Scrape latest data from configured sources",
+          "done": true
+        },
+        {
+          "item": "Update knowledge graph with new entities/relationships",
+          "done": true
+        },
+        {
+          "item": "Generate predictions (carry-forward + new)",
+          "done": true
+        },
+        {
+          "item": "Validate yesterday's predictions against reality",
+          "done": true
+        },
+        {
+          "item": "Refine model based on validation results",
+          "done": true
+        },
+        {
+          "item": "Update state.json metrics",
+          "done": true
+        }
+      ]
+    }
+  ]
+}

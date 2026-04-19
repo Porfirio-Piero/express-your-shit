@@ -1,0 +1,18 @@
+{
+  "summary": {
+    "totalSkills": 1,
+    "validSkills": 1,
+    "invalidSkills": 0
+  },
+  "invalid": [],
+  "riskLedger": [
+    {
+      "id": "skill:build-dependency-map",
+      "path": "C:/Users/devpi/.openclaw/workspace/workspace-consiglio-scout/SKILLS/build-dependency-map.md",
+      "risk": "medium",
+      "owner": "role:ops-capo",
+      "errors": []
+    }
+  ],
+  "generatedAt": "2026-02-18T12:39:24+00:00"
+}

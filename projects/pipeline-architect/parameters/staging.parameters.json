@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environment": {
+      "value": "staging"
+    },
+    "location": {
+      "value": "eastus"
+    },
+    "secondaryLocation": {
+      "value": "westus2"
+    },
+    "projectName": {
+      "value": "contoso-app"
+    },
+    "tags": {
+      "value": {
+        "environment": "staging",
+        "project": "contoso-app",
+        "managedBy": "bicep",
+        "costCenter": "IT-12345",
+        "owner": "platform-team@contoso.com",
+        "compliance": "pre-prod"
+      }
+    },
+    "enableDiagnostics": {
+      "value": true
+    },
+    "logRetentionDays": {
+      "value": 60
+    },
+    "sqlDatabaseSkuName": {
+      "value": "S1"
+    },
+    "sqlDatabaseTier": {
+      "value": "Standard"
+    },
+    "enableZoneRedundancy": {
+      "value": true
+    }
+  }
+}

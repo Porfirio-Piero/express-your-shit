@@ -1,0 +1,43 @@
+{
+  "policy": {
+    "roles": {
+      "agent": {
+        "can": [
+          "WRITE_OWN_WORKSPACE",
+          "UPDATE_ASSIGNED_TASK"
+        ]
+      },
+      "capo": {
+        "can": [
+          "WRITE_OWN_WORKSPACE",
+          "UPDATE_ASSIGNED_TASK",
+          "MODIFY_SKILL_IN_DOMAIN",
+          "SPAWN_AGENT_IN_DOMAIN"
+        ]
+      },
+      "chief": {
+        "can": [
+          "CROSS_DOMAIN_APPROVAL",
+          "DEPRECATE_AGENT"
+        ]
+      },
+      "botfather": {
+        "can": [
+          "ALL"
+        ]
+      }
+    },
+    "approvalRequired": {
+      "MODIFY_SYSTEM_POLICY": "agent:botfather",
+      "CREATE_CREW": "agent:botfather",
+      "CROSS_DOMAIN_WRITE": "role:chief"
+    }
+  },
+  "summary": {
+    "ruleCount": 0,
+    "allowLogs": 12,
+    "denyLogs": 0
+  },
+  "recentDenied": [],
+  "generatedAt": "2026-02-19T03:46:50+00:00"
+}

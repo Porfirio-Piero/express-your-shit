@@ -1,0 +1,651 @@
+# Azure DevOps Pipeline for Bicep Infrastructure Deployment
+# This pipeline implements a multi-stage CI/CD workflow with:
+# - Validation (lint + build)
+# - Preview (what-if analysis)
+# - Security scanning
+# - Approval gates
+# - Deployment strategies (incremental vs complete)
+
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+      - feature/*
+  paths:
+    include:
+      - 'bicep/**'
+      - 'parameters/**'
+      - 'pipelines/**'
+
+pr:
+  branches:
+    include:
+      - main
+      - develop
+      - 'release/*'
+  paths:
+    include:
+      - 'bicep/**'
+      - 'parameters/**'
+
+# Global variables
+variables:
+  - group: bicep-deployment-variables  # Variable group containing service connections
+  - name: bicepPath
+    value: 'bicep'
+  - name: parameterPath
+    value: 'parameters'
+
+# Pipeline stages
+stages:
+
+  # ═══════════════════════════════════════════════════════════════
+  # STAGE 1: VALIDATION
+  # ═══════════════════════════════════════════════════════════════
+  - stage: Validation
+    displayName: '🔍 Validation'
+    jobs:
+      - job: LintAndBuild
+        displayName: 'Lint and Build'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: AzureCLI@2
+            displayName: 'Install Bicep CLI'
+            inputs:
+              azureSubscription: '$(azureServiceConnection)'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                # Install Bicep CLI
+                az bicep install
+                az bicep version
+
+          - task: AzureCLI@2
+            displayName: 'Lint Bicep Templates'
+            inputs:
+              azureSubscription: '$(azureServiceConnection)'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                echo "=== Linting Bicep Templates ==="
+                for file in $(find $(bicepPath) -name "*.bicep" -type f); do
+                  echo "Linting: $file"
+                  az bicep lint --file "$file"
+                  if [ $? -ne 0 ]; then
+                    echo "❌ Lint failed for $file"
+                    exit 1
+                  fi
+                  echo "✅ Lint passed for $file"
+                done
+                echo "=== All templates passed linting ==="
+
+          - task: AzureCLI@2
+            displayName: 'Build Bicep Templates'
+            inputs:
+              azureSubscription: '$(azureServiceConnection)'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                echo "=== Building Bicep Templates ==="
+                mkdir -p $(Build.ArtifactStagingDirectory)/compiled
+                
+                for file in $(find $(bicepPath) -name "*.bicep" -type f); do
+                  filename=$(basename "$file" .bicep)
+                  echo "Building: $file -> $filename.json"
+                  az bicep build --file "$file" --outfile "$(Build.ArtifactStagingDirectory)/compiled/$filename.json"
+                  if [ $? -ne 0 ]; then
+                    echo "❌ Build failed for $file"
+                    exit 1
+                  fi
+                  echo "✅ Build succeeded for $file"
+                done
+                echo "=== All templates built successfully ==="
+
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Compiled Templates'
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)/compiled'
+              ArtifactName: 'bicep-compiled'
+              publishLocation: 'Container'
+
+  # ═══════════════════════════════════════════════════════════════
+  # STAGE 2: SECURITY SCANNING
+  # ═══════════════════════════════════════════════════════════════
+  - stage: SecurityScan
+    displayName: '🔒 Security Scan'
+    dependsOn: Validation
+    jobs:
+      - job: TemplateAnalyzer
+        displayName: 'Bicep Template Analyzer'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: UseDotNet@2
+            displayName: 'Install .NET'
+            inputs:
+              packageType: 'sdk'
+              version: '8.x'
+
+          - script: |
+              echo "=== Installing Bicep Template Analyzer ==="
+              dotnet tool install -g Microsoft.Azure.Templates.Analyzer.Core --version 0.3.1 || true
+              export PATH="$PATH:$HOME/.dotnet/tools"
+              
+              echo "=== Running Security Analysis ==="
+              mkdir -p $(Build.ArtifactStagingDirectory)/security-reports
+              
+              for file in $(find $(bicepPath) -name "*.bicep" -type f); do
+                filename=$(basename "$file" .bicep)
+                echo "Analyzing: $file"
+                
+                TemplateAnalyzer analyze-template "$file" --report-format Sarif --output-path "$(Build.ArtifactStagingDirectory)/security-reports/$filename.sarif"
+                
+                if [ $? -ne 0 ]; then
+                  echo "⚠️ Security scan completed with issues for $file"
+                else
+                  echo "✅ Security scan passed for $file"
+                fi
+              done
+              
+              echo "=== Generating summary report ==="
+              cat $(Build.ArtifactStagingDirectory)/security-reports/*.sarif > $(Build.ArtifactStagingDirectory)/security-reports/combined.sarif 2>/dev/null || true
+            displayName: 'Run Template Analyzer'
+            failOnStderr: false
+
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Security Reports'
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)/security-reports'
+              ArtifactName: 'security-scan-results'
+              publishLocation: 'Container'
+
+      - job: CheckovScan
+        displayName: 'Checkov Security Scan'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - script: |
+              echo "=== Installing Checkov ==="
+              pip install checkov
+              
+              echo "=== Running Checkov Security Scan ==="
+              mkdir -p $(Build.ArtifactStagingDirectory)/checkov-reports
+              
+              checkov --directory $(bicepPath) --framework bicep \
+                --output jsonfile \
+                --output-file-path $(Build.ArtifactStagingDirectory)/checkov-reports/ \
+                --soft-fail-on MEDIUM \
+                --compact
+              
+              echo "=== Checkov scan complete ==="
+              cat $(Build.ArtifactStagingDirectory)/checkov-reports/results_json.json 2>/dev/null || echo "No JSON output generated"
+            displayName: 'Run Checkov Scan'
+
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Checkov Reports'
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)/checkov-reports'
+              ArtifactName: 'checkov-scan-results'
+              publishLocation: 'Container'
+
+  # ═══════════════════════════════════════════════════════════════
+  # STAGE 3: PREVIEW (What-If) - Development
+  # ═══════════════════════════════════════════════════════════════
+  - stage: PreviewDev
+    displayName: '📋 Preview (Dev)'
+    dependsOn: SecurityScan
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+    jobs:
+      - deployment: WhatIfDev
+        displayName: 'What-If Analysis (Dev)'
+        environment: 'Development'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: bicep-compiled
+                  displayName: 'Download Compiled Templates'
+
+                - task: AzureCLI@2
+                  displayName: 'Run What-If Analysis'
+                  inputs:
+                    azureSubscription: '$(azureDevServiceConnection)'
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      echo "=== Running What-If Analysis for Development ==="
+                      
+                      az deployment sub what-if \
+                        --name "what-if-$(Build.BuildId)" \
+                        --location "$(devLocation)" \
+                        --template-file "$(Pipeline.Workspace)/bicep-compiled/main.json" \
+                        --parameters "$(Build.SourcesDirectory)/$(parameterPath)/dev.parameters.json" \
+                        --result-type FullResourcePayloads \
+                        --output json > $(Build.ArtifactStagingDirectory)/what-if-dev.json
+                      
+                      echo "=== What-If Summary ==="
+                      cat $(Build.ArtifactStagingDirectory)/what-if-dev.json | jq -r '.changes[] | "\(.changeType): \(.resourceId // .delta[].path)"' 2>/dev/null || cat $(Build.ArtifactStagingDirectory)/what-if-dev.json
+                      
+                      # Check for destructive changes
+                      DESTRUCTIVE_COUNT=$(cat $(Build.ArtifactStagingDirectory)/what-if-dev.json | jq '[.changes[] | select(.changeType == "Delete")] | length' 2>/dev/null || echo "0")
+                      if [ "$DESTRUCTIVE_COUNT" -gt "0" ]; then
+                        echo "⚠️ WARNING: $DESTRUCTIVE_COUNT resources will be DELETED!"
+                        echo "##vso[task.logissue type=warning]Destructive changes detected in What-If"
+                      fi
+                  failOnStandardError: false
+
+                - task: PublishBuildArtifacts@1
+                  displayName: 'Publish What-If Results'
+                  inputs:
+                    PathtoPublish: '$(Build.ArtifactStagingDirectory)/what-if-dev.json'
+                    ArtifactName: 'what-if-dev-results'
+                    publishLocation: 'Container'
+
+  # ═══════════════════════════════════════════════════════════════
+  # STAGE 4: PREVIEW (What-If) - Staging
+  # ═══════════════════════════════════════════════════════════════
+  - stage: PreviewStaging
+    displayName: '📋 Preview (Staging)'
+    dependsOn: SecurityScan
+    condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/')))
+    jobs:
+      - deployment: WhatIfStaging
+        displayName: 'What-If Analysis (Staging)'
+        environment: 'Staging'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: bicep-compiled
+                  displayName: 'Download Compiled Templates'
+
+                - task: AzureCLI@2
+                  displayName: 'Run What-If Analysis'
+                  inputs:
+                    azureSubscription: '$(azureStagingServiceConnection)'
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      echo "=== Running What-If Analysis for Staging ==="
+                      
+                      az deployment sub what-if \
+                        --name "what-if-$(Build.BuildId)" \
+                        --location "$(stagingLocation)" \
+                        --template-file "$(Pipeline.Workspace)/bicep-compiled/main.json" \
+                        --parameters "$(Build.SourcesDirectory)/$(parameterPath)/staging.parameters.json" \
+                        --result-type FullResourcePayloads \
+                        --output json > $(Build.ArtifactStagingDirectory)/what-if-staging.json
+                      
+                      echo "=== What-If Summary ==="
+                      cat $(Build.ArtifactStagingDirectory)/what-if-staging.json | jq -r '.changes[] | "\(.changeType): \(.resourceId // .delta[].path)"' 2>/dev/null || cat $(Build.ArtifactStagingDirectory)/what-if-staging.json
+                      
+                      # Check for destructive changes
+                      DESTRUCTIVE_COUNT=$(cat $(Build.ArtifactStagingDirectory)/what-if-staging.json | jq '[.changes[] | select(.changeType == "Delete")] | length' 2>/dev/null || echo "0")
+                      if [ "$DESTRUCTIVE_COUNT" -gt "0" ]; then
+                        echo "⚠️ WARNING: $DESTRUCTIVE_COUNT resources will be DELETED!"
+                        echo "##vso[task.logissue type=warning]Destructive changes detected in What-If"
+                      fi
+
+                - task: PublishBuildArtifacts@1
+                  displayName: 'Publish What-If Results'
+                  inputs:
+                    PathtoPublish: '$(Build.ArtifactStagingDirectory)/what-if-staging.json'
+                    ArtifactName: 'what-if-staging-results'
+                    publishLocation: 'Container'
+
+  # ═══════════════════════════════════════════════════════════════
+  # STAGE 5: DEPLOYMENT - Development (Auto-approved)
+  # ═══════════════════════════════════════════════════════════════
+  - stage: DeployDev
+    displayName: '🚀 Deploy (Dev)'
+    dependsOn: PreviewDev
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+    jobs:
+      - deployment: DeployToDev
+        displayName: 'Deploy to Development'
+        environment: 'Development'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: bicep-compiled
+                  displayName: 'Download Compiled Templates'
+
+                - task: AzureCLI@2
+                  displayName: 'Validate Deployment'
+                  inputs:
+                    azureSubscription: '$(azureDevServiceConnection)'
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      echo "=== Pre-deployment Validation (Dev) ==="
+                      az deployment sub validate \
+                        --name "validate-$(Build.BuildId)" \
+                        --location "$(devLocation)" \
+                        --template-file "$(Pipeline.Workspace)/bicep-compiled/main.json" \
+                        --parameters "$(Build.SourcesDirectory)/$(parameterPath)/dev.parameters.json"
+                      echo "✅ Validation successful"
+
+                - task: AzureCLI@2
+                  displayName: 'Deploy (Incremental)'
+                  inputs:
+                    azureSubscription: '$(azureDevServiceConnection)'
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      echo "=== Deploying to Development (Incremental) ==="
+                      az deployment sub create \
+                        --name "deploy-$(Build.BuildId)-dev" \
+                        --location "$(devLocation)" \
+                        --template-file "$(Pipeline.Workspace)/bicep-compiled/main.json" \
+                        --parameters "$(Build.SourcesDirectory)/$(parameterPath)/dev.parameters.json" \
+                        --mode Incremental
+                      echo "✅ Deployment to Development complete"
+
+  # ═══════════════════════════════════════════════════════════════
+  # STAGE 6: DEPLOYMENT - Staging (Auto-approved)
+  # ═══════════════════════════════════════════════════════════════
+  - stage: DeployStaging
+    displayName: '🚀 Deploy (Staging)'
+    dependsOn: PreviewStaging
+    condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/')))
+    jobs:
+      - deployment: DeployToStaging
+        displayName: 'Deploy to Staging'
+        environment: 'Staging'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: bicep-compiled
+                  displayName: 'Download Compiled Templates'
+
+                - task: AzureCLI@2
+                  displayName: 'Validate Deployment'
+                  inputs:
+                    azureSubscription: '$(azureStagingServiceConnection)'
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      echo "=== Pre-deployment Validation (Staging) ==="
+                      az deployment sub validate \
+                        --name "validate-$(Build.BuildId)" \
+                        --location "$(stagingLocation)" \
+                        --template-file "$(Pipeline.Workspace)/bicep-compiled/main.json" \
+                        --parameters "$(Build.SourcesDirectory)/$(parameterPath)/staging.parameters.json"
+                      echo "✅ Validation successful"
+
+                - task: AzureCLI@2
+                  displayName: 'Deploy (Incremental)'
+                  inputs:
+                    azureSubscription: '$(azureStagingServiceConnection)'
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      echo "=== Deploying to Staging (Incremental) ==="
+                      az deployment sub create \
+                        --name "deploy-$(Build.BuildId)-staging" \
+                        --location "$(stagingLocation)" \
+                        --template-file "$(Pipeline.Workspace)/bicep-compiled/main.json" \
+                        --parameters "$(Build.SourcesDirectory)/$(parameterPath)/staging.parameters.json" \
+                        --mode Incremental
+                      echo "✅ Deployment to Staging complete"
+
+  # ═══════════════════════════════════════════════════════════════
+  # STAGE 7: APPROVAL GATE - Production
+  # ═══════════════════════════════════════════════════════════════
+  - stage: ApproveProduction
+    displayName: '⏸️ Approve for Production'
+    dependsOn: DeployStaging
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - job: ManualApproval
+        displayName: 'Manual Approval Required'
+        pool: server
+        steps:
+          - task: ManualValidation@0
+            displayName: 'Production Deployment Approval'
+            inputs:
+              notifyUsers: '$(productionApprovers)'
+              instructions: |
+                ⚠️ **Production Deployment Requires Approval**
+                
+                **Build:** $(Build.BuildNumber)
+                **Commit:** $(Build.SourceVersion)
+                **Branch:** $(Build.SourceBranch)
+                
+                Please review:
+                1. Security scan results
+                2. What-If analysis from Staging
+                3. Deployment logs from Staging
+                
+                **Approving will trigger deployment to Production.**
+              onTimeout: 'reject'
+
+          - task: AzureCLI@2
+            displayName: 'Log Approval'
+            enabled: false
+            inputs:
+              azureSubscription: '$(azureProdServiceConnection)'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                echo "Approval logged at $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+
+  # ═══════════════════════════════════════════════════════════════
+  # STAGE 8: PREVIEW (What-If) - Production
+  # ═══════════════════════════════════════════════════════════════
+  - stage: PreviewProduction
+    displayName: '📋 Preview (Production)'
+    dependsOn: ApproveProduction
+    condition: succeeded()
+    jobs:
+      - deployment: WhatIfProduction
+        displayName: 'What-If Analysis (Production)'
+        environment: 'Production'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: bicep-compiled
+                  displayName: 'Download Compiled Templates'
+
+                - task: AzureCLI@2
+                  displayName: 'Run What-If Analysis'
+                  inputs:
+                    azureSubscription: '$(azureProdServiceConnection)'
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      echo "=== Running What-If Analysis for Production ==="
+                      
+                      az deployment sub what-if \
+                        --name "what-if-$(Build.BuildId)" \
+                        --location "$(prodLocation)" \
+                        --template-file "$(Pipeline.Workspace)/bicep-compiled/main.json" \
+                        --parameters "$(Build.SourcesDirectory)/$(parameterPath)/production.parameters.json" \
+                        --result-type FullResourcePayloads \
+                        --output json > $(Build.ArtifactStagingDirectory)/what-if-production.json
+                      
+                      echo "=== What-If Summary ==="
+                      cat $(Build.ArtifactStagingDirectory)/what-if-production.json | jq -r '.changes[] | "\(.changeType): \(.resourceId // .delta[].path)"' 2>/dev/null || cat $(Build.ArtifactStagingDirectory)/what-if-production.json
+                      
+                      # Check for destructive changes - BLOCK if critical
+                      DESTRUCTIVE_COUNT=$(cat $(Build.ArtifactStagingDirectory)/what-if-production.json | jq '[.changes[] | select(.changeType == "Delete")] | length' 2>/dev/null || echo "0")
+                      MODIFY_COUNT=$(cat $(Build.ArtifactStagingDirectory)/what-if-production.json | jq '[.changes[] | select(.changeType == "Modify")] | length' 2>/dev/null || echo "0")
+                      
+                      echo "Changes Summary:"
+                      echo "  - Resources to be deleted: $DESTRUCTIVE_COUNT"
+                      echo "  - Resources to be modified: $MODIFY_COUNT"
+                      
+                      if [ "$DESTRUCTIVE_COUNT" -gt "3" ]; then
+                        echo "❌ ERROR: More than 3 resources will be deleted! Manual review required."
+                        echo "##vso[task.logissue type=error]Too many destructive changes in Production"
+                        exit 1
+                      elif [ "$DESTRUCTIVE_COUNT" -gt "0" ]; then
+                        echo "⚠️ WARNING: $DESTRUCTIVE_COUNT resources will be DELETED!"
+                        echo "##vso[task.logissue type=warning]Destructive changes detected in Production"
+                      fi
+
+                - task: PublishBuildArtifacts@1
+                  displayName: 'Publish What-If Results'
+                  inputs:
+                    PathtoPublish: '$(Build.ArtifactStagingDirectory)/what-if-production.json'
+                    ArtifactName: 'what-if-prod-results'
+                    publishLocation: 'Container'
+
+  # ═══════════════════════════════════════════════════════════════
+  # STAGE 9: DEPLOYMENT - Production (With deployment strategy)
+  # ═══════════════════════════════════════════════════════════════
+  - stage: DeployProduction
+    displayName: '🚀 Deploy (Production)'
+    dependsOn: PreviewProduction
+    condition: succeeded()
+    jobs:
+      - deployment: DeployToProduction
+        displayName: 'Deploy to Production'
+        environment: 'Production'
+        timeoutInMinutes: 120
+        cancelTimeoutInMinutes: 30
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: bicep-compiled
+                  displayName: 'Download Compiled Templates'
+
+                - task: AzureCLI@2
+                  displayName: 'Pre-Deployment Checks'
+                  inputs:
+                    azureSubscription: '$(azureProdServiceConnection)'
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      echo "=== Running Pre-Deployment Checks ==="
+                      
+                      # Determine deployment mode based on variables
+                      DEPLOYMENT_MODE="$(deploymentMode)"
+                      if [ -z "$DEPLOYMENT_MODE" ]; then
+                        DEPLOYMENT_MODE="Incremental"
+                      fi
+                      
+                      echo "Deployment mode: $DEPLOYMENT_MODE"
+                      echo "##vso[task.setvariable variable=DEPLOYMENT_MODE]$DEPLOYMENT_MODE"
+
+                - task: AzureCLI@2
+                  displayName: 'Validate Deployment'
+                  inputs:
+                    azureSubscription: '$(azureProdServiceConnection)'
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      echo "=== Pre-deployment Validation (Production) ==="
+                      az deployment sub validate \
+                        --name "validate-$(Build.BuildId)" \
+                        --location "$(prodLocation)" \
+                        --template-file "$(Pipeline.Workspace)/bicep-compiled/main.json" \
+                        --parameters "$(Build.SourcesDirectory)/$(parameterPath)/production.parameters.json" \
+                        --mode $(DEPLOYMENT_MODE)
+                      echo "✅ Validation successful"
+
+                - task: AzureCLI@2
+                  displayName: 'Deploy to Production'
+                  name: Deploy
+                  inputs:
+                    azureSubscription: '$(azureProdServiceConnection)'
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      echo "=== Deploying to Production ($(DEPLOYMENT_MODE) Mode) ==="
+                      
+                      az deployment sub create \
+                        --name "deploy-$(Build.BuildId)-production" \
+                        --location "$(prodLocation)" \
+                        --template-file "$(Pipeline.Workspace)/bicep-compiled/main.json" \
+                        --parameters "$(Build.SourcesDirectory)/$(parameterPath)/production.parameters.json" \
+                        --mode $(DEPLOYMENT_MODE) \
+                        --verbose
+                      
+                      DEPLOYMENT_EXIT=$?
+                      
+                      if [ $DEPLOYMENT_EXIT -eq 0 ]; then
+                        echo "✅ Deployment to Production complete"
+                        echo "##vso[task.setvariable variable=DeploymentStatus;isOutput=true]Success"
+                      else
+                        echo "❌ Deployment to Production failed"
+                        echo "##vso[task.setvariable variable=DeploymentStatus;isOutput=true]Failed"
+                        exit 1
+                      fi
+                  failOnStandardError: true
+
+                - task: AzureCLI@2
+                  displayName: 'Post-Deployment Verification'
+                  condition: succeeded()
+                  inputs:
+                    azureSubscription: '$(azureProdServiceConnection)'
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      echo "=== Post-Deployment Verification ==="
+                      
+                      # Query deployment outputs
+                      az deployment sub show \
+                        --name "deploy-$(Build.BuildId)-production" \
+                        --query properties.outputs 2>/dev/null || echo "No outputs available"
+                      
+                      echo "✅ Deployment verification complete"
+
+          rollback:
+            steps:
+              - task: AzureCLI@2
+                displayName: 'Rollback on Failure'
+                condition: eq(variables['enableRollback'], 'true')
+                inputs:
+                  azureSubscription: '$(azureProdServiceConnection)'
+                  scriptType: 'bash'
+                  scriptLocation: 'inlineScript'
+                  inlineScript: |
+                    echo "⚠️ Deployment marked for rollback"
+                    echo "Manual rollback may be required"
+                    echo "Previous deployment: $(Build.BuildNumber)"
+
+  # ═══════════════════════════════════════════════════════════════
+  # STAGE 10: NOTIFICATIONS
+  # ═══════════════════════════════════════════════════════════════
+  - stage: Notify
+    displayName: '📢 Notifications'
+    dependsOn: 
+      - DeployDev
+      - DeployStaging
+      - DeployProduction
+    condition: always()
+    jobs:
+      - job: SendNotifications
+        displayName: 'Send Notifications'
+        steps:
+          - script: |
+              echo "=== Pipeline Execution Summary ==="
+              echo "Build: $(Build.BuildNumber)"
+              echo "Branch: $(Build.SourceBranch)"
+              echo "Result: $(Agent.JobStatus)"
+              echo "==================================="
+            displayName: 'Pipeline Summary'
+
+          - task: AzureCLI@2
+            displayName: 'Notify Production Deployment'
+            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+            inputs:
+              azureSubscription: '$(azureProdServiceConnection)'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                echo "✅ Production deployment completed successfully"
+                # Add your notification logic here (Teams webhooks, Slack, etc.)

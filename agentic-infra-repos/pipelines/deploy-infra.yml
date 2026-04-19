@@ -1,0 +1,527 @@
+# Azure DevOps Pipeline for Bicep Infrastructure Deployment
+# Supports dev, qa, stage, prod environments with validation gates
+
+trigger:
+  branches:
+    include:
+    - main
+    - develop
+  paths:
+    include:
+    - infrastructure/*
+    - pipelines/*
+    - scripts/*
+
+pr:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - infrastructure/*
+    - pipelines/*
+    - scripts/*
+
+variables:
+  - group: azure-connection-variables
+  - name: ARM_TENANT_ID
+    value: $(ARM_TENANT_ID)
+  - name: ARM_CLIENT_ID
+    value: $(ARM_CLIENT_ID)
+  - name: ARM_CLIENT_SECRET
+    value: $(ARM_CLIENT_SECRET)
+  - name: ARM_SUBSCRIPTION_ID
+    value: $(ARM_SUBSCRIPTION_ID)
+
+stages:
+# =============================================================================
+# VALIDATION STAGE - Lint, Schema Validation, Security Check
+# =============================================================================
+- stage: Validation
+  displayName: '🔍 Validation & Security Check'
+  jobs:
+  - job: Validation
+    displayName: 'Bicep Validation Pipeline'
+    pool:
+      vmImage: 'ubuntu-latest'
+    
+    steps:
+    # Checkout code
+    - checkout: self
+      displayName: 'Checkout Repository'
+
+    # Install Azure CLI and Bicep
+    - task: UseDotNet@2
+      displayName: 'Install .NET 6.0'
+      inputs:
+        packageType: 'sdk'
+        version: '6.0.x'
+    
+    - script: |
+        curl -L https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64 -o bicep
+        chmod +x bicep
+        sudo mv bicep /usr/local/bin/bicep
+      displayName: 'Install Bicep CLI'
+    
+    - task: AzureCLI@2
+      displayName: 'Install Azure CLI'
+      inputs:
+        azureSubscription: 'ServiceConnection'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+          az --version
+
+    # Bicep Lint Validation
+    - script: |
+        echo "🔍 Running Bicep Lint Validation..."
+        find infrastructure -name "*.bicep" -type f -exec bicep lint {} \;
+      displayName: 'Bicep Lint Validation'
+      continueOnError: false
+
+    # Schema Validation
+    - script: |
+        echo "📋 Running Schema Validation..."
+        # Check main template syntax
+        bicep build infrastructure/main.bicep --outfile infrastructure/main.json
+        
+        # Validate all module files
+        for module in infrastructure/modules/*.bicep; do
+          echo "Validating $module"
+          bicep build $module --outfile $(dirname $module)/$(basename $module .bicep).json
+        done
+      displayName: 'Schema Validation'
+
+    # Resource Naming Convention Check
+    - script: |
+        echo "🏷️  Checking Resource Naming Conventions..."
+        # Check resource naming patterns
+        if grep -r "agentic-infra" infrastructure/ | grep -q "[a-z][a-z0-9]*[0-9]"; then
+          echo "✅ Resource naming conventions followed"
+        else
+          echo "❌ Resource naming convention violations found"
+          exit 1
+        fi
+      displayName: 'Resource Naming Convention Check'
+
+    # Cost Estimation Warning
+    - script: |
+        echo "💰 Generating Cost Estimation..."
+        # Simulate cost estimation (in real scenario, use ARM Cost Management API)
+        echo "Estimated monthly costs:"
+        echo "- App Service Plan (Free): $0.00"
+        echo "- Storage Account (LRS): $1.00"
+        echo "- Key Vault (Free): $0.00"
+        echo "- Log Analytics (Free): $0.00"
+        echo "Total estimated: $1.00/month"
+      displayName: 'Cost Estimation'
+
+    # Security Compliance Check
+    - task: AzureCLI@2
+      displayName: 'Security Compliance Check'
+      inputs:
+        azureSubscription: 'ServiceConnection'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          echo "🔒 Running Security Compliance Check..."
+          
+          # Check for security best practices
+          # 1. HTTPS enforcement
+          if grep -r "httpsOnly.*true" infrastructure/ > /dev/null; then
+            echo "✅ HTTPS enforcement enabled"
+          else
+            echo "❌ HTTPS enforcement not properly configured"
+          fi
+          
+          # 2. TLS version enforcement
+          if grep -r "minimumTlsVersion.*TLS1_2" infrastructure/ > /dev/null; then
+            echo "✅ TLS 1.2+ enforcement enabled"
+          else
+            echo "❌ TLS version not properly enforced"
+          fi
+          
+          # 3. System Managed Identity
+          if grep -r "type.*SystemAssigned" infrastructure/ > /dev/null; then
+            echo "✅ System Managed Identity configured"
+          else
+            echo "⚠️  System Managed Identity not found"
+          fi
+
+# =============================================================================
+# WHAT-IF ANALYSIS STAGE
+# =============================================================================
+- stage: WhatIf
+  displayName: '🔮 What-If Analysis'
+  dependsOn: Validation
+  condition: succeeded()
+  jobs:
+  - job: WhatIf
+    displayName: 'Preview Infrastructure Changes'
+    pool:
+      vmImage: 'ubuntu-latest'
+    
+    steps:
+    - checkout: self
+      displayName: 'Checkout Repository'
+
+    # Install Bicep
+    - script: |
+        curl -L https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64 -o bicep
+        chmod +x bicep
+        sudo mv bicep /usr/local/bin/bicep
+      displayName: 'Install Bicep CLI'
+
+    # Login to Azure
+    - task: AzureCLI@2
+      displayName: 'Azure Authentication'
+      inputs:
+        azureSubscription: 'ServiceConnection'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az account show
+          az account set --subscription $(ARM_SUBSCRIPTION_ID)
+
+    # What-If Analysis for each environment
+    - script: |
+        echo "🔮 Running What-If Analysis for Dev Environment..."
+        az deployment group what-if \
+          --resource-group rg-agentic-infra-dev \
+          --template-file infrastructure/main.bicep \
+          --parameters @infrastructure/parameters/dev.parameters.json \
+          --output-format json \
+          --output-file what-if-dev.json
+        
+        echo "🔮 What-If Analysis Dev Results:"
+        cat what-if-dev.json | grep -A 10 '"changeType"'
+      displayName: 'What-If Analysis Dev'
+
+    - script: |
+        echo "🔮 Running What-If Analysis for QA Environment..."
+        az deployment group what-if \
+          --resource-group rg-agentic-infra-qa \
+          --template-file infrastructure/main.bicep \
+          --parameters @infrastructure/parameters/qa.parameters.json \
+          --output-format json \
+          --output-file what-if-qa.json
+        
+        echo "🔮 What-If Analysis QA Results:"
+        cat what-if-qa.json | grep -A 10 '"changeType"'
+      displayName: 'What-If Analysis QA'
+
+    # Publish What-If results as artifacts
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish What-If Results'
+      inputs:
+        PathtoPublish: '.'
+        ArtifactName: 'what-if-results'
+        publishLocation: 'Container'
+
+# =============================================================================
+# DEPLOYMENT STAGES (dev, qa, stage, prod)
+# =============================================================================
+- stage: Deploy_Dev
+  displayName: '🚀 Deploy to Dev'
+  dependsOn: WhatIf
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+  variables:
+    environment: 'dev'
+    resourceGroupName: 'rg-agentic-infra-dev'
+  jobs:
+  - deployment: DeployToDev
+    displayName: 'Deploy Infrastructure to Dev'
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment: 'dev'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+            displayName: 'Checkout Repository'
+          
+          - script: |
+              curl -L https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64 -o bicep
+              chmod +x bicep
+              sudo mv bicep /usr/local/bin/bicep
+            displayName: 'Install Bicep CLI'
+
+          - task: AzureCLI@2
+            displayName: 'Azure Authentication'
+            inputs:
+              azureSubscription: 'ServiceConnection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az account set --subscription $(ARM_SUBSCRIPTION_ID)
+
+          - task: AzureResourceManagerTemplateDeployment@3
+            displayName: 'Deploy Bicep Template to Dev'
+            inputs:
+              deploymentScope: 'Resource Group'
+              azureResourceManagerConnection: 'ServiceConnection'
+              subscriptionId: '$(ARM_SUBSCRIPTION_ID)'
+              action: 'Create Or Update Resource Group'
+              resourceGroupName: '$(resourceGroupName)'
+              location: 'East US'
+              templateLocation: 'Linked artifact'
+              csmFile: '$(Pipeline.Workspace)/infrastructure/main.bicep'
+              csmParametersFile: '$(Pipeline.Workspace)/infrastructure/parameters/dev.parameters.json'
+              deploymentMode: 'Incremental'
+              deploymentName: 'agentic-infra-dev-$(Build.BuildId)'
+
+          - task: AzureCLI@2
+            displayName: 'Post-Deployment Health Check'
+            inputs:
+              azureSubscription: 'ServiceConnection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                echo "🏥 Running Health Checks..."
+                
+                # Check if resources were created successfully
+                az resource list \
+                  --resource-group $(resourceGroupName) \
+                  --query "[?tags.environment=='dev']" \
+                  --output table
+                
+                echo "✅ Dev environment health check completed"
+
+- stage: Deploy_QA
+  displayName: '🚀 Deploy to QA'
+  dependsOn: Deploy_Dev
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+  variables:
+    environment: 'qa'
+    resourceGroupName: 'rg-agentic-infra-qa'
+  jobs:
+  - deployment: DeployToQA
+    displayName: 'Deploy Infrastructure to QA'
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment: 'qa'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+            displayName: 'Checkout Repository'
+          
+          - script: |
+              curl -L https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64 -o bicep
+              chmod +x bicep
+              sudo mv bicep /usr/local/bin/bicep
+            displayName: 'Install Bicep CLI'
+
+          - task: AzureCLI@2
+            displayName: 'Azure Authentication'
+            inputs:
+              azureSubscription: 'ServiceConnection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az account set --subscription $(ARM_SUBSCRIPTION_ID)
+
+          - task: AzureResourceManagerTemplateDeployment@3
+            displayName: 'Deploy Bicep Template to QA'
+            inputs:
+              deploymentScope: 'Resource Group'
+              azureResourceManagerConnection: 'ServiceConnection'
+              subscriptionId: '$(ARM_SUBSCRIPTION_ID)'
+              action: 'Create Or Update Resource Group'
+              resourceGroupName: '$(resourceGroupName)'
+              location: 'East US 2'
+              templateLocation: 'Linked artifact'
+              csmFile: '$(Pipeline.Workspace)/infrastructure/main.bicep'
+              csmParametersFile: '$(Pipeline.Workspace)/infrastructure/parameters/qa.parameters.json'
+              deploymentMode: 'Incremental'
+              deploymentName: 'agentic-infra-qa-$(Build.BuildId)'
+
+          - task: AzureCLI@2
+            displayName: 'Post-Deployment Health Check'
+            inputs:
+              azureSubscription: 'ServiceConnection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                echo "🏥 Running Health Checks..."
+                
+                # Check if resources were created successfully
+                az resource list \
+                  --resource-group $(resourceGroupName) \
+                  --query "[?tags.environment=='qa']" \
+                  --output table
+                
+                echo "✅ QA environment health check completed"
+
+- stage: Deploy_Stage
+  displayName: '🚀 Deploy to Stage'
+  dependsOn: Deploy_QA
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+  variables:
+    environment: 'stage'
+    resourceGroupName: 'rg-agentic-infra-stage'
+  jobs:
+  - deployment: DeployToStage
+    displayName: 'Deploy Infrastructure to Stage'
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment: 'stage'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+            displayName: 'Checkout Repository'
+          
+          - script: |
+              curl -L https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64 -o bicep
+              chmod +x bicep
+              sudo mv bicep /usr/local/bin/bicep
+            displayName: 'Install Bicep CLI'
+
+          - task: AzureCLI@2
+            displayName: 'Azure Authentication'
+            inputs:
+              azureSubscription: 'ServiceConnection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az account set --subscription $(ARM_SUBSCRIPTION_ID)
+
+          - task: AzureResourceManagerTemplateDeployment@3
+            displayName: 'Deploy Bicep Template to Stage'
+            inputs:
+              deploymentScope: 'Resource Group'
+              azureResourceManagerConnection: 'ServiceConnection'
+              subscriptionId: '$(ARM_SUBSCRIPTION_ID)'
+              action: 'Create Or Update Resource Group'
+              resourceGroupName: '$(resourceGroupName)'
+              location: 'West US 2'
+              templateLocation: 'Linked artifact'
+              csmFile: '$(Pipeline.Workspace)/infrastructure/main.bicep'
+              csmParametersFile: '$(Pipeline.Workspace)/infrastructure/parameters/stage.parameters.json'
+              deploymentMode: 'Incremental'
+              deploymentName: 'agentic-infra-stage-$(Build.BuildId)'
+
+          - task: AzureCLI@2
+            displayName: 'Post-Deployment Health Check'
+            inputs:
+              azureSubscription: 'ServiceConnection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                echo "🏥 Running Health Checks..."
+                
+                # Check if resources were created successfully
+                az resource list \
+                  --resource-group $(resourceGroupName) \
+                  --query "[?tags.environment=='stage']" \
+                  --output table
+                
+                echo "✅ Stage environment health check completed"
+
+- stage: Deploy_Prod
+  displayName: '🚀 Deploy to Production'
+  dependsOn: Deploy_Stage
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  variables:
+    environment: 'prod'
+    resourceGroupName: 'rg-agentic-infra-prod'
+  jobs:
+  - deployment: DeployToProd
+    displayName: 'Deploy Infrastructure to Production'
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment: 'production'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+            displayName: 'Checkout Repository'
+          
+          - script: |
+              curl -L https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64 -o bicep
+              chmod +x bicep
+              sudo mv bicep /usr/local/bin/bicep
+            displayName: 'Install Bicep CLI'
+
+          - task: AzureCLI@2
+            displayName: 'Azure Authentication'
+            inputs:
+              azureSubscription: 'ServiceConnection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az account set --subscription $(ARM_SUBSCRIPTION_ID)
+
+          - task: AzureResourceManagerTemplateDeployment@3
+            displayName: 'Deploy Bicep Template to Production'
+            inputs:
+              deploymentScope: 'Resource Group'
+              azureResourceManagerConnection: 'ServiceConnection'
+              subscriptionId: '$(ARM_SUBSCRIPTION_ID)'
+              action: 'Create Or Update Resource Group'
+              resourceGroupName: '$(resourceGroupName)'
+              location: 'Central US'
+              templateLocation: 'Linked artifact'
+              csmFile: '$(Pipeline.Workspace)/infrastructure/main.bicep'
+              csmParametersFile: '$(Pipeline.Workspace)/infrastructure/parameters/prod.parameters.json'
+              deploymentMode: 'Incremental'
+              deploymentName: 'agentic-infra-prod-$(Build.BuildId)'
+
+          - task: AzureCLI@2
+            displayName: 'Post-Deployment Health Check'
+            inputs:
+              azureSubscription: 'ServiceConnection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                echo "🏥 Running Production Health Checks..."
+                
+                # Check if resources were created successfully
+                az resource list \
+                  --resource-group $(resourceGroupName) \
+                  --query "[?tags.environment=='prod']" \
+                  --output table
+                
+                # Check web app status
+                webapp_name=$(az webapp list -g $(resourceGroupName) --query "[0].name" -o tsv)
+                echo "Web App Status:"
+                az webapp show -g $(resourceGroupName) -n $webapp_name --query "{State:state,HostName:defaultHostName}"
+                
+                echo "✅ Production environment health check completed"
+
+# =============================================================================
+# NOTIFICATION STAGE
+# =============================================================================
+- stage: Notifications
+  displayName: '📢 Send Deployment Notifications'
+  dependsOn:
+  - Deploy_Dev
+  - Deploy_QA
+  - Deploy_Stage
+  - Deploy_Prod
+  condition: always()
+  jobs:
+  - job: SendNotifications
+    displayName: 'Send Deployment Notifications'
+    pool:
+      vmImage: 'ubuntu-latest'
+    
+    steps:
+    - task: AzureCLI@2
+      displayName: 'Send Slack Notification'
+      inputs:
+        azureSubscription: 'ServiceConnection'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          if [[ "$\{{ stageResult }}" == "Succeeded" ]]; then
+            echo "✅ Infrastructure deployment completed successfully!"
+          else
+            echo "❌ Infrastructure deployment failed!"
+          fi

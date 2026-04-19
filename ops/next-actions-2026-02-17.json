@@ -1,0 +1,66 @@
+{
+  "date": "2026-02-17",
+  "analysis": {
+    "pressure_index": 6.5,
+    "pressure_level": "medium",
+    "active_incidents": 1,
+    "aging_blockers": 2,
+    "drift_status": "minor",
+    "dev_capacity": "70%",
+    "top_opportunity": "OPP-20260217-003"
+  },
+  "recommendations": [
+    {
+      "rank": 1,
+      "action": "Unblock TASK-045",
+      "type": "blocker_resolution",
+      "urgency": "high",
+      "reasoning": "Blocker aging 5 days, blocking 3 other tasks in current sprint",
+      "expected_impact": "Unblocks sprint delivery, enables 3 dependent tasks to proceed",
+      "assigned_to": "dev-team-lead",
+      "eta": "2 hours"
+    },
+    {
+      "rank": 2,
+      "action": "Review PRD OPP-20260217-003",
+      "type": "opportunity_pursuit",
+      "urgency": "medium",
+      "reasoning": "Tier A opportunity with score 7.55, strong B2B monetization potential ($5K+ MRR estimate)",
+      "expected_impact": "Potential new revenue stream, addresses high-frequency pain point",
+      "assigned_to": "head-of-product",
+      "eta": "4 hours"
+    },
+    {
+      "rank": 3,
+      "action": "Address incident INC-001",
+      "type": "incident_response",
+      "urgency": "medium",
+      "reasoning": "Performance degradation affecting user experience, 15% slower response times",
+      "expected_impact": "Restore service quality, prevent user churn",
+      "assigned_to": "devops-lead",
+      "eta": "6 hours"
+    }
+  ],
+  "rejected_actions": [
+    {
+      "action": "Start new feature development",
+      "reason": "Dev capacity at 70%, finish in-flight work first"
+    },
+    {
+      "action": "Pursue Tier B opportunity OPP-20260217-001",
+      "reason": "Score 6.40 below threshold, focus on Tier A first"
+    },
+    {
+      "action": "Initiate marketing campaign",
+      "reason": "Wait for product stability, incident INC-001 unresolved"
+    }
+  ],
+  "metrics": {
+    "tasks_in_progress": 8,
+    "tasks_blocked": 2,
+    "tasks_overdue": 1,
+    "sprint_completion": "65%",
+    "opportunities_tier_a": 2,
+    "opportunities_tier_b": 4
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "Central US"
+    },
+    "environment": {
+      "value": "prod"
+    },
+    "projectName": {
+      "value": "agentic-infra"
+    },
+    "enableBlobPublicAccess": {
+      "value": false
+    },
+    "minimumTlsVersion": {
+      "value": "TLS1_2"
+    },
+    "supportsHttpsTrafficOnly": {
+      "value": true
+    },
+    "enableApplicationInsights": {
+      "value": true
+    },
+    "enableLogAnalytics": {
+      "value": true
+    },
+    "retentionInDays": {
+      "value": 180
+    }
+  }
+}

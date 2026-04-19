@@ -1,0 +1,32 @@
+{
+  "date": "2026-02-19",
+  "events": [
+    {
+      "at": "2026-02-19T03:10:04+00:00",
+      "type": "decision",
+      "title": "DEC-20260218-approve-recovery-sco",
+      "path": "C:/Users/devpi/.openclaw/workspace/inbox/decisions/DEC-20260218-approve-recovery-sco.json",
+      "status": "approved"
+    },
+    {
+      "at": "2026-02-19T03:10:02+00:00",
+      "type": "decision",
+      "title": "DEC-20260218-route-urgent-custome",
+      "path": "C:/Users/devpi/.openclaw/workspace/inbox/decisions/DEC-20260218-route-urgent-custome.json",
+      "status": "approved"
+    },
+    {
+      "at": "2026-02-18T12:57:26.186527+00:00",
+      "type": "rollup",
+      "title": "executive-2026-02-18",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/rollups/executive-2026-02-18.md"
+    },
+    {
+      "at": "2026-02-18T12:57:26.186527+00:00",
+      "type": "rollup",
+      "title": "executive-latest",
+      "path": "C:/Users/devpi/.openclaw/workspace/reports/rollups/executive-latest.md"
+    }
+  ],
+  "generatedAt": "2026-02-19T05:31:05+00:00"
+}

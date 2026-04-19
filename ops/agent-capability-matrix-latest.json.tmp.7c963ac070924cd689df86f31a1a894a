@@ -1,0 +1,278 @@
+{
+  "rows": [
+    {
+      "agent": "ai-integration-engineer",
+      "reportsTo": "dev-team-lead",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "api-engineer",
+      "reportsTo": "dev-team-lead",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "automation-tester",
+      "reportsTo": "qa-team-lead",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "backend-engineer",
+      "reportsTo": "dev-team-lead",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "build-engineer",
+      "reportsTo": "devops-lead",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "business-analyst",
+      "reportsTo": "head-of-product",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "cloud-architect",
+      "reportsTo": "cloud-engineering-lead",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "cloud-engineering-lead",
+      "reportsTo": "head-of-infrastructure",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "concept-architect",
+      "reportsTo": "head-of-product",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "content-strategist",
+      "reportsTo": "head-of-marketing",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "dev-scrum-master",
+      "reportsTo": "dev-team-lead",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "dev-team-lead",
+      "reportsTo": "head-of-engineering",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "devops-lead",
+      "reportsTo": "head-of-engineering",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "devops-scrum-master",
+      "reportsTo": "devops-lead",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "devsecops-engineer",
+      "reportsTo": "head-of-security",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "frontend-engineer",
+      "reportsTo": "dev-team-lead",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "growth-lead",
+      "reportsTo": "head-of-marketing",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "head-of-engineering",
+      "reportsTo": "the-botfather",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "head-of-infrastructure",
+      "reportsTo": "the-botfather",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "head-of-marketing",
+      "reportsTo": "the-botfather",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "head-of-product",
+      "reportsTo": "the-botfather",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "head-of-security",
+      "reportsTo": "the-botfather",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "identity-engineer",
+      "reportsTo": "cloud-engineering-lead",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "infra-scrum-master",
+      "reportsTo": "cloud-engineering-lead",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "network-engineer",
+      "reportsTo": "cloud-engineering-lead",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "opportunity-prioritizer",
+      "reportsTo": "head-of-product",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "performance-tester",
+      "reportsTo": "qa-team-lead",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "pipeline-architect",
+      "reportsTo": "devops-lead",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "platform-reliability-lead",
+      "reportsTo": "head-of-infrastructure",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "problem-scout-agent",
+      "reportsTo": "head-of-marketing",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "product-manager",
+      "reportsTo": "head-of-product",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "product-owner",
+      "reportsTo": "head-of-product",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "product-scrum-master",
+      "reportsTo": "head-of-product",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "qa-scrum-master",
+      "reportsTo": "qa-team-lead",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "qa-team-lead",
+      "reportsTo": "head-of-engineering",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "release-manager",
+      "reportsTo": "devops-lead",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "requirements-generator",
+      "reportsTo": "head-of-product",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "security-engineer",
+      "reportsTo": "head-of-security",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    },
+    {
+      "agent": "trend-signal-analyzer",
+      "reportsTo": "head-of-marketing",
+      "skills": 0,
+      "validSkills": 0,
+      "domains": []
+    }
+  ],
+  "generatedAt": "2026-02-19T03:29:45+00:00"
+}

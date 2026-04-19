@@ -1,0 +1,43 @@
+[
+  {
+    "problem_statement": "Managing freelance invoices is tedious - I spend 2 hours a week tracking billable hours, creating invoices, and chasing payments across multiple tools.",
+    "who_is_affected": "Freelance developers and designers",
+    "frequency_signal": "weekly",
+    "intensity_signal": "annoying",
+    "evidence_links": [
+      "https://reddit.com/r/freelance/comments/example1",
+      "https://news.ycombinator.com/item?id=example2"
+    ],
+    "existing_solutions": "Spreadsheets + PayPal + manual invoicing templates",
+    "gap_detected": "No all-in-one solution that tracks time AND auto-generates invoices AND handles follow-ups",
+    "monetization_potential": "SaaS subscription $10-20/month per user",
+    "confidence_score": 8.5
+  },
+  {
+    "problem_statement": "I can't easily share code snippets with syntax highlighting in Slack and Discord without using third-party tools that expire.",
+    "who_is_affected": "Developers sharing code in team chats",
+    "frequency_signal": "daily",
+    "intensity_signal": "nice-to-have",
+    "evidence_links": [
+      "https://news.ycombinator.com/item?id=example3"
+    ],
+    "existing_solutions": "GitHub Gists, Pastebin, CodePen",
+    "gap_detected": "No native, persistent, instant solution integrated with chat tools",
+    "monetization_potential": "Freemium - free basic, paid for team features",
+    "confidence_score": 6.0
+  },
+  {
+    "problem_statement": "I spend hours manually formatting CSV data from exports to match my database schema for imports.",
+    "who_is_affected": "Data analysts and engineers",
+    "frequency_signal": "weekly",
+    "intensity_signal": "painful",
+    "evidence_links": [
+      "https://reddit.com/r/dataengineering/comments/example4",
+      "https://indiehackers.com/post/example5"
+    ],
+    "existing_solutions": "Python scripts, Excel, specialized ETL tools",
+    "gap_detected": "No simple GUI tool for non-programmers to transform data",
+    "monetization_potential": "Per-transaction pricing or subscription",
+    "confidence_score": 7.5
+  }
+]

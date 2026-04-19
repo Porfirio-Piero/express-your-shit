@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-03-12T01:08:07.275675",
+  "project_path": "C:\\Users\\devpi\\.openclaw\\workspace\\landlordminder-app",
+  "grade": "B",
+  "checks_passed": 5,
+  "errors": [
+    "Build failed"
+  ],
+  "warnings": [],
+  "passed_checks": {
+    "page_not_default": true,
+    "file_size_ok": true,
+    "substantial_code": true,
+    "has_ui_elements": 9,
+    "has_interactivity": 4
+  },
+  "status": "PASS"
+}

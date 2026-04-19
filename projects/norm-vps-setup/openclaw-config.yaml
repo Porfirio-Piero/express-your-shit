@@ -1,0 +1,165 @@
+# OpenClaw Configuration for Norm's VPS
+# Place at: ~/.openclaw/config.yaml
+
+# ============================================
+# OpenClaw Gateway Configuration
+# ============================================
+
+# LLM Provider Configuration
+llm:
+  # Primary provider: Ollama (self-hosted)
+  provider: ollama
+  
+  # Ollama endpoint (local on VPS)
+  ollama_url: http://localhost:11434
+  
+  # Default model for general use
+  default_model: llama3.2
+  
+  # Available models
+  models:
+    - name: llama3.2
+      description: General purpose conversations
+      context: 128k
+    - name: llama3.2:1b
+      description: Fast, lightweight tasks
+      context: 128k
+    - name: nomic-embed-text
+      description: Embeddings for memory
+      context: 8192
+
+# Gateway Settings
+gateway:
+  # Port for OpenClaw Gateway
+  port: 8080
+  
+  # Host to bind to (0.0.0.0 for all interfaces)
+  host: 0.0.0.0
+  
+  # Enable web interface
+  web_interface: true
+  
+  # API endpoints
+  api_enabled: true
+  
+  # Logging level
+  log_level: info
+
+# Memory System
+memory:
+  # Enable persistent memory
+  enabled: true
+  
+  # Storage provider: local, sqlite, redis
+  provider: sqlite
+  
+  # SQLite database path
+  sqlite_path: ~/.openclaw/memory.db
+  
+  # Maximum entries
+  max_entries: 10000
+  
+  # Auto-cleanup old entries
+  auto_cleanup: true
+  
+  # Cleanup entries older than (days)
+  retention_days: 90
+
+# Agents Configuration
+agents:
+  # Default agent settings
+  default:
+    thinking: off
+    model: llama3.2
+    timeout: 300
+  
+  # Named agent configurations
+  fast:
+    thinking: off
+    model: llama3.2:1b
+    timeout: 60
+  
+  deep:
+    thinking: on
+    model: llama3.2
+    timeout: 600
+
+# Skills / Plugins
+skills:
+  # Enable built-in skills
+  enabled:
+    - web_search
+    - file_operations
+    - exec
+    - tts
+    - memory
+    - sub_agent
+  
+  # Skill-specific settings
+  web_search:
+    provider: brave  # Requires API key
+    
+  tts:
+    provider: local
+    voice: default
+
+# Security Settings
+security:
+  # Require confirmation for destructive operations
+  confirm_destructive: true
+  
+  # Allowed command categories
+  allowed_commands:
+    - read
+    - write
+    - edit
+    - exec
+    - browser
+  
+  # Blocked paths (never allow access)
+  blocked_paths:
+    - /etc/shadow
+    - /root/.ssh
+    - ~/.openclaw/credentials
+
+# Communication Channels
+channels:
+  # WhatsApp (if configured)
+  whatsapp:
+    enabled: false
+    # Requires phone number and pairing
+  
+  # Telegram (if configured)
+  telegram:
+    enabled: false
+    # Requires bot token
+
+# Notifications
+notifications:
+  # Enable system notifications
+  enabled: true
+  
+  # Notify on task completion
+  task_complete: true
+  
+  # Notify on errors
+  errors: true
+
+# ============================================
+# Norm's Custom Settings
+# ============================================
+
+# Personalization
+user:
+  name: Norm
+  timezone: America/New_York
+  
+# Project Paths
+projects:
+  base_path: ~/projects
+  
+# Preferred defaults
+preferences:
+  editor: nano
+  shell: bash
+  output_format: markdown

@@ -1,0 +1,63 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - img [ref=e7]
+          - heading "LandlordMinder" [level=1] [ref=e10]
+        - img [ref=e12]
+    - navigation [ref=e15]:
+      - generic [ref=e17]:
+        - button "Dashboard" [ref=e18]:
+          - img [ref=e19]
+          - text: Dashboard
+        - button "Properties" [ref=e22]:
+          - img [ref=e23]
+          - text: Properties
+        - button "Tasks" [ref=e26]:
+          - img [ref=e27]
+          - text: Tasks
+        - button "Expenses" [ref=e29]:
+          - img [ref=e30]
+          - text: Expenses
+    - main [ref=e32]:
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e36]:
+            - generic [ref=e37]:
+              - paragraph [ref=e38]: Properties
+              - paragraph [ref=e39]: "0"
+            - img [ref=e40]
+          - generic [ref=e44]:
+            - generic [ref=e45]:
+              - paragraph [ref=e46]: Total Tasks
+              - paragraph [ref=e47]: "0"
+            - img [ref=e48]
+          - generic [ref=e51]:
+            - generic [ref=e52]:
+              - paragraph [ref=e53]: Overdue
+              - paragraph [ref=e54]: "0"
+            - img [ref=e55]
+          - generic [ref=e58]:
+            - generic [ref=e59]:
+              - paragraph [ref=e60]: YTD Expenses
+              - paragraph [ref=e61]: $0
+            - img [ref=e62]
+        - generic [ref=e64]:
+          - generic [ref=e65]:
+            - heading "Quick Actions" [level=3] [ref=e66]
+            - generic [ref=e67]:
+              - button "Add Property" [ref=e68]:
+                - img [ref=e69]
+                - text: Add Property
+              - button "Add Task" [ref=e70]:
+                - img [ref=e71]
+                - text: Add Task
+          - generic [ref=e72]:
+            - heading "Getting Started" [level=3] [ref=e73]
+            - paragraph [ref=e74]: Start by adding your first property to track maintenance tasks.
+  - alert [ref=e75]
+```

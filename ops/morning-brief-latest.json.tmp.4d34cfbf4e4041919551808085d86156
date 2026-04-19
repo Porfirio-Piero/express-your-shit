@@ -1,0 +1,16 @@
+{
+  "date": "2026-02-19",
+  "path": "C:/Users/devpi/.openclaw/workspace/reports/standup/morning-brief-2026-02-19.md",
+  "latest": "C:/Users/devpi/.openclaw/workspace/reports/standup/morning-brief-latest.md",
+  "generatedAt": "2026-02-19T06:47:13+00:00",
+  "topActions": [
+    {
+      "action title": "Close missing standups",
+      "recommended owner/team": "engineering",
+      "why": "42 missed reports",
+      "links": [
+        "C:/Users/devpi/.openclaw/workspace/ops/drift-None.json"
+      ]
+    }
+  ]
+}

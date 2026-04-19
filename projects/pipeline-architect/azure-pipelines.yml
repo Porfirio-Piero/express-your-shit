@@ -1,0 +1,578 @@
+# Azure DevOps Pipeline for Bicep Infrastructure Deployments
+# Multi-stage pipeline with validation, security scanning, what-if analysis, and approval gates
+
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+  paths:
+    include:
+      - 'infra/bicep/**'
+      - 'infra/environments/**'
+      - 'azure-pipelines.yml'
+
+pr:
+  branches:
+    include:
+      - main
+      - develop
+  paths:
+    include:
+      - 'infra/bicep/**'
+      - 'infra/environments/**'
+
+# Pipeline parameters for environment selection
+parameters:
+  - name: deploymentEnvironment
+    displayName: 'Deployment Environment'
+    type: string
+    default: 'dev'
+    values:
+      - dev
+      - staging
+      - prod
+  - name: skipSecurityScan
+    displayName: 'Skip Security Scan'
+    type: boolean
+    default: false
+  - name: runWhatIfOnly
+    displayName: 'Run What-If Only (No Deployment)'
+    type: boolean
+    default: false
+
+variables:
+  # Azure Service Connection names
+  azureServiceConnectionDev: 'Azure-Dev-Service-Connection'
+  azureServiceConnectionStaging: 'Azure-Staging-Service-Connection'
+  azureServiceConnectionProd: 'Azure-Prod-Service-Connection'
+  
+  # Resource groups per environment
+  resourceGroupDev: 'rg-infrastructure-dev'
+  resourceGroupStaging: 'rg-infrastructure-staging'
+  resourceGroupProd: 'rg-infrastructure-prod'
+  
+  # Location
+  location: 'eastus'
+  
+  # Bicep paths
+  bicepMainTemplate: 'infra/bicep/main.bicep'
+  bicepParametersPath: 'infra/environments'
+
+stages:
+  # ==========================================
+  # STAGE 1: VALIDATE
+  # ==========================================
+  - stage: Validate
+    displayName: '🔍 Validate Bicep Templates'
+    jobs:
+      - job: ValidateTemplates
+        displayName: 'Validate Bicep & ARM Templates'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - checkout: self
+            fetchDepth: 0
+          
+          # Install latest Bicep CLI
+          - task: AzureCLI@2
+            displayName: 'Install Bicep CLI'
+            inputs:
+              azureSubscription: $(azureServiceConnectionDev)
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az bicep install
+                az bicep version
+          
+          # Validate Bicep syntax
+          - task: AzureCLI@2
+            displayName: 'Validate Bicep Syntax'
+            inputs:
+              azureSubscription: $(azureServiceConnectionDev)
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                echo "Validating Bicep templates..."
+                az bicep build --file $(bicepMainTemplate)
+                
+                if [ $? -eq 0 ]; then
+                  echo "✅ Bicep syntax validation passed"
+                else
+                  echo "❌ Bicep syntax validation failed"
+                  exit 1
+                fi
+          
+          # Lint Bicep files
+          - task: AzureCLI@2
+            displayName: 'Lint Bicep Files'
+            inputs:
+              azureSubscription: $(azureServiceConnectionDev)
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                echo "Linting Bicep files..."
+                find infra/bicep -name "*.bicep" -exec az bicep lint --file {} \;
+          
+          # Validate ARM template schema
+          - task: AzureResourceManagerTemplateDeployment@3
+            displayName: 'Validate ARM Template Schema'
+            inputs:
+              deploymentScope: 'Resource Group'
+              azureResourceManagerConnection: $(azureServiceConnectionDev)
+              subscriptionId: $(AZURE_SUBSCRIPTION_ID)
+              action: 'Create Or Update Resource Group'
+              resourceGroupName: $(resourceGroupDev)
+              location: $(location)
+              templateLocation: 'Linked artifact'
+              csmFile: '$(bicepMainTemplate)'
+              csmParametersFile: '$(bicepParametersPath)/dev.parameters.json'
+              deploymentMode: 'Validation'
+          
+          # Publish validation results
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish ARM JSON Output'
+            condition: succeeded()
+            inputs:
+              pathToPublish: '$(Build.ArtifactStagingDirectory)'
+              artifactName: 'bicep-artifacts'
+              publishLocation: 'Container'
+
+  # ==========================================
+  # STAGE 2: SECURITY SCAN
+  # ==========================================
+  - stage: SecurityScan
+    displayName: '🔒 Security Scan'
+    dependsOn: Validate
+    condition: and(succeeded(), eq('${{ parameters.skipSecurityScan }}', false))
+    jobs:
+      - job: TemplateAnalyzer
+        displayName: 'Run Template Analyzer'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - checkout: self
+          
+          # Install ARM Template Analyzer
+          - task: PowerShell@2
+            displayName: 'Install ARM TTK'
+            inputs:
+              targetType: 'inline'
+              script: |
+                Install-Module -Name Az.Tools.Predictor -Force -AllowClobber
+                Install-Module -Name ARMTemplateToolkit -Force -AllowClobber
+          
+          # Run Template Analyzer
+          - task: AzureCLI@2
+            displayName: 'Run Template Security Scan'
+            inputs:
+              azureSubscription: $(azureServiceConnectionDev)
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                echo "Running security analysis on Bicep templates..."
+                
+                # Build Bicep to ARM
+                az bicep build --file $(bicepMainTemplate) --outfile $(Build.ArtifactStagingDirectory)/main.json
+                
+                # Run Template Analyzer (if available)
+                if command -v azttk &> /dev/null; then
+                  azttk analyze --template $(Build.ArtifactStagingDirectory)/main.json
+                else
+                  echo "⚠️ Template Analyzer not available, skipping detailed scan"
+                fi
+                
+                # Check for common security issues
+                echo "Checking for security best practices..."
+                
+                # Check for hardcoded secrets (basic pattern matching)
+                if grep -r -i "password\|secret\|key\|token" infra/bicep/*.bicep | grep -v "@secure()" | grep -v "param"; then
+                  echo "⚠️ Potential hardcoded secrets detected - review required"
+                fi
+          
+          # Checkov Security Scan
+          - task: Docker@2
+            displayName: 'Run Checkov IaC Scan'
+            continueOnError: true
+            inputs:
+              command: 'run'
+              arguments: |
+                -v $(Build.SourcesDirectory):/tf bridgecrew/checkov 
+                --directory /tf/infra/bicep 
+                --framework bicep 
+                --output junitxml 
+                --soft-fail
+          
+          # Publish security scan results
+          - task: PublishTestResults@2
+            displayName: 'Publish Security Scan Results'
+            condition: always()
+            inputs:
+              testResultsFormat: 'JUnit'
+              testResultsFiles: '**/*checkov*.xml'
+              mergeTestResults: true
+              testRunTitle: 'IaC Security Scan'
+
+  # ==========================================
+  # STAGE 3: WHAT-IF ANALYSIS
+  # ==========================================
+  - stage: WhatIf
+    displayName: '📊 What-If Analysis'
+    dependsOn: 
+      - Validate
+      - SecurityScan
+    condition: |
+      and(
+        succeeded(),
+        in(dependencies.SecurityScan.result, 'Succeeded', 'Skipped')
+      )
+    jobs:
+      - deployment: WhatIfAnalysis
+        displayName: 'Deploy What-If Analysis'
+        environment: 'what-if-review'
+        pool:
+          vmImage: 'ubuntu-latest'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                
+                # Install Bicep
+                - task: AzureCLI@2
+                  displayName: 'Install Bicep CLI'
+                  inputs:
+                    azureSubscription: $(azureServiceConnectionDev)
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      az bicep install
+                
+                # Determine environment settings
+                - task: AzureCLI@2
+                  displayName: 'Run What-If Analysis'
+                  name: WhatIfResults
+                  inputs:
+                    azureSubscription: $(azureServiceConnectionDev)
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      ENV="${{ parameters.deploymentEnvironment }}"
+                      
+                      case $ENV in
+                        dev)
+                          RG="$(resourceGroupDev)"
+                          PARAMS="$(bicepParametersPath)/dev.parameters.json"
+                          ;;
+                        staging)
+                          RG="$(resourceGroupStaging)"
+                          PARAMS="$(bicepParametersPath)/staging.parameters.json"
+                          ;;
+                        prod)
+                          RG="$(resourceGroupProd)"
+                          PARAMS="$(bicepParametersPath)/prod.parameters.json"
+                          ;;
+                      esac
+                      
+                      echo "Running what-if for environment: $ENV"
+                      echo "Resource Group: $RG"
+                      
+                      # Run what-if and capture output
+                      az deployment group what-if \
+                        --resource-group $RG \
+                        --template-file $(bicepMainTemplate) \
+                        --parameters @$PARAMS \
+                        --result-format FullResourcePayloads \
+                        --out table \
+                        > $(Build.ArtifactStagingDirectory)/whatif-output.txt
+                      
+                      # Also output as JSON for parsing
+                      az deployment group what-if \
+                        --resource-group $RG \
+                        --template-file $(bicepMainTemplate) \
+                        --parameters @$PARAMS \
+                        --result-format FullResourcePayloads \
+                        --out json \
+                        > $(Build.ArtifactStagingDirectory)/whatif-output.json
+                      
+                      # Display results
+                      echo "=== WHAT-IF RESULTS ==="
+                      cat $(Build.ArtifactStagingDirectory)/whatif-output.txt
+                      
+                      # Check for deletions (destructive changes)
+                      if grep -q "Delete" $(Build.ArtifactStagingDirectory)/whatif-output.txt; then
+                        echo "⚠️ WARNING: Destructive changes detected!"
+                        echo "##vso[task.setvariable variable=hasDestructiveChanges]true"
+                      else
+                        echo "✅ No destructive changes detected"
+                        echo "##vso[task.setvariable variable=hasDestructiveChanges]false"
+                      fi
+                
+                # Publish what-if results
+                - task: PublishBuildArtifacts@1
+                  displayName: 'Publish What-If Results'
+                  inputs:
+                    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+                    artifactName: 'whatif-results-${{ parameters.deploymentEnvironment }}'
+                    publishLocation: 'Container'
+
+  # ==========================================
+  # STAGE 4: DEV DEPLOYMENT
+  # ==========================================
+  - stage: DeployDev
+    displayName: '🚀 Deploy to Dev'
+    dependsOn: WhatIf
+    condition: |
+      and(
+        succeeded(),
+        eq('${{ parameters.deploymentEnvironment }}', 'dev'),
+        eq('${{ parameters.runWhatIfOnly }}', false)
+      )
+    jobs:
+      - deployment: DeployToDev
+        displayName: 'Deploy to Development'
+        environment: 'development'
+        pool:
+          vmImage: 'ubuntu-latest'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                
+                - task: AzureCLI@2
+                  displayName: 'Install Bicep CLI'
+                  inputs:
+                    azureSubscription: $(azureServiceConnectionDev)
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      az bicep install
+                
+                - task: AzureResourceManagerTemplateDeployment@3
+                  displayName: 'Deploy Bicep to Dev'
+                  inputs:
+                    deploymentScope: 'Resource Group'
+                    azureResourceManagerConnection: $(azureServiceConnectionDev)
+                    subscriptionId: $(AZURE_SUBSCRIPTION_ID)
+                    action: 'Create Or Update Resource Group'
+                    resourceGroupName: $(resourceGroupDev)
+                    location: $(location)
+                    templateLocation: 'Linked artifact'
+                    csmFile: '$(bicepMainTemplate)'
+                    csmParametersFile: '$(bicepParametersPath)/dev.parameters.json'
+                    deploymentMode: 'Incremental'
+                    deploymentName: '$(Build.BuildNumber)-dev'
+                
+                - task: AzureCLI@2
+                  displayName: 'Verify Deployment'
+                  inputs:
+                    azureSubscription: $(azureServiceConnectionDev)
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      echo "Verifying deployment..."
+                      az group deployment show \
+                        --resource-group $(resourceGroupDev) \
+                        --name '$(Build.BuildNumber)-dev' \
+                        --query 'properties.provisioningState'
+
+  # ==========================================
+  # STAGE 5: STAGING DEPLOYMENT (WITH APPROVAL)
+  # ==========================================
+  - stage: DeployStaging
+    displayName: '🚀 Deploy to Staging'
+    dependsOn: WhatIf
+    condition: |
+      and(
+        succeeded(),
+        or(
+                          eq('${{ parameters.deploymentEnvironment }}', 'staging'),
+                          eq(variables['Build.SourceBranch'], 'refs/heads/main')
+                        ),
+                        eq('${{ parameters.runWhatIfOnly }}', false)
+                      )
+    jobs:
+      - deployment: DeployToStaging
+        displayName: 'Deploy to Staging'
+        environment: 'staging'  # Requires approval in Azure DevOps
+        pool:
+          vmImage: 'ubuntu-latest'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                
+                - task: AzureCLI@2
+                  displayName: 'Install Bicep CLI'
+                  inputs:
+                    azureSubscription: $(azureServiceConnectionStaging)
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      az bicep install
+                
+                # Pre-deployment approval notification
+                - task: PowerShell@2
+                  displayName: 'Notify Staging Deployment Start'
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      Write-Host "🚀 Starting deployment to STAGING environment"
+                      Write-Host "Build: $(Build.BuildNumber)"
+                      Write-Host "Triggered by: $(Build.RequestedFor)"
+                      Write-Host "Commit: $(Build.SourceVersion)"
+                
+                - task: AzureResourceManagerTemplateDeployment@3
+                  displayName: 'Deploy Bicep to Staging'
+                  inputs:
+                    deploymentScope: 'Resource Group'
+                    azureResourceManagerConnection: $(azureServiceConnectionStaging)
+                    subscriptionId: $(AZURE_SUBSCRIPTION_ID)
+                    action: 'Create Or Update Resource Group'
+                    resourceGroupName: $(resourceGroupStaging)
+                    location: $(location)
+                    templateLocation: 'Linked artifact'
+                    csmFile: '$(bicepMainTemplate)'
+                    csmParametersFile: '$(bicepParametersPath)/staging.parameters.json'
+                    deploymentMode: 'Incremental'
+                    deploymentName: '$(Build.BuildNumber)-staging'
+                
+                - task: AzureCLI@2
+                  displayName: 'Post-Deployment Tests'
+                  inputs:
+                    azureSubscription: $(azureServiceConnectionStaging)
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      echo "Running post-deployment smoke tests..."
+                      # Add smoke tests here (check endpoints, resources, etc.)
+                      az group show --name $(resourceGroupStaging) --query 'properties.provisioningState'
+
+  # ==========================================
+  # STAGE 6: PRODUCTION DEPLOYMENT (WITH APPROVAL)
+  # ==========================================
+  - stage: DeployProd
+    displayName: '🚀 Deploy to Production'
+    dependsOn: DeployStaging
+    condition: |
+      and(
+        succeeded(),
+        eq('${{ parameters.deploymentEnvironment }}', 'prod'),
+        eq('${{ parameters.runWhatIfOnly }}', false)
+      )
+    jobs:
+      - deployment: DeployToProd
+        displayName: 'Deploy to Production'
+        environment: 'production'  # Requires approval in Azure DevOps
+        pool:
+          vmImage: 'ubuntu-latest'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                
+                - task: AzureCLI@2
+                  displayName: 'Install Bicep CLI'
+                  inputs:
+                    azureSubscription: $(azureServiceConnectionProd)
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      az bicep install
+                
+                # Production approval gate notification
+                - task: PowerShell@2
+                  displayName: 'PRODUCTION DEPLOYMENT ALERT'
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      Write-Host "═══════════════════════════════════════════"
+                      Write-Host "⚠️  PRODUCTION DEPLOYMENT IN PROGRESS"
+                      Write-Host "═══════════════════════════════════════════"
+                      Write-Host "Build: $(Build.BuildNumber)"
+                      Write-Host "Approved by: $(Build.RequestedFor)"
+                      Write-Host "═══════════════════════════════════════════"
+                
+                - task: AzureResourceManagerTemplateDeployment@3
+                  displayName: 'Deploy Bicep to Production'
+                  inputs:
+                    deploymentScope: 'Resource Group'
+                    azureResourceManagerConnection: $(azureServiceConnectionProd)
+                    subscriptionId: $(AZURE_SUBSCRIPTION_ID)
+                    action: 'Create Or Update Resource Group'
+                    resourceGroupName: $(resourceGroupProd)
+                    location: $(location)
+                    templateLocation: 'Linked artifact'
+                    csmFile: '$(bicepMainTemplate)"
+                    csmParametersFile: '$(bicepParametersPath)/prod.parameters.json'
+                    deploymentMode: 'Incremental'
+                    deploymentName: '$(Build.BuildNumber)-prod'
+                
+                - task: AzureCLI@2
+                  displayName: 'Verify Production Deployment'
+                  inputs:
+                    azureSubscription: $(azureServiceConnectionProd)
+                    scriptType: 'bash'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      echo "Verifying production deployment..."
+                      az group deployment show \
+                        --resource-group $(resourceGroupProd) \
+                        --name '$(Build.BuildNumber)-prod' \
+                        --query 'properties.provisioningState'
+                      
+                      echo "Listing deployed resources:"
+                      az resource list --resource-group $(resourceGroupProd) --output table
+                
+                - task: PowerShell@2
+                  displayName: 'Deployment Complete'
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      Write-Host "✅ Production deployment completed successfully!"
+
+  # ==========================================
+  # NOTIFICATION STAGE
+  # ==========================================
+  - stage: Notify
+    displayName: '📢 Notifications'
+    dependsOn:
+      - DeployDev
+      - DeployStaging
+      - DeployProd
+    condition: always()
+    jobs:
+      - job: SendNotifications
+        displayName: 'Send Deployment Notifications'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: PowerShell@2
+            displayName: 'Build Summary'
+            inputs:
+              targetType: 'inline'
+              script: |
+                $stages = @{
+                  'Validate' = '$(stageDependencies.Validate.result)'
+                  'SecurityScan' = '$(stageDependencies.SecurityScan.result)'
+                  'WhatIf' = '$(stageDependencies.WhatIf.result)'
+                  'DeployDev' = '$(stageDependencies.DeployDev.result)'
+                  'DeployStaging' = '$(stageDependencies.DeployStaging.result)'
+                  'DeployProd' = '$(stageDependencies.DeployProd.result)'
+                }
+                
+                Write-Host "═══════════════════════════════════════════"
+                Write-Host "           DEPLOYMENT SUMMARY"
+                Write-Host "═══════════════════════════════════════════"
+                Write-Host "Build: $(Build.BuildNumber)"
+                Write-Host "Environment: ${{ parameters.deploymentEnvironment }}"
+                Write-Host ""
+                Write-Host "Stage Results:"
+                foreach ($stage in $stages.GetEnumerator()) {
+                  $icon = if ($stage.Value -eq 'Succeeded') { '✅' } elseif ($stage.Value -eq 'Failed') { '❌' } else { '⏭️' }
+                  Write-Host "  $icon $($stage.Key): $($stage.Value)"
+                }
+                Write-Host "═══════════════════════════════════════════"

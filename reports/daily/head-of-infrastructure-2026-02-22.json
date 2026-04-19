@@ -1,0 +1,15 @@
+{
+  "agent": "head-of-infrastructure",
+  "date": "2026-02-22T09:00:00.000Z",
+  "status": "yellow",
+  "today": [
+    "Advance Head of Infrastructure"
+  ],
+  "milestones": [],
+  "blockers": [],
+  "wins": [],
+  "requests": [],
+  "tasks_in_progress": [],
+  "completed": [],
+  "notes": "Seeded by Consiglio"
+}

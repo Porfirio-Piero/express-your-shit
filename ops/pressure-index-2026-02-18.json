@@ -1,0 +1,10 @@
+{
+  "date": "2026-02-18",
+  "pressure": {
+    "blocked_task_percent": 0.0,
+    "avg_blocker_age": 0.0,
+    "missed_checkins_count": 0,
+    "milestone_slippage_count": 0,
+    "incident_count": 0
+  }
+}

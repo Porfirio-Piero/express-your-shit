@@ -1,0 +1,16 @@
+{
+  "date": "2026-02-18",
+  "path": "C:/Users/devpi/.openclaw/workspace/reports/standup/morning-brief-2026-02-18.md",
+  "latest": "C:/Users/devpi/.openclaw/workspace/reports/standup/morning-brief-latest.md",
+  "generatedAt": "2026-02-18T12:42:28+00:00",
+  "topActions": [
+    {
+      "action title": "Advance opportunity OPP-PP002",
+      "recommended owner/team": "product",
+      "why": "highest ranked opportunity",
+      "links": [
+        "C:/Users/devpi/.openclaw/workspace/opportunities/raw/OPP-PP002.md"
+      ]
+    }
+  ]
+}

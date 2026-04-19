@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+.env.local
+.env
+*.log
+.vercel
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+.vercel
