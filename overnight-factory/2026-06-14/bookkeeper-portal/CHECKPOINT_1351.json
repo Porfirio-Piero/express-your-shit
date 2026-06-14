@@ -1,0 +1,13 @@
+﻿{
+    "details":  {
+                    "lines":  null,
+                    "is_default":  null,
+                    "size":  null
+                },
+    "project_path":  "C:\\Users\\devpi\\.openclaw\\workspace\\overnight-factory\\2026-06-14\\bookkeeper-portal",
+    "timestamp":  "\/Date(1781459472242)\/",
+    "reason":  "No page.tsx found",
+    "phase":  "checkpoint",
+    "status":  "failed",
+    "progress":  0
+}

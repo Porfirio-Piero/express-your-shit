@@ -1,0 +1,17 @@
+﻿{
+    "build_estimate":  5,
+    "complexity_flags":  [
+                             "Authentication Required",
+                             "File Processing"
+                         ],
+    "action_required":  "proceed",
+    "grade":  "C",
+    "phase":  "pre",
+    "timestamp":  "\/Date(1781459126391)\/",
+    "suitable":  true,
+    "reasons":  [
+                    "Has: Authentication Required",
+                    "Has: File Processing"
+                ],
+    "project_path":  "C:\\Users\\devpi\\.openclaw\\workspace\\overnight-factory\\2026-06-14\\bookkeeper-portal"
+}
