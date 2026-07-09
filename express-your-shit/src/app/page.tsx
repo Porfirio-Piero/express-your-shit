@@ -1,7 +1,7 @@
 'use client';
 
-import { Nav, Section, SectionHeading, TierCard, WaxSeal, DeckledDivider, Footer, SealGlyph, Button } from '@/components/ui';
-import { useState } from 'react';
+import { Nav, Section, SectionHeading, TierCard, WaxSeal, DeckledDivider, Footer, SealGlyph, Button, Reveal, Waveform } from '@/components/ui';
+import { useState, useEffect, useRef } from 'react';
 
 const TIERS = [
   {
@@ -71,44 +71,99 @@ const FAQ_ITEMS = [
     q: 'How long does delivery take?',
     a: 'Petty Theft and Full Send ship within 2 business days via standard mail. Case Closed ships same-day via Priority Mail. We don\'t promise freshness or temperature — you\'re sending a gag gift, not groceries.',
   },
-  {
-    q: 'What if I have a problem with my order?',
-    a: 'Contact us with your order code. We\'ll make it right.',
-  },
+];
+
+const OFFENSES = [
+  'Petty Betrayal', 'Chronic Left-on-Read', 'Crimes Against the Group Chat',
+  'Thermostat Tampering', 'Leftover Theft', 'Aggressive Reply-All',
+  'Parking Space Piracy', 'Unsolicited Life Advice',
+];
+
+const CHARACTERS = [
+  { id: 'disappointed-judge', name: 'The Disappointed Judge', icon: '⚖' },
+  { id: 'movie-trailer', name: 'Movie Trailer Announcer', icon: '🎬' },
+  { id: 'royal-herald', name: 'Royal Herald', icon: '👑' },
+  { id: 'nature-doc', name: 'Nature Documentarian', icon: '🐾' },
+  { id: 'drill-sergeant', name: 'Drill Sergeant', icon: '🎖' },
+  { id: 'disappointed-parent', name: 'Disappointed Parent', icon: '🏠' },
 ];
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [selectedOffenses, setSelectedOffenses] = useState<string[]>(['Chronic Left-on-Read', 'Crimes Against the Group Chat']);
+  const [playing, setPlaying] = useState(false);
+
+  // Generate particles for hero
+  const particles = useRef(
+    Array.from({ length: 30 }).map((_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 6}s`,
+      duration: `${5 + Math.random() * 4}s`,
+    }))
+  );
+
+  function toggleOffense(offense: string) {
+    setSelectedOffenses(prev =>
+      prev.includes(offense) ? prev.filter(o => o !== offense) : [...prev, offense]
+    );
+  }
 
   return (
     <main className="min-h-screen bg-ink">
       <Nav />
 
-      {/* Hero */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 pt-16 overflow-hidden">
-        {/* Background texture */}
-        <div className="absolute inset-0 bg-gradient-to-b from-charcoal/30 via-ink to-ink" />
-        <div className="absolute inset-0 opacity-5" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23E8E1CC' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
+      {/* ===== HERO ===== */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        {/* Background gradient layers */}
+        <div className="absolute inset-0 bg-gradient-to-b from-charcoal/40 via-ink to-ink" />
+        
+        {/* Particle field */}
+        <div className="absolute inset-0 overflow-hidden">
+          {particles.current.map(p => (
+            <div
+              key={p.id}
+              className="particle"
+              style={{
+                left: p.left,
+                top: p.top,
+                animationDelay: p.delay,
+                animationDuration: p.duration,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Radial glow behind seal */}
+        <div 
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full opacity-20"
+          style={{ background: 'radial-gradient(circle, rgba(184, 146, 90, 0.3) 0%, transparent 60%)' }}
+        />
 
         <div className="relative z-10">
-          <div className="mb-8">
-            <WaxSeal size="lg" animate={true} />
+          {/* Wax Seal */}
+          <div className="mb-10">
+            <WaxSeal size="xl" animate={true} />
           </div>
-          <div className="font-display text-xs tracking-[0.4em] uppercase text-foil-gold/70 mb-4">
+          
+          <div className="font-mono text-[11px] tracking-[0.4em] uppercase text-foil-gold/60 mb-5">
             Office of Anonymous Justice
           </div>
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-parchment mb-6 leading-tight">
+          
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-parchment mb-6 leading-[1.05] font-semibold">
             Express Your Sh*t
           </h1>
-          <p className="font-display text-xl md:text-2xl text-parchment/60 italic mb-8">
+          
+          <p className="font-display text-2xl md:text-3xl gold-shimmer italic mb-8 font-medium">
             Say it with shit.
           </p>
-          <p className="text-parchment/50 max-w-xl mx-auto mb-10 text-lg">
+          
+          <p className="text-parchment/50 max-w-xl mx-auto mb-12 text-lg text-balance">
             Premium anonymous gag-gift service. Certified, sealed, and delivered 
             with the gravity it deserves. This is official business.
           </p>
+          
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="gold" onClick={() => window.location.href = '/checkout'}>
               Begin Filing — $34.99
@@ -117,17 +172,26 @@ export default function Home() {
               How It Works
             </Button>
           </div>
+
+          {/* Scroll indicator */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="rgba(184, 146, 90, 0.4)" strokeWidth="1.5">
+              <path d="M5 8l5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
         </div>
       </section>
 
       <DeckledDivider />
 
-      {/* How It Works */}
+      {/* ===== HOW IT WORKS ===== */}
       <Section id="how-it-works" className="bg-ink">
-        <SectionHeading sub="The process is simple. The delivery is unforgettable.">
-          How It Works
-        </SectionHeading>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+        <Reveal>
+          <SectionHeading sub="The process is simple. The delivery is unforgettable.">
+            How It Works
+          </SectionHeading>
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16">
           {[
             {
               step: '01',
@@ -144,190 +208,287 @@ export default function Home() {
               title: 'Delivery Is Served',
               desc: 'Plain packaging. No return address. The recipient never sees your name or any identifying detail. Justice is served cold.',
             },
-          ].map((item) => (
-            <div key={item.step} className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-charcoal border border-charcoal-light mb-4">
-                <span className="case-number text-foil-gold text-lg">{item.step}</span>
+          ].map((item, i) => (
+            <Reveal key={item.step} delay={i * 150} variant="up">
+              <div className="text-center group">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-charcoal/60 border border-foil-gold/20 mb-5 transition-all duration-300 group-hover:border-foil-gold/50 group-hover:scale-110">
+                  <span className="case-number text-foil-gold text-lg">{item.step}</span>
+                </div>
+                <h3 className="font-display text-xl text-parchment mb-3">{item.title}</h3>
+                <p className="text-parchment/50 text-sm leading-relaxed">{item.desc}</p>
               </div>
-              <h3 className="font-display text-xl text-parchment mb-3">{item.title}</h3>
-              <p className="text-parchment/60 text-sm">{item.desc}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </Section>
 
       <DeckledDivider />
 
-      {/* Tiers */}
+      {/* ===== TIERS ===== */}
       <Section id="tiers">
-        <SectionHeading sub="Choose the severity of your statement.">
-          The Tiers
-        </SectionHeading>
+        <Reveal>
+          <SectionHeading sub="Choose the severity of your statement.">
+            The Tiers
+          </SectionHeading>
+        </Reveal>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          {TIERS.map((tier) => (
-            <TierCard key={tier.id} tier={tier} />
+          {TIERS.map((tier, i) => (
+            <Reveal key={tier.id} delay={i * 120} variant="up">
+              <TierCard tier={tier} />
+            </Reveal>
           ))}
         </div>
-        <div className="text-center mt-8">
-          <p className="text-parchment/40 text-sm">
-            All tiers include plain packaging and anonymous delivery. No volume upsells — upgrade quality, not quantity.
-          </p>
-        </div>
-      </Section>
-
-      <DeckledDivider />
-
-      {/* Character Assassination Kit */}
-      <Section id="kit">
-        <SectionHeading sub="Add a Certificate of Grievance and AI voice note to any tier.">
-          The Character Assassination Kit
-        </SectionHeading>
-        <div className="max-w-3xl mx-auto">
-          <div className="certificate-border bg-paper-white text-ink p-8 md:p-12 mb-8">
-            <div className="text-center mb-4">
-              <div className="font-display text-xs tracking-[0.3em] uppercase text-wax-wine/60 mb-2">
-                Office of Anonymous Justice
-              </div>
-              <h3 className="font-display text-2xl text-wax-wine mb-1">Certificate of Grievance</h3>
-              <div className="case-number text-sm text-charcoal/60">Case No. EYS-GR-XXXXXX</div>
-            </div>
-            <div className="text-sm text-charcoal/70 text-center italic">
-              Select your cited offenses. Add a custom charge. Choose a voice. 
-              The recipient scans the QR code and hears it read aloud.
-            </div>
-            <div className="flex justify-center mt-6">
-              <WaxSeal size="sm" />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-charcoal/50 rounded-xl p-6 border border-charcoal-light">
-              <h4 className="font-display text-lg text-foil-gold mb-3">Certificate of Grievance</h4>
-              <p className="text-parchment/70 text-sm mb-3">
-                An official-looking decree citing the recipient&apos;s offenses. 
-                Printed and sealed. Framable.
-              </p>
-              <div className="space-y-2">
-                {['Petty Betrayal', 'Chronic Left-on-Read', 'Crimes Against the Group Chat', 'Thermostat Tampering', 'Leftover Theft', 'Aggressive Reply-All', 'Parking Space Piracy', 'Unsolicited Life Advice'].map((offense) => (
-                  <div key={offense} className="flex items-center gap-2 text-parchment/60 text-xs">
-                    <SealGlyph className="shrink-0" />
-                    {offense}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="bg-charcoal/50 rounded-xl p-6 border border-charcoal-light">
-              <h4 className="font-display text-lg text-foil-gold mb-3">AI Voice Note</h4>
-              <p className="text-parchment/70 text-sm mb-3">
-                The recipient scans a QR code and hears your message read aloud 
-                by one of six characters.
-              </p>
-              <div className="space-y-2">
-                {['The Disappointed Judge', 'Movie Trailer Announcer', 'Royal Herald', 'Nature Documentarian', 'Drill Sergeant', 'Disappointed Parent'].map((char) => (
-                  <div key={char} className="flex items-center gap-2 text-parchment/60 text-xs">
-                    <SealGlyph className="shrink-0" />
-                    {char}
-                  </div>
-                ))}
-              </div>
-              <p className="text-parchment/40 text-xs mt-4">
-                Choose gender (Male/Female) and accent (American, British, Australian, Flat &amp; Robotic). 
-                Every combination is previewable before you commit.
-              </p>
-            </div>
-          </div>
-          <div className="text-center mt-6">
-            <p className="text-parchment/50 text-sm">
-              <SealGlyph className="mr-1" /> <strong className="text-foil-gold">$7</strong> standalone · Discounted when added at checkout
+        <Reveal>
+          <div className="text-center mt-10">
+            <p className="text-parchment/30 text-sm">
+              All tiers include plain packaging and anonymous delivery. No volume upsells — upgrade quality, not quantity.
             </p>
           </div>
-        </div>
+        </Reveal>
       </Section>
 
       <DeckledDivider />
 
-      {/* Comparison Teaser */}
-      <Section id="compare">
-        <SectionHeading sub="See how we stack up against the competition.">
-          Why Express Your Sh*t?
-        </SectionHeading>
-        <div className="bg-charcoal/50 rounded-xl p-6 md:p-8 border border-charcoal-light">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            <div>
-              <div className="font-display text-3xl text-foil-gold mb-2">6</div>
-              <div className="text-parchment/60 text-sm">Character Voices</div>
-            </div>
-            <div>
-              <div className="font-display text-3xl text-foil-gold mb-2">0</div>
-              <div className="text-parchment/60 text-sm">Credit Cards Accepted</div>
-            </div>
-            <div>
-              <div className="font-display text-3xl text-foil-gold mb-2">30</div>
-              <div className="text-parchment/60 text-sm">Day Data Purge</div>
-            </div>
-          </div>
-          <div className="mt-8 text-center">
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button variant="secondary" onClick={() => window.location.href = '/vs-shitexpress'}>
-                vs ShitExpress
-              </Button>
-              <Button variant="secondary" onClick={() => window.location.href = '/vs-poopsenders'}>
-                vs PoopSenders
-              </Button>
-              <Button variant="secondary" onClick={() => window.location.href = '/vs-sendsomepoop'}>
-                vs SendSomePoop
-              </Button>
-            </div>
-          </div>
-        </div>
-      </Section>
+      {/* ===== CHARACTER ASSASSINATION KIT ===== */}
+      <Section id="kit">
+        <Reveal>
+          <SectionHeading sub="Add a Certificate of Grievance and AI voice note to any tier.">
+            The Character Assassination Kit
+          </SectionHeading>
+        </Reveal>
 
-      <DeckledDivider />
-
-      {/* FAQ */}
-      <Section id="faq">
-        <SectionHeading sub="Everything you need to know before filing.">
-          Frequently Asked Questions
-        </SectionHeading>
-        <div className="max-w-3xl mx-auto space-y-4">
-          {FAQ_ITEMS.map((item, i) => (
-            <div key={i} className="border border-charcoal-light rounded-lg overflow-hidden">
-              <button
-                className="w-full text-left px-6 py-4 flex items-center justify-between bg-charcoal/30 hover:bg-charcoal/50 transition-colors"
-                onClick={() => setOpenFaq(openFaq === i ? null : i)}
-              >
-                <span className="font-display text-parchment text-sm md:text-base pr-4">{item.q}</span>
-                <svg
-                  className={`w-5 h-5 text-foil-gold shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`}
-                  viewBox="0 0 20 20" fill="currentColor"
-                >
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-              </button>
-              {openFaq === i && (
-                <div className="px-6 py-4 bg-charcoal/20 text-parchment/70 text-sm leading-relaxed">
-                  {item.a}
+        {/* Interactive Certificate Preview */}
+        <Reveal variant="scale">
+          <div className="max-w-3xl mx-auto mb-10">
+            <div className="certificate-border bg-paper-white text-ink p-8 md:p-12 rounded-sm">
+              <div className="text-center mb-4">
+                <div className="font-display text-xs tracking-[0.3em] uppercase text-wax-wine/60 mb-2">
+                  Office of Anonymous Justice
                 </div>
-              )}
+                <h3 className="font-display text-2xl md:text-3xl text-wax-wine mb-1">Certificate of Grievance</h3>
+                <div className="case-number text-sm text-charcoal/60">Case No. EYS-GR-XXXXXX</div>
+              </div>
+              
+              <p className="text-center font-display italic text-charcoal/70 text-sm mb-4">
+                Let it be known that a formal complaint has been filed
+              </p>
+              
+              <div className="border-t border-b border-wax-wine/20 py-4 my-4">
+                <div className="font-display text-sm text-wax-wine mb-2">Cited Offenses:</div>
+                <ul className="space-y-1.5">
+                  {selectedOffenses.length > 0 ? (
+                    selectedOffenses.map((o, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm">
+                        <span className="text-wax-wine mt-0.5 font-mono">§</span>
+                        <span>{o}</span>
+                      </li>
+                    ))
+                  ) : (
+                    <li className="text-charcoal/40 text-sm italic">Select offenses below to preview the certificate...</li>
+                  )}
+                </ul>
+              </div>
+              
+              <div className="text-center mt-6 pt-4 border-t border-wax-wine/10">
+                <div className="text-xs text-charcoal/50 mb-1">Filed by:</div>
+                <div className="font-display text-wax-wine">Identity withheld by design</div>
+              </div>
+              
+              <div className="flex justify-center mt-5">
+                <WaxSeal size="md" />
+              </div>
             </div>
+          </div>
+        </Reveal>
+
+        {/* Offense Selector */}
+        <Reveal>
+          <div className="max-w-3xl mx-auto mb-10">
+            <h4 className="font-display text-lg text-parchment mb-4 text-center">Select Cited Offenses</h4>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {OFFENSES.map((offense) => (
+                <button
+                  key={offense}
+                  onClick={() => toggleOffense(offense)}
+                  className={`flex items-center gap-2 px-3 py-2.5 rounded-lg border text-xs transition-all duration-200 ${
+                    selectedOffenses.includes(offense)
+                      ? 'bg-wax-wine/20 border-foil-gold/50 text-parchment'
+                      : 'bg-charcoal/30 border-charcoal-light text-parchment/50 hover:border-charcoal-light/80'
+                  }`}
+                >
+                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ${
+                    selectedOffenses.includes(offense) ? 'bg-wax-wine border-wax-wine' : 'border-charcoal-light'
+                  }`}>
+                    {selectedOffenses.includes(offense) && (
+                      <span className="text-[5px] font-display font-bold text-parchment">EYS</span>
+                    )}
+                  </div>
+                  <span className="text-left leading-tight">{offense}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        {/* AI Voice Note Preview */}
+        <Reveal>
+          <div className="max-w-3xl mx-auto mb-8">
+            <div className="glass-card rounded-2xl p-6 md:p-8">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="w-12 h-12 rounded-full bg-wax-wine flex items-center justify-center shrink-0 wax-glow">
+                  <svg className="w-6 h-6 text-parchment" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 className="font-display text-lg text-parchment mb-1">AI Voice Note Preview</h4>
+                  <p className="text-parchment/50 text-sm">The recipient scans a QR code and hears your message read aloud.</p>
+                </div>
+              </div>
+              
+              <Waveform playing={playing} bars={32} />
+              
+              <button
+                onClick={() => {
+                  setPlaying(!playing);
+                  if (!playing && typeof window !== 'undefined' && 'speechSynthesis' in window) {
+                    const u = new SpeechSynthesisUtterance('The court finds you guilty of chronic left-on-read.');
+                    u.rate = 0.9;
+                    u.pitch = 0.8;
+                    u.onend = () => setPlaying(false);
+                    window.speechSynthesis.cancel();
+                    window.speechSynthesis.speak(u);
+                  } else if (typeof window !== 'undefined') {
+                    window.speechSynthesis.cancel();
+                  }
+                }}
+                className="mt-4 w-full bg-wax-wine hover:bg-wax-wine/90 text-parchment font-display py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+              >
+                {playing ? '⏸ Pause Preview' : '▶ Play Sample'}
+              </button>
+            </div>
+          </div>
+        </Reveal>
+
+        {/* Characters Grid */}
+        <Reveal>
+          <div className="max-w-3xl mx-auto">
+            <h4 className="font-display text-lg text-parchment mb-4 text-center">Choose Your Voice</h4>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {CHARACTERS.map((char) => (
+                <div key={char.id} className="glass-card rounded-xl p-4 text-center hover:border-foil-gold/30 transition-colors cursor-pointer">
+                  <div className="text-2xl mb-2">{char.icon}</div>
+                  <div className="font-display text-sm text-parchment">{char.name}</div>
+                </div>
+              ))}
+            </div>
+            <div className="text-center mt-6">
+              <p className="text-parchment/40 text-sm">
+                <SealGlyph className="mr-1" /> <strong className="text-foil-gold-light">$7</strong> standalone · Discounted when added at checkout
+              </p>
+            </div>
+          </div>
+        </Reveal>
+      </Section>
+
+      <DeckledDivider />
+
+      {/* ===== COMPARISON TEASER ===== */}
+      <Section id="compare">
+        <Reveal>
+          <SectionHeading sub="See how we stack up against the competition.">
+            Why Express Your Sh*t?
+          </SectionHeading>
+        </Reveal>
+        <Reveal variant="scale">
+          <div className="glass-card-gold rounded-2xl p-8 md:p-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+              <div>
+                <div className="font-display text-4xl gold-text mb-2 font-semibold">6</div>
+                <div className="text-parchment/50 text-sm">Character Voices</div>
+              </div>
+              <div className="md:border-x md:border-foil-gold/10">
+                <div className="font-display text-4xl gold-text mb-2 font-semibold">0</div>
+                <div className="text-parchment/50 text-sm">Credit Cards Accepted</div>
+              </div>
+              <div>
+                <div className="font-display text-4xl gold-text mb-2 font-semibold">30</div>
+                <div className="text-parchment/50 text-sm">Day Data Purge</div>
+              </div>
+            </div>
+            <div className="mt-10 text-center">
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Button variant="secondary" onClick={() => window.location.href = '/vs-shitexpress'}>
+                  vs ShitExpress
+                </Button>
+                <Button variant="secondary" onClick={() => window.location.href = '/vs-poopsenders'}>
+                  vs PoopSenders
+                </Button>
+                <Button variant="secondary" onClick={() => window.location.href = '/vs-sendsomepoop'}>
+                  vs SendSomePoop
+                </Button>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </Section>
+
+      <DeckledDivider />
+
+      {/* ===== FAQ ===== */}
+      <Section id="faq">
+        <Reveal>
+          <SectionHeading sub="Everything you need to know before filing.">
+            Frequently Asked Questions
+          </SectionHeading>
+        </Reveal>
+        <div className="max-w-3xl mx-auto space-y-3">
+          {FAQ_ITEMS.map((item, i) => (
+            <Reveal key={i} delay={i * 60}>
+              <div className="glass-card rounded-xl overflow-hidden">
+                <button
+                  className="w-full text-left px-6 py-4 flex items-center justify-between hover:bg-charcoal/30 transition-colors"
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                >
+                  <span className="font-display text-parchment text-sm md:text-base pr-4">{item.q}</span>
+                  <svg
+                    className={`w-5 h-5 text-foil-gold shrink-0 transition-transform duration-300 ${openFaq === i ? 'rotate-180' : ''}`}
+                    viewBox="0 0 20 20" fill="currentColor"
+                  >
+                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+                {openFaq === i && (
+                  <div className="px-6 py-4 text-parchment/60 text-sm leading-relaxed border-t border-charcoal-light/30">
+                    {item.a}
+                  </div>
+                )}
+              </div>
+            </Reveal>
           ))}
         </div>
       </Section>
 
-      {/* Final CTA */}
-      <section className="py-20 text-center bg-gradient-to-b from-ink via-charcoal to-ink">
-        <div className="max-w-2xl mx-auto px-4">
-          <WaxSeal size="md" className="mb-6" />
-          <h2 className="font-display text-3xl md:text-4xl text-parchment mb-4">
-            Ready to File?
-          </h2>
-          <p className="text-parchment/60 mb-8">
-            The Office of Anonymous Justice is now accepting cases.
-          </p>
-          <Button variant="gold" onClick={() => window.location.href = '/checkout'}>
-            Start Your Case — $34.99
-          </Button>
-        </div>
+      {/* ===== FINAL CTA ===== */}
+      <section className="relative py-28 text-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-ink via-charcoal/40 to-ink" />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full opacity-10"
+          style={{ background: 'radial-gradient(circle, rgba(184, 146, 90, 0.4) 0%, transparent 60%)' }}
+        />
+        <Reveal variant="scale" className="relative z-10">
+          <div className="max-w-2xl mx-auto px-4">
+            <WaxSeal size="lg" className="mb-6" />
+            <h2 className="font-display text-3xl md:text-5xl text-parchment mb-4 text-balance">
+              Ready to File?
+            </h2>
+            <p className="text-parchment/50 mb-10 text-lg">
+              The Office of Anonymous Justice is now accepting cases.
+            </p>
+            <Button variant="gold" onClick={() => window.location.href = '/checkout'}>
+              Start Your Case — $34.99
+            </Button>
+          </div>
+        </Reveal>
       </section>
 
       <Footer />

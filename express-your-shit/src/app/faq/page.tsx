@@ -1,6 +1,6 @@
 'use client';
 
-import { Nav, Footer, SealGlyph } from '@/components/ui';
+import { Nav, Footer, SealGlyph, WaxSeal, Reveal } from '@/components/ui';
 
 const FAQ_ITEMS = [
   {
@@ -69,38 +69,55 @@ export default function FAQ() {
   return (
     <main className="min-h-screen bg-ink">
       <Nav />
-      <div className="max-w-3xl mx-auto px-4 pt-24 pb-16">
-        <h1 className="font-display text-3xl md:text-4xl text-parchment mb-2">
-          Frequently Asked Questions
-        </h1>
-        <p className="text-parchment/40 text-sm mb-8">
-          Everything you need to know before filing.
-        </p>
+      <div className="max-w-3xl mx-auto px-4 pt-32 pb-20">
+        <Reveal>
+          <div className="text-center mb-12">
+            <WaxSeal size="md" className="mb-4" />
+            <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-foil-gold/60 mb-2">
+              Office of Anonymous Justice
+            </div>
+            <h1 className="font-display text-3xl md:text-5xl text-parchment mb-3">
+              Frequently Asked Questions
+            </h1>
+            <p className="text-parchment/40 text-sm">
+              Everything you need to know before filing.
+            </p>
+          </div>
+        </Reveal>
 
-        <div className="space-y-4">
-          {FAQ_ITEMS.map((item, i) => (
-            <details key={i} className="group border border-charcoal-light rounded-lg overflow-hidden">
-              <summary className="flex items-center justify-between px-6 py-4 bg-charcoal/30 cursor-pointer hover:bg-charcoal/50 transition-colors list-none">
-                <span className="font-display text-parchment text-sm md:text-base pr-4">{item.q}</span>
-                <svg
-                  className="w-5 h-5 text-foil-gold shrink-0 transition-transform group-open:rotate-180"
-                  viewBox="0 0 20 20" fill="currentColor"
-                >
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-              </summary>
-              <div className="px-6 py-4 bg-charcoal/20 text-parchment/70 text-sm leading-relaxed">
-                {item.a}
-              </div>
-            </details>
-          ))}
-        </div>
+        {/* Parchment-styled FAQ container */}
+        <Reveal variant="up">
+          <div className="space-y-3">
+            {FAQ_ITEMS.map((item, i) => (
+              <details key={i} className="group glass-card rounded-xl overflow-hidden">
+                <summary className="flex items-center justify-between px-6 py-4 cursor-pointer hover:bg-charcoal/30 transition-colors list-none">
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono text-[10px] text-foil-gold/60 tracking-wider">§{String(i + 1).padStart(2, '0')}</span>
+                    <span className="font-display text-parchment text-sm md:text-base pr-4">{item.q}</span>
+                  </div>
+                  <svg
+                    className="w-5 h-5 text-foil-gold shrink-0 transition-transform duration-300 group-open:rotate-180"
+                    viewBox="0 0 20 20" fill="currentColor"
+                  >
+                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </summary>
+                <div className="px-6 py-4 text-parchment/60 text-sm leading-relaxed border-t border-charcoal-light/20">
+                  {item.a}
+                </div>
+              </details>
+            ))}
+          </div>
+        </Reveal>
 
-        <div className="mt-12 text-center">
-          <p className="text-parchment/40 text-sm">
-            Still have questions? The Office of Anonymous Justice is not currently accepting phone calls.
-          </p>
-        </div>
+        <Reveal>
+          <div className="mt-16 text-center">
+            <SealGlyph size={20} className="mb-3" />
+            <p className="text-parchment/30 text-sm">
+              Still have questions? The Office of Anonymous Justice is not currently accepting phone calls.
+            </p>
+          </div>
+        </Reveal>
       </div>
       <Footer />
     </main>
