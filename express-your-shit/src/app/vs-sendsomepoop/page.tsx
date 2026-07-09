@@ -1,4 +1,6 @@
-import { ComparisonPage, SENDSOMEPOOP } from '@/components/comparison';
+'use client';
+
+import { ComparisonPage, COMPETITORS } from '@/components/comparison';
 export default function VsSendSomePoop() {
-  return <ComparisonPage competitor={SENDSOMEPOOP} />;
+  return <ComparisonPage competitor={COMPETITORS.sendsomepoop} />;
 }

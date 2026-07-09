@@ -1,4 +1,6 @@
-import { ComparisonPage, SHITEXPRESS } from '@/components/comparison';
+'use client';
+
+import { ComparisonPage, COMPETITORS } from '@/components/comparison';
 export default function VsShitExpress() {
-  return <ComparisonPage competitor={SHITEXPRESS} />;
+  return <ComparisonPage competitor={COMPETITORS.shitexpress} />;
 }
