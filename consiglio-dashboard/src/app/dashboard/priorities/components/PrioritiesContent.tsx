@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
 export default function PrioritiesContent() {
-  const actions = [
+  const priorities = [
     {
       rank: 1,
-      title: "Start PRD for AgentOps Platform",
+      title: "Consiglio Dashboard — Polish & Ship",
       urgency: "High",
-      type: "opportunity_pursuit",
-      user: "pm-builder",
-      eta: "24h ETA",
-      reasoning: "Tier A epic (score 8.40) with strong strategic fit. 'Vercel for Autonomous Agents' addresses real infrastructure pain. Market timing window open. AgentOps enables all future agent work.",
-      impact: "Unlock infrastructure for 10+ agent deployments. Potential $1K MRR month 6.",
+      type: "active_build",
+      owner: "BotFather",
+      status: "In Progress",
+      reasoning: "Command Center is live with agent fleet, mob names, specialist profiles, approval system, and real-time status. Needs final polish, auth hardening, and mobile optimization.",
+      impact: "Single pane of glass for the entire famiglia — fleet status, cron jobs, approvals, platform health.",
       borderColor: "border-l-[#e94560]",
       badgeBg: "bg-red-500/20",
       badgeText: "text-red-400",
@@ -18,95 +18,160 @@ export default function PrioritiesContent() {
     },
     {
       rank: 2,
-      title: "Complete Norm VPS Setup",
+      title: "Platform v1.2.3 — Verify & Validate",
       urgency: "High",
-      type: "blocker_resolution",
-      user: "P",
-      eta: "40m ETA",
-      reasoning: "Task 85% complete but stalled on manual steps (DO signup, droplet creation). Automation package ready. Completing unblocks Norm's access to his own OpenClaw instance. 5-day-old task showing age.",
-      impact: "Norm gains autonomous agent capability. Validates end-to-end setup automation.",
-      borderColor: "border-l-yellow-500",
-      badgeBg: "bg-yellow-500/20",
-      badgeText: "text-yellow-400",
-      badgeBg2: "bg-yellow-500",
+      type: "verification",
+      owner: "BotFather",
+      status: "Installed",
+      reasoning: "AI Engineering Platform v1.2.3 selective overlay installed: 11 engineering + personality standards, 14 platform skills, 10 Italian-American agent personalities (1 active Mikey Models, 9 reference-on-demand). Voice test complete. Needs runtime validation.",
+      impact: "Full personality system for the famiglia. Every agent has distinct voice, profanity scaling, and risk-adjusted behavior.",
+      borderColor: "border-l-purple-500",
+      badgeBg: "bg-purple-500/20",
+      badgeText: "text-purple-400",
+      badgeBg2: "bg-purple-500",
     },
     {
       rank: 3,
-      title: "Respond to CompetitorX AI Invoice Launch",
+      title: "Revenue Pipeline — Land First Customer",
+      urgency: "High",
+      type: "revenue",
+      owner: "Piero",
+      status: "Active",
+      reasoning: "Multiple validated SaaS ideas in pipeline (RetainBurn, CategorEase, MatchFlow). CategorEase is furthest along (Grade A, client-facing transaction categorization). Need to ship and get first paying customer. Hard KPI: time-to-first-revenue < 14 days.",
+      impact: "Proves the autonomous company model. First dollar validates everything.",
+      borderColor: "border-l-green-500",
+      badgeBg: "bg-green-500/20",
+      badgeText: "text-green-400",
+      badgeBg2: "bg-green-500",
+    },
+    {
+      rank: 4,
+      title: "SaaS Products — Ship MVPs",
       urgency: "Medium",
-      type: "incident_response",
-      user: "head-of-product",
-      eta: "4h ETA",
-      reasoning: "CompetitorX launched AI invoice feature with high confidence. Direct threat to InvoiceAuto viability. Market intel recommends privacy-first positioning pivot. 60% feature overlap exposure.",
-      impact: "Protect InvoiceAuto differentiation. Capture local-first AI trend. Prevent competitive erosion.",
+      type: "product",
+      owner: "Dapper Dan",
+      status: "Queued",
+      reasoning: "RetainBurn (freelancer retainer burn-down), CategorEase (client-facing categorization), MatchFlow (invoice matching) all have PRDs validated Grade A/B. Ready for overnight build cycles. Each needs deployment, Stripe integration, and landing page.",
+      impact: "Three revenue-generating products in market within 2 weeks.",
+      borderColor: "border-l-cyan-500",
+      badgeBg: "bg-cyan-500/20",
+      badgeText: "text-cyan-400",
+      badgeBg2: "bg-cyan-500",
+    },
+    {
+      rank: 5,
+      title: "Security Monitoring — 24/7 Armed",
+      urgency: "Ongoing",
+      type: "operations",
+      owner: "BotFather",
+      status: "Running",
+      reasoning: "OBSBOT Tiny 4K always armed. Motion detection + YOLO running. Alert thresholds set (2-3 people = household, 5+ unknown = unusual). Periodic snaps every 45 min. Timelapse compiler running. Never reboot the machine.",
+      impact: "Continuous security coverage for the household.",
+      borderColor: "border-l-amber-500",
+      badgeBg: "bg-amber-500/20",
+      badgeText: "text-amber-400",
+      badgeBg2: "bg-amber-500",
+    },
+    {
+      rank: 6,
+      title: "Business Website Pipeline — Recon & Build",
+      urgency: "Medium",
+      type: "pipeline",
+      owner: "BotFather",
+      status: "On Hold",
+      reasoning: "Validated workflow for finding local businesses, scraping Instagram for real images, building professional sites with brand colors, deploying to Vercel, and reaching out via email/DM. Multiple completed sites in portfolio. Ready to resume when Piero greenlights.",
+      impact: "Low-effort revenue. Each site = $200-500. Volume play.",
       borderColor: "border-l-blue-400",
       badgeBg: "bg-blue-500/20",
       badgeText: "text-blue-400",
       badgeBg2: "bg-blue-400",
     },
+    {
+      rank: 7,
+      title: "Specialist Activation — Register in openclaw.json",
+      urgency: "Low",
+      type: "infrastructure",
+      owner: "Piero",
+      status: "Awaiting Approval",
+      reasoning: "9 reference-on-demand specialists (Tony, Bella, Vinny, Nico, Joey, Sal, Frankie, Rocco, Connie) have full personality profiles but are NOT registered in openclaw.json. Need approval to activate them as sub-agents for on-demand delegation.",
+      impact: "Full specialist fleet available for BotFather to delegate to on demand.",
+      borderColor: "border-l-gray-500",
+      badgeBg: "bg-gray-500/20",
+      badgeText: "text-gray-400",
+      badgeBg2: "bg-gray-500",
+    },
+  ]
+
+  const metrics = [
+    { value: priorities.filter(p => p.urgency === "High").length, label: "High Priority", color: "text-red-400" },
+    { value: priorities.filter(p => p.status === "Running" || p.status === "In Progress" || p.status === "Installed").length, label: "Active", color: "text-green-400" },
+    { value: "6", label: "Fleet Agents", color: "text-blue-400" },
+    { value: "9", label: "Specialists", color: "text-purple-400" },
   ]
 
   return (
     <div className="space-y-6">
-      {/* Metrics Bar */}
-      <div className="flex gap-4 justify-center flex-wrap mb-6">
-        {[
-          { value: "4.2", label: "Pressure Index" },
-          { value: "0", label: "Incidents" },
-          { value: "33%", label: "Capacity" },
-          { value: "2", label: "Tier A Ready" },
-        ].map((metric) => (
-          <div key={metric.label} className="bg-white/5 px-6 py-4 rounded-lg text-center">
-            <div className="text-2xl font-semibold text-[#e94560]">{metric.value}</div>
-            <div className="text-xs text-gray-400 uppercase mt-1">{metric.label}</div>
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-bold text-white">La Famiglia — Active Priorities</h2>
+          <p className="text-sm text-gray-400 mt-1">What we&apos;re building, shipping, and protecting right now</p>
+        </div>
+        <div className="text-xs text-gray-500">Updated July 12, 2026</div>
+      </div>
+
+      {/* Metrics */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {metrics.map((metric) => (
+          <div key={metric.label} className="bg-[#16162a] rounded-xl border border-[#252542] p-4 text-center">
+            <div className={`text-2xl font-bold ${metric.color}`}>{metric.value}</div>
+            <div className="text-xs text-gray-400 mt-1">{metric.label}</div>
           </div>
         ))}
       </div>
 
-      {/* Pressure Bar */}
-      <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden mb-8">
-        <div 
-          className="h-full rounded-full bg-gradient-to-r from-[#0f3460] to-[#e94560] transition-all" 
-          style={{ width: "42%" }} 
-        />
-      </div>
-
-      {/* Actions */}
+      {/* Priority Cards */}
       <div className="space-y-4">
-        {actions.map((action) => (
+        {priorities.map((p) => (
           <div
-            key={action.rank}
-            className={`bg-white/3 border border-white/10 rounded-xl p-6 border-l-4 ${action.borderColor} hover:bg-white/5 hover:border-[#e94560]/30 transition-all`}
+            key={p.rank}
+            className={`bg-[#16162a] rounded-xl border border-[#252542] p-5 border-l-4 ${p.borderColor} hover:border-[#3a3a5a] transition-all`}
           >
-            <div className="flex items-center gap-3 mb-3">
-              <div className={`w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold text-white ${action.badgeBg2}`}>
-                {action.rank}
+            <div className="flex items-start gap-3 mb-3">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold text-white ${p.badgeBg2} shrink-0`}>
+                {p.rank}
               </div>
-              <div className="flex-1 font-medium text-lg">{action.title}</div>
-              <span className={`text-xs px-2 py-1 rounded uppercase font-semibold ${action.badgeBg} ${action.badgeText}`}>
-                {action.urgency}
-              </span>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h3 className="font-semibold text-white text-lg">{p.title}</h3>
+                  <span className={`text-xs px-2 py-0.5 rounded uppercase font-semibold ${p.badgeBg} ${p.badgeText}`}>
+                    {p.urgency}
+                  </span>
+                  <span className="text-xs px-2 py-0.5 rounded bg-[#252542] text-gray-300">
+                    {p.status}
+                  </span>
+                </div>
+              </div>
             </div>
 
-            <div className="flex gap-4 text-sm text-gray-400 mb-3">
-              <span>📋 {action.type}</span>
-              <span>👤 {action.user}</span>
-              <span>⏱️ {action.eta}</span>
+            <div className="flex gap-4 text-sm text-gray-400 mb-3 ml-11">
+              <span>📋 {p.type}</span>
+              <span>👤 {p.owner}</span>
             </div>
 
-            <div className="text-sm text-gray-300 leading-relaxed mb-3">
-              {action.reasoning}
+            <div className="text-sm text-gray-300 leading-relaxed mb-3 ml-11">
+              {p.reasoning}
             </div>
 
-            <div className="text-sm text-green-400 italic">
-              💡 Impact: {action.impact}
+            <div className="text-sm text-green-400 italic ml-11">
+              💡 Impact: {p.impact}
             </div>
           </div>
         ))}
       </div>
 
-      <div className="text-center mt-8 pt-8 border-t border-white/10 text-gray-500 text-sm">
-        Generated by What Should We Do Next Engine • Consiglio or it didn't happen
+      <div className="text-center mt-8 pt-6 border-t border-[#252542] text-gray-500 text-sm">
+        Consiglio Command Center • La Famiglia • All Cloud Models • <span className="text-green-500">●</span> Systems Nominal
       </div>
     </div>
   )
