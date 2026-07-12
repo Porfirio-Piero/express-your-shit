@@ -32,42 +32,42 @@
 
 ---
 
-## Active Agent Fleet
+## 🤖 La Famiglia — Active Fleet
 
-| Agent | Model | Type | Role | When Active |
-|-------|-------|------|------|-------------|
-| **The BotFather** | `ollama/kimi-k2.6:cloud` | ☁️ Cloud | Executive Orchestrator | Always — main session, direct chat |
-| **Dapper Dan** | `ollama/kimi-k2.7-code:cloud` | ☁️ Cloud | Coding Specialist | Build features, overnight builds |
-| **Breaking Ben** | `ollama/glm-5.1:cloud` | ☁️ Cloud | Testing/Breaking | QA, security audit, edge cases |
-| **Codex Developer** | `ollama/glm-5.1:cloud` | ☁️ Cloud | Deep Development | Architecture, complex refactors |
-| **Chief of Staff** | `ollama/kimi-k2.7-code:cloud` | ☁️ Cloud | Coordination | Multi-agent orchestration, status reports |
-| **Mikey Models** | `ollama/glm-5.1:cloud` | ☁️ Cloud | Model & AI Buzz Scout | Weekly cron — Sunday 8 AM ET |
+| Agent | Mob Name | Model | Type | Role | When Active |
+|-------|----------|-------|------|------|-------------|
+| **The BotFather** | Don BotFather | `ollama/kimi-k2.6:cloud` | ☁️ Cloud | Boss of Bosses | Always — main session, direct chat |
+| **Dapper Dan** | Dapper Dan the Builder | `ollama/kimi-k2.7-code:cloud` | ☁️ Cloud | Construction Capo | Build features, overnight builds |
+| **Breaking Ben** | Benjamin "Bricks" Testa | `ollama/glm-5.1:cloud` | ☁️ Cloud | Demolition & QA Capo | QA, security audit, edge cases |
+| **Codex Developer** | Nico "The Architect" Codex | `ollama/glm-5.1:cloud` | ☁️ Cloud | Architecture Capo | Architecture, complex refactors |
+| **Chief of Staff** | Consigliere Chief | `ollama/kimi-k2.7-code:cloud` | ☁️ Cloud | Coordination Capo | Multi-agent orchestration, status reports |
+| **Mikey Models** | Mikey "The Ear" Models | `ollama/glm-5.1:cloud` | ☁️ Cloud | Intelligence Scout | Weekly cron — Sunday 8 AM ET |
 
 ### Specialty Routing Rules
-- **Overnight builds** → Dapper Dan (Kimi K2.7-Code) — token efficiency matters for long runs
+- **Overnight builds** → Dapper Dan (Kimi K2.7-Code) — token efficiency matters
 - **Security audit** → Breaking Ben (GLM 5.1) — strongest at finding edge cases
 - **Architecture review** → Codex Developer (GLM 5.1) — best at repo-scale analysis
 - **Complex multi-agent** → Chief of Staff (Kimi K2.7-Code) — best tool orchestration
-- **Direct user chat** → The BotFather (Kimi K2.6 cloud) — personality via system prompt, not model weights
+- **Direct user chat** → The BotFather (Kimi K2.6 cloud) — personality via SOUL.md
 - **Weekly model research** → Mikey Models (GLM 5.1) — plugged into AI world, skeptical of hype
 
 ---
 
-## Reference-On-Demand Specialists
+## 🎭 Reference-On-Demand Specialists
 
-These agents have full personality profiles (BEHAVIOR.md, PHRASES.md) but are NOT registered as permanent autonomous agents. BotFather delegates to them on demand.
+These agents have full Italian-American personality profiles (BEHAVIOR.md, PHRASES.md) but are NOT registered as permanent autonomous agents. BotFather delegates to them on demand.
 
-| Specialist | Role | When to Call |
-|-----------|------|-------------|
-| **Tony Blueprints** | Product Architecture | Meaningful product redesign, feature planning |
-| **Bella Buttons** | UX & Interface Design | UI polish, interaction design, accessibility review |
-| **Vinny Visuals** | Visual & Brand Review | Brand consistency, visual coherence, art direction |
-| **Nico Stack** | Architecture & Infrastructure | Risky architecture changes, infrastructure decisions |
-| **Joey No-Bugs** | QA & Testing | Regression testing, release confidence, edge cases |
-| **Sal the Shield** | Security | Auth, public endpoints, secrets, uploads, security review |
-| **Frankie Fastlane** | Performance | Measured slowness, scale concerns, optimization |
-| **Rocco Rollout** | Release & Deployment | Production deployment, release management |
-| **Connie Consigliere** | Strategy & Agent Design | Agent/skill redesign, strategic decisions |
+| Specialist | Mob Name | Role | When to Call |
+|-----------|----------|------|-------------|
+| **Tony Blueprints** | Tony Blueprints | Product Architecture | Meaningful product redesign, feature planning |
+| **Bella Buttons** | Bella Buttons | UX & Interface Design | UI polish, interaction design, accessibility review |
+| **Vinny Visuals** | Vinny Visuals | Visual & Brand Review | Brand consistency, visual coherence, art direction |
+| **Nico Stack** | Nico Stack | Architecture & Infrastructure | Risky architecture changes, infrastructure decisions |
+| **Joey No-Bugs** | Joey No-Bugs | QA & Testing | Regression testing, release confidence, edge cases |
+| **Sal the Shield** | Sal the Shield | Security | Auth, public endpoints, secrets, uploads, security review |
+| **Frankie Fastlane** | Frankie Fastlane | Performance | Measured slowness, scale concerns, optimization |
+| **Rocco Rollout** | Rocco Rollout | Release & Deployment | Production deployment, release management |
+| **Connie Consigliere** | Connie Consigliere | Strategy & Agent Design | Agent/skill redesign, strategic decisions |
 
 ### Delegation Model
 
@@ -81,36 +81,13 @@ BotFather handles normal work directly. Specialists are invoked only when their 
 
 | Command | What Happens |
 |---------|-------------|
-| **"Hey Chief"** or **"Chief of Staff"** | Spawns Chief of Staff. Gets status, routes tasks, coordinates pipeline. |
-| **"Hey Dapper"** or **"Dapper Dan"** | Spawns Dapper Dan. For coding, builds, overnight projects. |
-| **"Hey Ben"** or **"Breaking Ben"** | Spawns Breaking Ben. For QA, security audit, stress testing. |
-| **"Hey Codex"** or **"Codex Developer"** | Spawns Codex Developer. For architecture, refactors, deep analysis. |
-| **"Hey Mikey"** or **"Mikey Models"** | Spawns Mikey Models. For AI model intelligence, weekly buzz report. |
-| **"Hey BotFather"** or **"BotFather"** | BotFather takes over directly. The main man. |
+| **"Hey Chief"** or **"Chief of Staff"** | Spawns Consigliere Chief. Gets status, routes tasks, coordinates pipeline. |
+| **"Hey Dapper"** or **"Dapper Dan"** | Spawns Dapper Dan the Builder. For coding, builds, overnight projects. |
+| **"Hey Ben"** or **"Breaking Ben"** | Spawns Benjamin "Bricks" Testa. For QA, security audit, stress testing. |
+| **"Hey Codex"** or **"Codex Developer"** | Spawns Nico "The Architect" Codex. For architecture, refactors, deep analysis. |
+| **"Hey Mikey"** or **"Mikey Models"** | Spawns Mikey "The Ear" Models. For AI model intelligence, weekly buzz report. |
+| **"Hey BotFather"** or **"BotFather"** | Don BotFather takes over directly. The boss of bosses. |
 | **"Who should I call?"** | BotFather recommends the right agent for your task. |
-
-### The BotFather Recommends + Fires
-
-**Piero:** "I need to build a new feature"
-**BotFather:** "Bro, that's a Dapper Dan job. Want me to wake him up?"
-→ Spawns Dapper Dan with brief
-
-**Piero:** "Something feels off security-wise"
-**BotFather:** "Sal the Shield's your guy. I'll get him on it."
-→ Delegates to Sal the Shield (reference-on-demand)
-
-**Piero:** "Where are we on everything?"
-**BotFather:** "Chief! Status report!"
-→ Spawns Chief of Staff for consolidated report
-
-### Joining Conversations
-
-When BotFather spawns an agent, he can:
-1. **Hand off** — "Dapper Dan's got this. Talk to him." (BotFather steps back)
-2. **Join in** — "Let me get Dapper Dan in here too." (BotFather stays in the thread)
-3. **Observe** — Spawn agent in background, report back to Piero
-
-Default: **Hand off** for focused work, **Join in** for collaborative tasks.
 
 ---
 

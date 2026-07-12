@@ -4,8 +4,15 @@ import { useState, useEffect, useCallback } from "react";
 
 // --- Types ---
 interface AgentInfo {
+  id: string;
   name: string;
+  mobName: string;
+  role: string;
+  emoji: string;
   model: string;
+  hasBehavior: boolean;
+  hasPhrases: boolean;
+  hasSoul: boolean;
 }
 
 interface CronJob {
@@ -22,6 +29,8 @@ interface StatusData {
   success: boolean;
   timestamp: string;
   agents: AgentInfo[];
+  fleetConfig: Record<string, { mobName: string; role: string; emoji: string }>;
+  specialistConfig: Record<string, { mobName: string; role: string; emoji: string; trigger: string }>;
   cronJobs: CronJob[];
   identity: Record<string, { size: number; modified: string }>;
   platform: { installed: boolean; skillCount: number };
@@ -31,50 +40,26 @@ interface StatusData {
   lastVVReport: { file: string } | null;
 }
 
-// --- Active Fleet Config ---
-const ACTIVE_FLEET = [
-  { id: "botfather", name: "The BotFather", emoji: "🤖", role: "Executive Orchestrator", model: "GLM 5.1 Cloud", color: "from-red-500 to-orange-500", bgGlow: "shadow-red-500/20" },
-  { id: "dapper-dan", name: "Dapper Dan", emoji: "💼", role: "Coding Specialist", model: "Kimi K2.7-Code Cloud", color: "from-blue-500 to-cyan-500", bgGlow: "shadow-blue-500/20" },
-  { id: "breaking-ben", name: "Breaking Ben", emoji: "🔨", role: "Testing / Security", model: "GLM 5.1 Cloud", color: "from-yellow-500 to-amber-500", bgGlow: "shadow-yellow-500/20" },
-  { id: "codex-developer", name: "Codex Developer", emoji: "🔧", role: "Deep Development", model: "GLM 5.1 Cloud", color: "from-purple-500 to-pink-500", bgGlow: "shadow-purple-500/20" },
-  { id: "chief-of-staff", name: "Chief of Staff", emoji: "📋", role: "Coordination", model: "Kimi K2.7-Code Cloud", color: "from-green-500 to-emerald-500", bgGlow: "shadow-green-500/20" },
-  { id: "mikey-models", name: "Mikey Models", emoji: "🔍", role: "Model & AI Buzz Scout", model: "GLM 5.1 Cloud", color: "from-indigo-500 to-violet-500", bgGlow: "shadow-indigo-500/20" },
-];
-
-// --- Reference-On-Demand Specialists ---
-const REFERENCE_SPECIALISTS = [
-  { id: "tony-blueprints", name: "Tony Blueprints", emoji: "🏗️", role: "Product Architecture", trigger: "product redesign, feature planning" },
-  { id: "bella-buttons", name: "Bella Buttons", emoji: "🎨", role: "UX & Interface Design", trigger: "UI polish, interaction design" },
-  { id: "vinny-visuals", name: "Vinny Visuals", emoji: "👁️", role: "Visual & Brand Review", trigger: "brand consistency, art direction" },
-  { id: "nico-stack", name: "Nico Stack", emoji: "⚡", role: "Architecture & Infra", trigger: "risky architecture changes" },
-  { id: "joey-no-bugs", name: "Joey No-Bugs", emoji: "🐛", role: "QA & Testing", trigger: "regression testing, release confidence" },
-  { id: "sal-the-shield", name: "Sal the Shield", emoji: "🛡️", role: "Security Review", trigger: "auth, endpoints, secrets" },
-  { id: "frankie-fastlane", name: "Frankie Fastlane", emoji: "🏎️", role: "Performance", trigger: "slowness, scale, optimization" },
-  { id: "rocco-rollout", name: "Rocco Rollout", emoji: "🚀", role: "Release & Deployment", trigger: "production deployment" },
-  { id: "connie-consigliere", name: "Connie Consigliere", emoji: "🎩", role: "Strategy & Agent Design", trigger: "agent redesign, strategy" },
-];
-
 // --- Platform Standards ---
 const PLATFORM_STANDARDS = [
-  { name: "Product Principles", icon: "🎯", file: "PRODUCT-PRINCIPLES.md" },
-  { name: "Design System", icon: "🎨", file: "DESIGN-SYSTEM.md" },
-  { name: "UX Standards", icon: "✨", file: "UX-STANDARDS.md" },
-  { name: "Engineering", icon: "⚙️", file: "ENGINEERING-STANDARDS.md" },
-  { name: "Accessibility", icon: "♿", file: "ACCESSIBILITY.md" },
-  { name: "Security", icon: "🔒", file: "SECURITY.md" },
-  { name: "QA Release Gates", icon: "✅", file: "QA-RELEASE-GATES.md" },
-  { name: "Context Preservation", icon: "🧠", file: "CONTEXT-PRESERVATION.md" },
-  { name: "Personality Standard", icon: "🎭", file: "AGENT-PERSONALITY-STANDARD.md" },
-  { name: "Language Standard", icon: "🇮🇹", file: "ITALIAN-AMERICAN-LANGUAGE-STANDARD.md" },
-  { name: "Delegation Model", icon: "👔", file: "BOTFATHER-DELEGATION-MODEL.md" },
+  { name: "Product Principles", icon: "🎯" },
+  { name: "Design System", icon: "🎨" },
+  { name: "UX Standards", icon: "✨" },
+  { name: "Engineering", icon: "⚙️" },
+  { name: "Accessibility", icon: "♿" },
+  { name: "Security", icon: "🔒" },
+  { name: "QA Release Gates", icon: "✅" },
+  { name: "Context Preservation", icon: "🧠" },
+  { name: "Personality Standard", icon: "🎭" },
+  { name: "Language Standard", icon: "🇮🇹" },
+  { name: "Delegation Model", icon: "👔" },
 ];
 
-// --- Pending Actions ---
 const PENDING_ACTIONS = [
   {
     id: "capability-evolution-cron",
     title: "Register Capability Evolution Monthly Cron",
-    description: "Monthly analysis of agent usage patterns and recommendations for new skills/agents. Currently installed but not scheduled.",
+    description: "Monthly analysis of agent usage patterns and recommendations for new skills/agents.",
     category: "automation",
     urgency: "low",
     impact: "medium",
@@ -82,7 +67,7 @@ const PENDING_ACTIONS = [
   {
     id: "specialist-agents",
     title: "Activate Platform Specialist Agents",
-    description: "Register 9 specialist agents (Tony, Bella, Vinny, Nico, Joey, Sal, Frankie, Rocco, Connie) in openclaw.json for on-demand delegation. Currently reference-only.",
+    description: "Register 9 specialist agents (Tony, Bella, Vinny, Nico, Joey, Sal, Frankie, Rocco, Connie) in openclaw.json for on-demand delegation.",
     category: "agents",
     urgency: "low",
     impact: "high",
@@ -120,11 +105,7 @@ export default function CommandCenterClient() {
       const res = await fetch("/api/status");
       const json = await res.json();
       if (json.success) setStatus(json);
-    } catch {
-      // retry on next interval
-    } finally {
-      setLoading(false);
-    }
+    } catch { /* retry */ } finally { setLoading(false); }
   }, []);
 
   useEffect(() => {
@@ -142,9 +123,7 @@ export default function CommandCenterClient() {
         body: JSON.stringify({ action: approved ? "approve" : "reject", target: actionId, approved, note }),
       });
       setApprovals(prev => ({ ...prev, [actionId]: approved }));
-    } catch {
-      setApprovals(prev => ({ ...prev, [actionId]: approved }));
-    }
+    } catch { setApprovals(prev => ({ ...prev, [actionId]: approved })); }
   };
 
   if (loading || !status) {
@@ -155,7 +134,6 @@ export default function CommandCenterClient() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[1, 2, 3, 4].map(i => <div key={i} className="h-24 bg-[#1e1e3a] rounded-xl" />)}
           </div>
-          <div className="h-64 bg-[#1e1e3a] rounded-xl" />
         </div>
       </div>
     );
@@ -164,6 +142,14 @@ export default function CommandCenterClient() {
   const freeGB = status.diskSpace.freeGB || 0;
   const totalGB = status.diskSpace.totalGB || 0;
   const usedPct = totalGB > 0 ? Math.round(((totalGB - freeGB) / totalGB) * 100) : 0;
+
+  // Separate active fleet from specialists
+  const activeFleet = status.agents.filter(a => status.fleetConfig[a.id]);
+  const specialistAgents = Object.entries(status.specialistConfig).map(([id, cfg]) => ({
+    id,
+    ...cfg,
+    discovered: status.agents.some(a => a.id === id),
+  }));
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto space-y-6">
@@ -175,7 +161,7 @@ export default function CommandCenterClient() {
             Consiglio Command Center
           </h1>
           <p className="text-gray-400 text-sm mt-1">
-            Agent fleet • Approvals • Platform v1.2.3 • Real-time status
+            La famiglia • Platform v1.2.3 • Real-time status
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -183,16 +169,14 @@ export default function CommandCenterClient() {
             <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
             <span className="text-xs text-green-400 font-medium">Live</span>
           </div>
-          <span className="text-xs text-gray-500">
-            {new Date(status.timestamp).toLocaleTimeString()}
-          </span>
+          <span className="text-xs text-gray-500">{new Date(status.timestamp).toLocaleTimeString()}</span>
         </div>
       </div>
 
       {/* Status Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
-        <StatusCard label="Active Agents" value={status.agents.length.toString()} icon="🤖" color="text-blue-400" />
-        <StatusCard label="Specialists" value={REFERENCE_SPECIALISTS.length.toString()} icon="🎭" color="text-purple-400" />
+        <StatusCard label="Active Fleet" value={activeFleet.length.toString()} icon="🤖" color="text-red-400" />
+        <StatusCard label="Specialists" value={specialistAgents.length.toString()} icon="🎭" color="text-purple-400" />
         <StatusCard label="Skills" value={status.skills.toString()} icon="⚡" color="text-yellow-400" />
         <StatusCard label="Cron Jobs" value={status.cronJobs.length.toString()} icon="⏰" color="text-green-400" />
         <StatusCard label="Platform" value="v1.2.3" icon="🏗️" color="text-purple-400" />
@@ -203,64 +187,50 @@ export default function CommandCenterClient() {
       {/* Tab Navigation */}
       <div className="flex gap-1 bg-[#16162a] rounded-xl border border-[#252542] p-1">
         {[
-          { id: "fleet" as const, label: "Active Fleet", icon: "🤖" },
+          { id: "fleet" as const, label: "La Famiglia", icon: "🤖" },
           { id: "specialists" as const, label: "Specialists", icon: "🎭" },
           { id: "jobs" as const, label: "Scheduled Jobs", icon: "⏰" },
           { id: "actions" as const, label: "Approvals", icon: "⚡" },
         ].map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
+          <button key={tab.id} onClick={() => setActiveTab(tab.id)}
             className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${
-              activeTab === tab.id
-                ? "bg-[#252542] text-white shadow-md"
-                : "text-gray-400 hover:text-white hover:bg-[#1e1e3a]"
-            }`}
-          >
+              activeTab === tab.id ? "bg-[#252542] text-white shadow-md" : "text-gray-400 hover:text-white hover:bg-[#1e1e3a]"
+            }`}>
             <span>{tab.icon}</span>
             <span className="hidden sm:inline">{tab.label}</span>
           </button>
         ))}
       </div>
 
-      {/* Tab Content */}
+      {/* Fleet Tab */}
       {activeTab === "fleet" && (
         <section className="bg-[#16162a] rounded-xl border border-[#252542] overflow-hidden">
           <div className="bg-[#1e1e3a] px-5 py-4 border-b border-[#252542] flex items-center justify-between">
             <h2 className="text-white font-semibold text-lg flex items-center gap-2">
-              <span>🤖</span> Active Fleet
+              <span>🤖</span> La Famiglia — Active Fleet
             </h2>
-            <span className="text-xs px-2 py-1 rounded-full bg-blue-500/20 text-blue-400">
-              {status.agents.length} registered
+            <span className="text-xs px-2 py-1 rounded-full bg-red-500/20 text-red-400">
+              {activeFleet.length} capos & soldiers
             </span>
           </div>
           <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {ACTIVE_FLEET.map(agent => {
-              const registered = status.agents.some(a =>
-                a.name.toLowerCase().includes(agent.id.replace("-", " ")) ||
-                a.name.toLowerCase().includes(agent.name.toLowerCase().replace("the ", ""))
-              );
+            {activeFleet.map(agent => {
+              const cfg = status.fleetConfig[agent.id];
               return (
-                <div key={agent.id} className={`bg-[#1e1e3a] rounded-lg border border-[#252542] p-4 hover:border-[#3a3a5a] transition-all ${registered ? `ring-1 ${agent.bgGlow}` : "opacity-60"}`}>
+                <div key={agent.id} className="bg-[#1e1e3a] rounded-lg border border-[#252542] p-4 hover:border-[#3a3a5a] transition-all ring-1 ring-green-500/20">
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="text-2xl">{agent.emoji}</span>
+                    <span className="text-2xl">{cfg?.emoji || "🤖"}</span>
                     <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-white text-sm truncate">{agent.name}</div>
-                      <div className="text-xs text-gray-400">{agent.role}</div>
+                      <div className="font-bold text-white text-sm truncate">{cfg?.mobName || agent.name}</div>
+                      <div className="text-xs text-gray-400">{cfg?.role || agent.role}</div>
                     </div>
-                    {registered ? (
-                      <span className="w-2.5 h-2.5 rounded-full bg-green-400 shadow-[0_0_6px_rgba(74,222,128,0.5)]" />
-                    ) : (
-                      <span className="w-2.5 h-2.5 rounded-full bg-gray-500" />
-                    )}
+                    <span className="w-2.5 h-2.5 rounded-full bg-green-400 shadow-[0_0_6px_rgba(74,222,128,0.5)]" />
                   </div>
-                  <div className="flex items-center gap-2 mt-2">
+                  <div className="flex items-center gap-2 mt-2 flex-wrap">
                     <span className="text-xs px-2 py-0.5 rounded bg-[#252542] text-gray-300 font-mono">{agent.model}</span>
-                    {registered ? (
-                      <span className="text-xs text-green-400">Active</span>
-                    ) : (
-                      <span className="text-xs text-gray-500">Reference</span>
-                    )}
+                    {agent.hasBehavior && <span className="text-xs px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">🎭</span>}
+                    {agent.hasPhrases && <span className="text-xs px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">🗣️</span>}
+                    <span className="text-xs text-green-400">Active</span>
                   </div>
                 </div>
               );
@@ -269,6 +239,7 @@ export default function CommandCenterClient() {
         </section>
       )}
 
+      {/* Specialists Tab */}
       {activeTab === "specialists" && (
         <section className="bg-[#16162a] rounded-xl border border-[#252542] overflow-hidden">
           <div className="bg-[#1e1e3a] px-5 py-4 border-b border-[#252542] flex items-center justify-between">
@@ -280,12 +251,12 @@ export default function CommandCenterClient() {
             </span>
           </div>
           <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {REFERENCE_SPECIALISTS.map(spec => (
+            {specialistAgents.map(spec => (
               <div key={spec.id} className="bg-[#1e1e3a] rounded-lg border border-[#252542] p-4 hover:border-purple-500/30 transition-all">
                 <div className="flex items-center gap-3 mb-2">
                   <span className="text-2xl">{spec.emoji}</span>
                   <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-white text-sm truncate">{spec.name}</div>
+                    <div className="font-bold text-white text-sm truncate">{spec.mobName}</div>
                     <div className="text-xs text-gray-400">{spec.role}</div>
                   </div>
                   <span className="text-xs px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">Reference</span>
@@ -298,16 +269,17 @@ export default function CommandCenterClient() {
           </div>
           <div className="px-4 pb-4">
             <div className="bg-[#1e1e3a] rounded-lg p-3 text-xs text-gray-400 border border-[#252542]">
-              <span className="text-purple-400">ℹ️</span> These specialists have full personality profiles (BEHAVIOR.md, PHRASES.md) but are not registered as permanent agents. BotFather invokes them when their expertise materially improves the outcome. Small, reversible changes don&apos;t require specialist review.
+              <span className="text-purple-400">ℹ️</span> Each specialist has BEHAVIOR.md + PHRASES.md with Italian-American personality profiles. BotFather invokes them when expertise materially improves the outcome. Small, reversible changes don&apos;t require specialist review.
             </div>
           </div>
         </section>
       )}
 
+      {/* Jobs Tab */}
       {activeTab === "jobs" && (
         <section className="bg-[#16162a] rounded-xl border border-[#252542] overflow-hidden">
           <div className="bg-[#1e1e3a] px-5 py-4 border-b border-[#252542] flex items-center justify-between">
-            <h2 className="text-white font-semibold text-lg flex items-center gap-2">
+            <h2 className="text-white font-semibold flex items-center gap-2">
               <span>⏰</span> Scheduled Jobs
             </h2>
             <span className="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400">
@@ -326,25 +298,19 @@ export default function CommandCenterClient() {
                       {formatCronSchedule(job.schedule)} • {job.agentId}
                     </div>
                   </div>
-                  <span className="ml-2 text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 whitespace-nowrap">
-                    Active
-                  </span>
+                  <span className="ml-2 text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 whitespace-nowrap">Active</span>
                 </div>
               ))
             )}
           </div>
-          <div className="px-4 pb-4">
-            <div className="bg-[#1e1e3a] rounded-lg p-3 text-xs text-gray-400 border border-[#252542]">
-              <span className="text-green-400">🟢</span> Mikey Models runs every Sunday at 8 AM ET. Reports delivered via Telegram.
-            </div>
-          </div>
         </section>
       )}
 
+      {/* Actions Tab */}
       {activeTab === "actions" && (
         <section className="bg-[#16162a] rounded-xl border border-[#252542] overflow-hidden">
           <div className="bg-[#1e1e3a] px-5 py-4 border-b border-[#252542] flex items-center justify-between">
-            <h2 className="text-white font-semibold text-lg flex items-center gap-2">
+            <h2 className="text-white font-semibold flex items-center gap-2">
               <span>⚡</span> Pending Approvals & Actions
             </h2>
             <span className="text-xs px-2 py-1 rounded-full bg-yellow-500/20 text-yellow-400">
@@ -362,20 +328,12 @@ export default function CommandCenterClient() {
                         <span className="font-semibold text-white">{action.title}</span>
                         <span className={`text-xs px-2 py-0.5 rounded-full ${
                           action.urgency === "high" ? "bg-red-500/20 text-red-400" :
-                          action.urgency === "medium" ? "bg-yellow-500/20 text-yellow-400" :
-                          "bg-gray-500/20 text-gray-400"
-                        }`}>
-                          {action.urgency}
-                        </span>
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400">
-                          {action.category}
-                        </span>
+                          action.urgency === "medium" ? "bg-yellow-500/20 text-yellow-400" : "bg-gray-500/20 text-gray-400"
+                        }`}>{action.urgency}</span>
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400">{action.category}</span>
                         <span className={`text-xs px-2 py-0.5 rounded-full ${
-                          action.impact === "high" ? "bg-green-500/20 text-green-400" :
-                          "bg-gray-500/20 text-gray-400"
-                        }`}>
-                          impact: {action.impact}
-                        </span>
+                          action.impact === "high" ? "bg-green-500/20 text-green-400" : "bg-gray-500/20 text-gray-400"
+                        }`}>impact: {action.impact}</span>
                       </div>
                       <p className="text-sm text-gray-400 mt-1">{action.description}</p>
                     </div>
@@ -383,36 +341,19 @@ export default function CommandCenterClient() {
                       {decided ? (
                         <span className={`text-sm font-medium px-3 py-2 rounded-lg ${
                           approvals[action.id] ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"
-                        }`}>
-                          {approvals[action.id] ? "✅ Approved" : "❌ Rejected"}
-                        </span>
+                        }`}>{approvals[action.id] ? "✅ Approved" : "❌ Rejected"}</span>
                       ) : (
                         <>
-                          <button
-                            onClick={() => handleApprove(action.id, true)}
-                            className="px-4 py-2 rounded-lg text-sm font-medium bg-green-600 hover:bg-green-500 text-white transition-colors"
-                          >
-                            Approve
-                          </button>
-                          <button
-                            onClick={() => handleApprove(action.id, false)}
-                            className="px-4 py-2 rounded-lg text-sm font-medium bg-red-600/50 hover:bg-red-600 text-white transition-colors"
-                          >
-                            Reject
-                          </button>
+                          <button onClick={() => handleApprove(action.id, true)} className="px-4 py-2 rounded-lg text-sm font-medium bg-green-600 hover:bg-green-500 text-white transition-colors">Approve</button>
+                          <button onClick={() => handleApprove(action.id, false)} className="px-4 py-2 rounded-lg text-sm font-medium bg-red-600/50 hover:bg-red-600 text-white transition-colors">Reject</button>
                         </>
                       )}
                     </div>
                   </div>
                   <div className="mt-3">
-                    <input
-                      type="text"
-                      placeholder="Add a note (optional)..."
-                      value={actionNotes[action.id] || ""}
+                    <input type="text" placeholder="Add a note (optional)..." value={actionNotes[action.id] || ""}
                       onChange={e => setActionNotes(prev => ({ ...prev, [action.id]: e.target.value }))}
-                      className="w-full bg-[#252542] border border-[#3a3a5a] rounded-lg px-3 py-2 text-sm text-gray-300 placeholder-gray-500 focus:outline-none focus:border-blue-500"
-                      disabled={decided}
-                    />
+                      className="w-full bg-[#252542] border border-[#3a3a5a] rounded-lg px-3 py-2 text-sm text-gray-300 placeholder-gray-500 focus:outline-none focus:border-blue-500" disabled={decided} />
                   </div>
                 </div>
               );
@@ -421,14 +362,11 @@ export default function CommandCenterClient() {
         </section>
       )}
 
-      {/* System Health & Reports — always visible */}
+      {/* System Health & Reports */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Disk & Identity */}
         <section className="bg-[#16162a] rounded-xl border border-[#252542] overflow-hidden">
           <div className="bg-[#1e1e3a] px-5 py-4 border-b border-[#252542]">
-            <h2 className="text-white font-semibold flex items-center gap-2">
-              <span>💾</span> System Health
-            </h2>
+            <h2 className="text-white font-semibold flex items-center gap-2"><span>💾</span> System Health</h2>
           </div>
           <div className="p-4 space-y-4">
             <div>
@@ -437,12 +375,7 @@ export default function CommandCenterClient() {
                 <span className="text-white font-mono">{freeGB.toFixed(1)} GB free / {totalGB.toFixed(1)} GB</span>
               </div>
               <div className="w-full h-3 bg-[#252542] rounded-full overflow-hidden">
-                <div
-                  className={`h-full rounded-full transition-all ${
-                    usedPct > 90 ? "bg-red-500" : usedPct > 75 ? "bg-yellow-500" : "bg-green-500"
-                  }`}
-                  style={{ width: `${usedPct}%` }}
-                />
+                <div className={`h-full rounded-full transition-all ${usedPct > 90 ? "bg-red-500" : usedPct > 75 ? "bg-yellow-500" : "bg-green-500"}`} style={{ width: `${usedPct}%` }} />
               </div>
               <div className="text-xs text-gray-500 mt-1">{usedPct}% used</div>
             </div>
@@ -460,12 +393,9 @@ export default function CommandCenterClient() {
           </div>
         </section>
 
-        {/* Reports */}
         <section className="bg-[#16162a] rounded-xl border border-[#252542] overflow-hidden">
           <div className="bg-[#1e1e3a] px-5 py-4 border-b border-[#252542]">
-            <h2 className="text-white font-semibold flex items-center gap-2">
-              <span>📊</span> Reports & Intelligence
-            </h2>
+            <h2 className="text-white font-semibold flex items-center gap-2"><span>📊</span> Reports & Intelligence</h2>
           </div>
           <div className="p-4 space-y-3">
             {status.lastScoutReport ? (
@@ -485,35 +415,17 @@ export default function CommandCenterClient() {
                 <p className="text-xs text-gray-500 mt-1">Weekly AI model intelligence, delivered to Telegram</p>
               </div>
             )}
-
-            {status.lastVVReport ? (
-              <div className="bg-[#1e1e3a] rounded-lg p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-lg">🛡️</span>
-                  <span className="text-sm font-semibold text-white">Vinny Vault Audit</span>
-                </div>
-                <div className="text-xs text-gray-500">{status.lastVVReport.file}</div>
-              </div>
-            ) : (
-              <div className="bg-[#1e1e3a] rounded-lg p-4 text-center">
-                <span className="text-2xl block mb-2">🛡️</span>
-                <p className="text-sm text-gray-400">No Vinny Vault reports yet</p>
-              </div>
-            )}
-
             <div className="bg-[#1e1e3a] rounded-lg p-4 text-center">
               <span className="text-2xl block mb-2">🎭</span>
-              <p className="text-sm text-gray-400">9 specialist agents ready on demand</p>
+              <p className="text-sm text-gray-400">9 specialists with Italian-American personalities</p>
               <p className="text-xs text-gray-500 mt-1">Tony, Bella, Vinny, Nico, Joey, Sal, Frankie, Rocco, Connie</p>
             </div>
           </div>
         </section>
       </div>
 
-      {/* Footer */}
       <div className="text-center text-xs text-gray-600 py-4">
-        Consiglio Command Center • OpenClaw AI Engineering Platform v1.2.3 • All Cloud Models • {" "}
-        <span className="text-green-500">●</span> Systems Nominal
+        Consiglio Command Center • OpenClaw Platform v1.2.3 • All Cloud Models • <span className="text-green-500">●</span> Systems Nominal
       </div>
     </div>
   );
