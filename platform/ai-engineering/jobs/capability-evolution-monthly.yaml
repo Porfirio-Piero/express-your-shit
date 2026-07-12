@@ -1,0 +1,20 @@
+name: capability-evolution-monthly
+enabled: true
+recommended_schedule: "First Sunday 05:00 America/New_York"
+mode: recommendations-only
+agent: capability-evolution
+skills:
+  - agent-evolution
+  - personality-craft
+  - context-preservation
+task: >
+  Analyze recent agent activity summaries, repeated user corrections,
+  recurring work, failed handoffs, stale skills, personality consistency,
+  model-evaluation findings, and operational gaps. Recommend the smallest
+  set of new or revised skills, context files, SOUL.md extensions,
+  CURIOSITY.md extensions, reviewers, jobs, or agents that would materially
+  improve the setup. Do not create, delete, or consolidate agents without
+  explicit owner approval.
+output:
+  directory: platform/ai-engineering/reports/capability-evolution
+  telegram_summary: true

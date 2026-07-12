@@ -1,0 +1,387 @@
+[
+  {
+    "path": "PLATFORM-MANIFEST.yaml",
+    "sha256": "21b9ad73306b482cb574bf2c8f67574d774a8fbf9f2d004ed886a6cdc9682c25",
+    "bytes": 1053
+  },
+  {
+    "path": "README.md",
+    "sha256": "1e5666d8799bbe8aa4165cb4eef8c42b68f53b2446a34f2ce600a5c3bde0cfa2",
+    "bytes": 3469
+  },
+  {
+    "path": "START-HERE.md",
+    "sha256": "47e8ca2adba2d7bc9693866c5cd1661d99ee44b1196541f29705b55eab6bfee1",
+    "bytes": 627
+  },
+  {
+    "path": "agents/art-director/AGENT.md",
+    "sha256": "190a170d90a517702244dcdbfb56a3d022733d6958aa04c7c524f2f88ebf6b5b",
+    "bytes": 800
+  },
+  {
+    "path": "agents/art-director/curiosity-extension.md",
+    "sha256": "19ae8b410ea10368c4a04d17168c39761223400b37cfa04e8e26a45b96f30fe4",
+    "bytes": 351
+  },
+  {
+    "path": "agents/art-director/soul-extension.md",
+    "sha256": "22600eba3e71ff0e5cbc4b54dc8184312019e65651f66008c0415e2ffa52f391",
+    "bytes": 315
+  },
+  {
+    "path": "agents/capability-evolution/AGENT.md",
+    "sha256": "2735684f0ef59b38a8a0f8c2dfbb72988d995a2b7f82f456d5e559eca5165211",
+    "bytes": 1838
+  },
+  {
+    "path": "agents/capability-evolution/curiosity-extension.md",
+    "sha256": "f2e45bc5b8bc88db6eea466eed1393c3dd4478ebb396a2152b585e5f7e19f00a",
+    "bytes": 601
+  },
+  {
+    "path": "agents/capability-evolution/soul-extension.md",
+    "sha256": "52cd66f8fe75b2163417e4fb3a989d2787d3254ee8c608a4ab2a7ace2994b235",
+    "bytes": 391
+  },
+  {
+    "path": "agents/model-buzz-scout/AGENT.md",
+    "sha256": "f89b25c326a3552049c3968a6841545bb1a6621dbab53b0c046d2694a3f276a9",
+    "bytes": 3454
+  },
+  {
+    "path": "agents/model-buzz-scout/CURIOSITY.md",
+    "sha256": "855e1cd16431fb46a515544bd189180f318dff8e255251e28cf8f925c500f909",
+    "bytes": 789
+  },
+  {
+    "path": "agents/model-buzz-scout/SOUL.md",
+    "sha256": "410fc255bb8e8418596f83db49d73995cf3a2a8c9d359cd079f3a8e81f833251",
+    "bytes": 684
+  },
+  {
+    "path": "agents/orchestrator/AGENT.md",
+    "sha256": "1f74d686380d9e51e4e6f121c0d8f86efa4a2c5a4b653265fe3a1aedab923ee1",
+    "bytes": 898
+  },
+  {
+    "path": "agents/orchestrator/curiosity-extension.md",
+    "sha256": "2e35b1d8523a10f3949b93f8dcf162a760848110c34182c53f78736b96a8c318",
+    "bytes": 365
+  },
+  {
+    "path": "agents/orchestrator/soul-extension.md",
+    "sha256": "a7b8d319158b94dc83f9e372a7356a2848f8d2096f11bea263faf56c0f866ea7",
+    "bytes": 329
+  },
+  {
+    "path": "agents/performance-reviewer/AGENT.md",
+    "sha256": "ca1668e8a1605f7783b57d2b52a45219ff4572397d2f6c10e926a1efbf7ab991",
+    "bytes": 684
+  },
+  {
+    "path": "agents/performance-reviewer/curiosity-extension.md",
+    "sha256": "31ca63933cb56982f3bbc7ed4116fa0c0273aad05488b33d02f9fae96776b00c",
+    "bytes": 359
+  },
+  {
+    "path": "agents/performance-reviewer/soul-extension.md",
+    "sha256": "dea858fc135a51c5c0ff15d7fa536b43ce422e66b7941cdc0cf3e88f48270c07",
+    "bytes": 323
+  },
+  {
+    "path": "agents/product-architect/AGENT.md",
+    "sha256": "2aa18436b55a0749b535f7937bcc0165a9dcfbdb22bab7277a4d80e571432e1c",
+    "bytes": 764
+  },
+  {
+    "path": "agents/product-architect/curiosity-extension.md",
+    "sha256": "d7fa11b4ab6118e5952bfcc156f4039543ed55e3980d7a8c3104c22b0c49b7d6",
+    "bytes": 356
+  },
+  {
+    "path": "agents/product-architect/soul-extension.md",
+    "sha256": "87ead65254a7cd9a875cc4602493dd89a36015fb2c12022b64f0a7987d0cecfd",
+    "bytes": 320
+  },
+  {
+    "path": "agents/qa-engineer/AGENT.md",
+    "sha256": "205cd651544ccc87dbe5e24f016e19124a9caaa260da102f603e6bbd41ecd116",
+    "bytes": 705
+  },
+  {
+    "path": "agents/qa-engineer/curiosity-extension.md",
+    "sha256": "ddff2afac3328af8093135f7ae226c887b0ff60a24ca15355ccb7a5288cf2a0f",
+    "bytes": 350
+  },
+  {
+    "path": "agents/qa-engineer/soul-extension.md",
+    "sha256": "641aaff42548a726eae09b553961e423feb0681ced17b7fc8beaae1e7df6ddda",
+    "bytes": 314
+  },
+  {
+    "path": "agents/release-manager/AGENT.md",
+    "sha256": "a6f0467e829e2436b50756153a1dbf1f80445c158542e0e45271e334a55ec690",
+    "bytes": 693
+  },
+  {
+    "path": "agents/release-manager/curiosity-extension.md",
+    "sha256": "d8e1205bd1f3a80be1c3996cc8e5c3e96732dae332154efea203853a525e442c",
+    "bytes": 354
+  },
+  {
+    "path": "agents/release-manager/soul-extension.md",
+    "sha256": "0d015ff721790dc13dcee8fb86ea18ff021da4a8a47e07c8f9600ffd0a418a2f",
+    "bytes": 318
+  },
+  {
+    "path": "agents/security-reviewer/AGENT.md",
+    "sha256": "a6aa2b9017b61ae0cc8540fd47dbea5f2df9fc449b14848db56b5ebfc5669572",
+    "bytes": 741
+  },
+  {
+    "path": "agents/security-reviewer/curiosity-extension.md",
+    "sha256": "e39e951aeccc23b3cb28c67121ba07c47e9b9629cf188b8a91d3989d1cb28965",
+    "bytes": 356
+  },
+  {
+    "path": "agents/security-reviewer/soul-extension.md",
+    "sha256": "ec8397807e168cffa1d8ff004f2259e40855c5b7fa22451028e05e834f07bca8",
+    "bytes": 320
+  },
+  {
+    "path": "agents/senior-engineer/AGENT.md",
+    "sha256": "9b0c3893c235b6368fd7c0fbefccbf4655490ba44ed1fcd35b497bbc85b3bdb7",
+    "bytes": 710
+  },
+  {
+    "path": "agents/senior-engineer/curiosity-extension.md",
+    "sha256": "cb2f288c8083967058310baaf867823473f7592ff3000599ce687a768c441494",
+    "bytes": 354
+  },
+  {
+    "path": "agents/senior-engineer/soul-extension.md",
+    "sha256": "395c03f1b0c0afd34e658be9f32db28778baf353ca5449807af4ee044d2e2317",
+    "bytes": 318
+  },
+  {
+    "path": "agents/ux-designer/AGENT.md",
+    "sha256": "e0ab0fbeb37c083f54df41aafe7b7df6a328ff8d7fc6ae78b1b52d4c6efdecf8",
+    "bytes": 694
+  },
+  {
+    "path": "agents/ux-designer/curiosity-extension.md",
+    "sha256": "d0ee612606c13cbbb42202ef125e53a6007c33f9d2b968aaa190043eb6f1f19d",
+    "bytes": 350
+  },
+  {
+    "path": "agents/ux-designer/soul-extension.md",
+    "sha256": "898b6ba8b5460411802294cc5c7314fe097ccfdfc77f97b4552096fe8a68fd2e",
+    "bytes": 314
+  },
+  {
+    "path": "config/model-routing.yaml",
+    "sha256": "890fb93826b938cd8a877703ece54bee92239ae81be5af59ba2937d9c0d266e1",
+    "bytes": 2176
+  },
+  {
+    "path": "docs/ARCHITECTURE.md",
+    "sha256": "30433080ee9cfc36901e7af2bfc025390a0dffd38faff9a4b42f330787d3f2b4",
+    "bytes": 2228
+  },
+  {
+    "path": "docs/RECOMMENDED-TARGET-HIERARCHY.md",
+    "sha256": "1ec3ec9fbedeff16d11c8a0a9f72b50897c506418a3f154204dc61252802ef30",
+    "bytes": 1122
+  },
+  {
+    "path": "docs/ROLLBACK.md",
+    "sha256": "808b698bec4c86dfa6a52de635395f82f2ee399cb7ba94eb1b587e1215289f89",
+    "bytes": 542
+  },
+  {
+    "path": "docs/TELEGRAM-IMPORT.md",
+    "sha256": "f267cb9e4fe2dcc92c1fdfebb2d5318ef1d597bbf182576648e30fa367ffe83e",
+    "bytes": 1075
+  },
+  {
+    "path": "jobs/capability-evolution-monthly.yaml",
+    "sha256": "329fc366cf1bfa8bc6eb83384847107b6aa3cee039ee21f35fdd3355a1b87410",
+    "bytes": 808
+  },
+  {
+    "path": "jobs/model-buzz-scout-weekly.yaml",
+    "sha256": "e2dd8ffc84479b359ea32d38bdf0dee8dbae97841345522ac2fd49ca477a3425",
+    "bytes": 1011
+  },
+  {
+    "path": "prompts/BUILD-PROFESSIONAL-APP.md",
+    "sha256": "d28b8124f5b7f13e8bb1ac930f5b533a58a290ebe87ac78c11c33e3c26303842",
+    "bytes": 771
+  },
+  {
+    "path": "prompts/IMPLEMENT-PLATFORM.md",
+    "sha256": "7b65baceb6bf87cabbe57db20a9ece9a67174cfce33876d8d820e5b2956bbe71",
+    "bytes": 5057
+  },
+  {
+    "path": "prompts/IMPLEMENT-WEEKLY-MODEL-SCOUT.md",
+    "sha256": "8a31c698a3a9858634f0a58645bf3ee43eb8e1f8e33680c7baef95d63a028af6",
+    "bytes": 2427
+  },
+  {
+    "path": "scripts/audit-existing-setup.ps1",
+    "sha256": "696a345637d0741b9063e490ad3fad63f6fbb81dab73819c3eec8146450eee81",
+    "bytes": 1935
+  },
+  {
+    "path": "scripts/create-telegram-import-note.ps1",
+    "sha256": "7ef21465d63c1f4dfb8127ea2b8174c60a3ca7adb975eecc5be8c346a1d9cd0b",
+    "bytes": 1448
+  },
+  {
+    "path": "scripts/generate-agent-bindings.ps1",
+    "sha256": "e525b07978a639c39e29984717ba8489d07abe38ee1f8b3b0d776a63cf8d2e58",
+    "bytes": 1777
+  },
+  {
+    "path": "scripts/install-overlay.ps1",
+    "sha256": "5e64b1d5b2f942aa48ad324552ad300d5d18e477a35ba723155d490d618160f6",
+    "bytes": 1723
+  },
+  {
+    "path": "scripts/uninstall-overlay.ps1",
+    "sha256": "871db6f82196514282f3327f41e01bf39f38ec7e5962a118125d7f3e73af9745",
+    "bytes": 620
+  },
+  {
+    "path": "skills/accessibility/SKILL.md",
+    "sha256": "1e505d9737df087e5fce0033a352c4a41c1be64f87b7324800f1ab0c0bc04f0d",
+    "bytes": 479
+  },
+  {
+    "path": "skills/agent-evolution/SKILL.md",
+    "sha256": "1615e5b00f23c820baf1a4afb2c5bcdd868a5d9c053165faf2ca914058e984c1",
+    "bytes": 1034
+  },
+  {
+    "path": "skills/context-preservation/SKILL.md",
+    "sha256": "4b61af54db1d97de3f6e1cdf516665fb6d965259a218f493950c88131893cea4",
+    "bytes": 529
+  },
+  {
+    "path": "skills/design-system/SKILL.md",
+    "sha256": "d618144f0d2aa95ffcd7b71bca8b3fd6d737218813883829340a878d75e591bd",
+    "bytes": 437
+  },
+  {
+    "path": "skills/fullstack-engineering/SKILL.md",
+    "sha256": "aa6958a67b8dbfa23e48d77bc30f4e8ca17e94d198fa2a36cc725fd350c5c80e",
+    "bytes": 458
+  },
+  {
+    "path": "skills/performance-review/SKILL.md",
+    "sha256": "8e6086cef0169a5841518021e9de8c95a52660d016ddbc7a16dadb8ffe0515e5",
+    "bytes": 485
+  },
+  {
+    "path": "skills/personality-craft/SKILL.md",
+    "sha256": "9588569f23c0fae10459c6fe4ce4f4b49f7fec2834ca69d85ecae61965815a55",
+    "bytes": 1680
+  },
+  {
+    "path": "skills/product-discovery/SKILL.md",
+    "sha256": "a52893098ceb416ded262e491029f44d8c18e40ac8ea377620aea52cfba28db8",
+    "bytes": 472
+  },
+  {
+    "path": "skills/release-governance/SKILL.md",
+    "sha256": "f81acf298a9619fb0b364a5c591e9a0dcace21dc861973069ce5483c5f2a2927",
+    "bytes": 439
+  },
+  {
+    "path": "skills/security-review/SKILL.md",
+    "sha256": "81b15035d0b36c057732ebebb0aec9afd0963b6ea3ea13ea4a7e7b66e2ff4f4e",
+    "bytes": 491
+  },
+  {
+    "path": "skills/testing-quality/SKILL.md",
+    "sha256": "4d6cb6d8ede1a038ba268900108f6d1ccd4a9a8f85992915e5c115f817b92afc",
+    "bytes": 469
+  },
+  {
+    "path": "skills/ux-quality/SKILL.md",
+    "sha256": "f33bca2e511bb841e97e54d1d3bb8e67f3dd55c108339889bb1c4ebd7f3a363a",
+    "bytes": 405
+  },
+  {
+    "path": "skills/visual-review/SKILL.md",
+    "sha256": "b40711bc3eebfc02cc90b0e8aec0e4f0c56f7445ba48418c691b223e43765717",
+    "bytes": 452
+  },
+  {
+    "path": "skills/weekly-model-intelligence/SKILL.md",
+    "sha256": "f41ccccdd20b2e670caa5107fb3053ae3845c7ee01202e770e1395580c8642cf",
+    "bytes": 2459
+  },
+  {
+    "path": "standards/ACCESSIBILITY.md",
+    "sha256": "af9a442b179196ff93c8adca82964d630b22c06d48555377d20d5e99cc2f3d4d",
+    "bytes": 453
+  },
+  {
+    "path": "standards/CONTEXT-PRESERVATION.md",
+    "sha256": "46f4e6ec1d83d0f0682ff2d1ac088dbfa1298f6fed987220d0049119dbdfe5e6",
+    "bytes": 1080
+  },
+  {
+    "path": "standards/DESIGN-SYSTEM.md",
+    "sha256": "536cdd8a32e62af68c4a102b2a10f280958b7a31c0993801c6a34e724dc68413",
+    "bytes": 2016
+  },
+  {
+    "path": "standards/ENGINEERING-STANDARDS.md",
+    "sha256": "a7035002ea8aff8143ba0bee7cfad888a635b4786d187422175050f07d081cd7",
+    "bytes": 1343
+  },
+  {
+    "path": "standards/PRODUCT-PRINCIPLES.md",
+    "sha256": "d156a0f31a80b825f11eb831047edb6c6b5643a5bd1efaa5f0bee73416f87bdb",
+    "bytes": 796
+  },
+  {
+    "path": "standards/QA-RELEASE-GATES.md",
+    "sha256": "c2e6178a7d9141af9e112dfdece754db3a7d53fadbe3c659ba39de74f364bf17",
+    "bytes": 1093
+  },
+  {
+    "path": "standards/SECURITY.md",
+    "sha256": "0fa293cda1ba375240cd17215f6d57d47bf879f3a115add9268930e7a9d0d863",
+    "bytes": 495
+  },
+  {
+    "path": "standards/UX-STANDARDS.md",
+    "sha256": "6c8d4a0dfedeaf2171b1fd7140b132c78c9ed26ad655688dd23c9188acd7e9d9",
+    "bytes": 1186
+  },
+  {
+    "path": "templates/agent/AGENT-TEMPLATE.md",
+    "sha256": "d2bd754a6f38c869fb17efd8e21cf6a23536238f5e72726d19311b9261fd991e",
+    "bytes": 257
+  },
+  {
+    "path": "templates/agent/BINDING-TEMPLATE.yaml",
+    "sha256": "dc8220c2ffbd748db50cd58b4e4f2f9fc9356bc7477285c5ae4c0c5f7eef6ee8",
+    "bytes": 527
+  },
+  {
+    "path": "templates/project/AGENTS.md",
+    "sha256": "cdca764452901f27ac7e526242f53ec773440f2dbf0ffa02aefe519c31aa8822",
+    "bytes": 569
+  },
+  {
+    "path": "templates/project/PROJECT-BINDING.yaml",
+    "sha256": "a093db4d838beeba54dcf0e0a6ad478fc22b27fe35b3aa377eb97f43c52cdfad",
+    "bytes": 706
+  }
+]

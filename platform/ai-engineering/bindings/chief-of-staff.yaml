@@ -1,0 +1,19 @@
+# Agent Binding: Chief of Staff
+# Binds the existing Chief of Staff agent to platform standards and skills
+
+agent: chief-of-staff
+model: ollama/kimi-k2.7-code:cloud
+role: Coordination/Multi-agent orchestration (capo)
+preserve:
+  soul: workspace/IDENTITY.md
+  agents_manifest: workspace/AGENTS.md
+apply:
+  standards:
+    - platform/ai-engineering/standards/CONTEXT-PRESERVATION.md
+    - platform/ai-engineering/standards/PRODUCT-PRINCIPLES.md
+  skills:
+    - context-preservation
+    - agent-evolution
+reviewers:
+  - product-architect (on-demand)
+model_policy: cloud-only

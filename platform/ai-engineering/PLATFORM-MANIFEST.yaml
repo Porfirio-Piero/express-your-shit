@@ -1,0 +1,43 @@
+name: openclaw-ai-engineering-platform
+version: 1.2.0
+mode: non-destructive-overlay
+target:
+  operating_system: windows-11
+  runtimes:
+    - codex
+    - ollama
+    - cloud-models
+compatibility:
+  preserve_existing_agents: true
+  preserve_existing_personality_files: true
+  preserve_existing_memory: true
+  preserve_existing_project_workflows: true
+  preserve_existing_deployment_context: true
+  overwrite_default: false
+install_namespace: platform/ai-engineering
+required_reviews:
+  product_changes:
+    - product-architect
+    - ux-designer
+    - qa-engineer
+  ui_changes:
+    - ux-designer
+    - art-director
+    - accessibility
+  infrastructure_changes:
+    - senior-engineer
+    - security-reviewer
+    - release-manager
+  production_release:
+    - qa-engineer
+    - security-reviewer
+    - performance-reviewer
+    - release-manager
+
+model_intelligence:
+  architecture: ollama-cloud-only
+  local_inference: false
+  fixed_model_recommendations: false
+  weekly_internet_research: true
+  automatic_model_changes: false
+  owner_approval_required: true

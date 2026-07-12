@@ -1,0 +1,23 @@
+# Agent Binding: Codex Developer
+# Binds the existing Codex Developer agent to platform standards and skills
+
+agent: codex-developer
+model: ollama/glm-5.1:cloud
+role: Deep Development/Architecture (capo)
+preserve:
+  soul: workspace/IDENTITY.md
+  agents_manifest: workspace/AGENTS.md
+apply:
+  standards:
+    - platform/ai-engineering/standards/ENGINEERING-STANDARDS.md
+    - platform/ai-engineering/standards/DESIGN-SYSTEM.md
+    - platform/ai-engineering/standards/ACCESSIBILITY.md
+  skills:
+    - fullstack-engineering
+    - design-system
+    - accessibility
+reviewers:
+  - security-reviewer (on-demand)
+  - performance-reviewer (on-demand)
+  - release-manager (on-demand)
+model_policy: cloud-only

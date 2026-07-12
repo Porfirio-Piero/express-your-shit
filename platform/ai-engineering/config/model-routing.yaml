@@ -1,0 +1,102 @@
+# CLOUD-ONLY ARCHITECTURE
+# This setup uses Ollama Cloud models exclusively.
+# Never query a local Ollama API, recommend local model sizes,
+# suggest quantization, or assume local inference capability.
+# Model selection and routing remain owner-controlled.
+
+version: 1
+
+principles:
+  - route by task, not by agent prestige
+  - prefer cloud models for private low-risk context processing (this setup uses Ollama Cloud only — no local inference)
+  - use cloud models for complex reasoning and visual critique
+  - use codex for repository mutation and terminal execution
+  - never expose secrets to a model unless the existing setup explicitly allows it
+  - require a stronger reviewer than builder for high-risk changes when possible
+
+providers:
+  codex:
+    role: implementation
+    strengths:
+      - code changes
+      - repository navigation
+      - tests
+      - terminal workflows
+      - refactoring
+    preferred_for:
+      - fullstack-engineering
+      - testing-quality
+      - release-governance
+
+  ollama_cloud:  # Ollama Cloud only — no local inference
+    role: cloud-model
+    strengths:
+      - cloud summarization
+      - repetitive checks
+      - classification
+      - context indexing
+    preferred_for:
+      - context-preservation
+      - documentation checks
+      - low-risk lint triage
+    restrictions:
+      - do not assign visual review unless vision-capable
+      - do not assign architecture approval to weak small models
+
+  cloud_reasoning:
+    role: complex-reasoning
+    strengths:
+      - product architecture
+      - UX strategy
+      - complex debugging
+      - security reasoning
+    preferred_for:
+      - product-discovery
+      - ux-quality
+      - security-review
+
+  cloud_vision:
+    role: visual-review
+    strengths:
+      - screenshot critique
+      - visual consistency
+      - responsive review
+    preferred_for:
+      - visual-review
+      - accessibility visual inspection
+
+routing:
+  orchestrator:
+    primary: cloud_reasoning
+    fallback: codex
+
+  product-architect:
+    primary: cloud_reasoning
+    fallback: codex
+
+  ux-designer:
+    primary: cloud_reasoning
+    fallback: codex
+
+  art-director:
+    primary: cloud_vision
+    fallback: cloud_reasoning
+
+  senior-engineer:
+    primary: codex
+    reviewer: cloud_reasoning
+
+  qa-engineer:
+    primary: codex
+    support: ollama_cloud
+
+  security-reviewer:
+    primary: cloud_reasoning
+    implementation_support: codex
+
+  performance-reviewer:
+    primary: codex
+    reviewer: cloud_reasoning
+
+  release-manager:
+    primary: codex

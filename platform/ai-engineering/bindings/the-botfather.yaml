@@ -1,0 +1,34 @@
+# Agent Binding: The BotFather
+# Binds the existing BotFather agent to platform standards and skills
+
+agent: the-botfather
+model: ollama/glm-5.1:cloud
+role: Executive Orchestrator (primary)
+preserve:
+  soul: workspace/SOUL.md
+  curiosity: workspace/CURIOSITY.md
+  memory: workspace/MEMORY.md
+  identity: workspace/IDENTITY.md
+  agents_manifest: workspace/AGENTS.md
+  tools: workspace/TOOLS.md
+  user: workspace/USER.md
+  heartbeat: workspace/HEARTBEAT.md
+apply:
+  standards:
+    - platform/ai-engineering/standards/PRODUCT-PRINCIPLES.md
+    - platform/ai-engineering/standards/ENGINEERING-STANDARDS.md
+    - platform/ai-engineering/standards/CONTEXT-PRESERVATION.md
+  skills:
+    - product-discovery
+    - context-preservation
+    - agent-evolution
+    - weekly-model-intelligence
+reviewers:
+  - product-architect (on-demand)
+  - qa-engineer (on-demand)
+model_policy: cloud-only
+delegate_to:
+  - model-buzz-scout (weekly research)
+  - breaking-ben (security/qa)
+  - chief-of-staff (coordination)
+  - codex-developer (deep development)

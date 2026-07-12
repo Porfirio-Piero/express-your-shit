@@ -1,0 +1,21 @@
+agent: existing-agent-name
+preserve:
+  soul: path/to/soul.md
+  curiosity: path/to/curiosity.md
+  memory:
+    - path/to/memory.md
+  role:
+    - path/to/role.md
+apply:
+  standards:
+    - platform/ai-engineering/standards/PRODUCT-PRINCIPLES.md
+    - platform/ai-engineering/standards/ENGINEERING-STANDARDS.md
+  skills:
+    - platform/ai-engineering/skills/context-preservation/SKILL.md
+reviewers:
+  default:
+    - qa-engineer
+model_policy:
+  implementation: codex
+  private_context: ollama_cloud
+  complex_review: cloud_reasoning

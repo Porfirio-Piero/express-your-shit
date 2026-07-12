@@ -1,0 +1,27 @@
+project: project-name
+owner_agent: existing-agent-name
+paths:
+  root: .
+  context: .openclaw/context
+standards:
+  - platform/ai-engineering/standards/PRODUCT-PRINCIPLES.md
+  - platform/ai-engineering/standards/DESIGN-SYSTEM.md
+  - platform/ai-engineering/standards/UX-STANDARDS.md
+  - platform/ai-engineering/standards/ENGINEERING-STANDARDS.md
+  - platform/ai-engineering/standards/QA-RELEASE-GATES.md
+required_reviews:
+  ui:
+    - ux-designer
+    - art-director
+    - qa-engineer
+  backend:
+    - senior-engineer
+    - qa-engineer
+  sensitive:
+    - security-reviewer
+    - qa-engineer
+  release:
+    - release-manager
+deployment:
+  preserve_existing: true
+  instructions: .openclaw/context/deployment.md

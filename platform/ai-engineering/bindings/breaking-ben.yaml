@@ -1,0 +1,22 @@
+# Agent Binding: Breaking Ben
+# Binds the existing Breaking Ben agent to platform standards and skills
+
+agent: breaking-ben
+model: ollama/glm-5.1:cloud
+role: Testing/Breaking/QA (capo)
+preserve:
+  soul: workspace/agents/breaking-ben/SOUL.md (if exists)
+  identity: workspace/IDENTITY.md
+  agents_manifest: workspace/AGENTS.md
+apply:
+  standards:
+    - platform/ai-engineering/standards/QA-RELEASE-GATES.md
+    - platform/ai-engineering/standards/SECURITY.md
+    - platform/ai-engineering/standards/ENGINEERING-STANDARDS.md
+  skills:
+    - testing-quality
+    - security-review
+reviewers:
+  - senior-engineer (on-demand)
+  - release-manager (on-demand)
+model_policy: cloud-only

@@ -1,0 +1,27 @@
+name: model-buzz-scout-weekly
+enabled: true
+recommended_schedule: "Sunday 08:00 America/New_York"
+mode: research-and-report
+agent: model-buzz-scout
+skills:
+  - weekly-model-intelligence
+task: >
+  Search the public internet for the latest and most notable AI model
+  releases, updates, download momentum, community buzz, practitioner
+  feedback, benchmark claims, and emerging capabilities. Prioritize
+  Ollama official sources, Hugging Face, original publishers, GitHub,
+  reputable technical sources, and relevant Reddit communities.
+  Compare findings with the current Open Claw setup and prior reports.
+  Send a concise Telegram-friendly weekly briefing with facts,
+  sentiment, recommendations, confidence, and sources.
+restrictions:
+  - no model installation
+  - no model removal
+  - no routing changes
+  - no provider changes
+  - no secret exposure
+  - no automatic agent or skill creation
+output:
+  directory: platform/ai-engineering/reports/model-buzz-scout
+  telegram_summary: true
+  full_report: true
