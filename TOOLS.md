@@ -13,253 +13,124 @@ Things like:
 - Device nicknames
 - Anything environment-specific
 
-## Examples
-
-```markdown
-### Cameras
-
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
-
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
-```
-
 ## Why Separate?
 
 Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
 
 ---
 
-Add whatever helps you do your job. This is your cheat sheet.
+### Cameras
 
----
+- **OBSBOT Tiny 4K** → MAIN SECURITY CAM (always armed, auto-captures)
+  - DirectShow name: `OBSBOT Tiny 4K Camera`
+  - USB VID:PID: 3564:FEF4
+  - Resolutions: 4K (3840x2160), 1080p (1920x1080), 720p (1280x720)
+  - Capabilities: Motorized PTZ (requires OBSBOT Center app for pan/tilt control)
+  - Role: Security — auto-monitored, motion detection, timelapse
+  - NOTE: Needs 2s warmup for proper auto-exposure
 
-## Known Tool Limitations (2026-02-18 Audit)
+- **Logitech BRIO** → MANUAL-ONLY CAM (snap/record on request only)
+  - DirectShow name: `Logitech BRIO`
+  - Resolutions: 1080p (1920x1080), 720p (1280x720)
+  - Role: Manual — indoor tracking, requested by user only
 
-### Missing API Keys ❌
+- **Integrated Camera** → MANUAL-ONLY CAM (snap/record on request only)
+  - DirectShow name: `Integrated Camera`
+  - Resolutions: 720p (1280x720), 1080p
+  - Role: Manual — requested by user only
 
-**web_search** - Requires Brave Search API key
-- Error: `missing_brave_api_key`
-- Fix: `openclaw configure --section web` or set `BRAVE_API_KEY`
-- **WORKAROUND: Use DuckDuckGo Search skill (see below)**
+**RULES:**
+- OBSBOT = always armed, automatic security monitoring
+- BRIO + Integrated = manual only, never auto-capture
+- All storage goes to D:\camera\ (external drive)
 
-### Web Search Workaround (DuckDuckGo) ✅ NEW
+### Camera Control Commands (from Telegram)
 
-**Skill:** `duckduckgo-search` 
-- **Location:** `~/.openclaw/workspace/skills/duckduckgo-search/`
-- **Script:** `~/.openclaw/workspace/skills/duckduckgo-search/scripts/ddg-search.ps1`
-- **Status:** Working - No API key required
+| Command | What it does |
+|---------|-------------|
+| `snap` or `📸` | Take a 1080p photo from OBSBOT |
+| `snap 4k` | Take a 4K photo from OBSBOT |
+| `snap brio` | Take a 1080p photo from Logitech BRIO |
+| `snap int` | Take a 720p photo from Integrated Camera |
+| `record 10` | Record 10s video from OBSBOT |
+| `record 30` | Record 30s video from OBSBOT |
+| `camera status` | Check all cameras online/offline |
+| `camera list` | Show recent captures |
 
-**Usage:**
-```powershell
-# Run from workspace directory
-cd ~/.openclaw/workspace/skills/duckduckgo-search/scripts
-.\ddg-search.ps1 -Query "your search query" -Count 5
+### ffmpeg Path
 
-# Or via exec from anywhere:
-exec: powershell -ExecutionPolicy Bypass -File ~/.openclaw/workspace/skills/duckduckgo-search/scripts/ddg-search.ps1 -Query "your query" -Count 5
-```
+`C:\Users\devpi\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-full_build\bin\ffmpeg.exe`
 
-**Example output (JSON):**
-```json
-{
-  "query": "7 Cats Music Ramsey NJ",
-  "provider": "duckduckgo",
-  "count": 3,
-  "results": [
-    {
-      "title": "Music Lessons & Instrument Rentals in Ramsey, NJ",
-      "url": "https://stores.musicarts.com/nj/ramsey/music-store-7608.html",
-      "description": "Our Ramsey, NJ music store offers instrument sales, rentals, repairs...",
-      "siteName": "stores.musicarts.com"
-    }
-  ]
-}
-```
+### Camera Scripts
 
-**Limitations:**
-- HTML scraping (may break if DuckDuckGo changes page structure)
-- No freshness filters (unlike Brave's time-based filters)
-- No country/language targeting
-- May trigger anti-bot detection with heavy usage
+- `workspace/camera-tools/camera-server-v3.js` — HTTP control API (port 3199, multi-cam + external drive)
+- `workspace/camera-tools/camera-config.js` — Camera config (3 cameras, roles, external drive paths)
+- `workspace/camera-tools/camera-health-check.js` — Camera health monitor (port 3196, snaps every 30 min, never disrupts OBSBOT)
+- `workspace/camera-tools/motion-tracker-v3.js` — Motion detection (port 3197, uses camera config)
+- `workspace/camera-tools/security-watchdog.js` — Security watchdog (port 3198, uses camera config)
+- `workspace/camera-tools/camera-server-v3.js` — Camera control API (port 3199, multi-cam + external drive)
+- `workspace/camera-tools/security-watchdog.js` — Security watchdog (port 3198, uses camera config)
+- `workspace/camera-tools/obsbot-snap-now.js` — Quick snap script
+- `workspace/camera-tools/obsbot-video.js` — Video recording
+- `workspace/camera-tools/list-dshow.js` — List DirectShow devices
+- `workspace/camera-tools/list-hid.js` — List HID devices
+- `workspace/camera-tools/resize.js` — Resize for Telegram sending
 
-**memory_search / memory_get** - Requires embedding provider keys
-- Errors: No API key for OpenAI, Google, or Voyage providers
-- Fix: `openclaw configure --section memory` or set env vars:
-  - `OPENAI_API_KEY`
-  - `GOOGLE_API_KEY`
-  - `VOYAGE_API_KEY`
+- `workspace/camera-tools/periodic-snap.js` — Periodic snap reporter (port 3202, every 45 min)
+- `workspace/camera-tools/live-stream-server.js` — Live MJPEG stream (port 3200, reads live.jpg)
+- `workspace/camera-tools/timelapse.js` — Timelapse compiler (port 3201, frame every 30s)
 
-**web_fetch** - Intermittent failures
-- Error: `fetch failed`
-- Workaround: Use browser automation when Chrome extension connected
+### Storage & USB
 
-### Requires User Action ⚠️
+- **External Drive:** D:\ (Extreme SSD, 1.8TB free) — all camera storage
+- **Camera directories:** D:\camera\snaps\, D:\camera\videos\, D:\camera\motion-events\, D:\camera\timelapse\
+- CalDigit TS4 dock connected via USB4
+- OBSBOT Tiny 4K connected through CalDigit dock
+- Logitech BRIO connected (new indoor cam, manual-only)
 
-**browser** - Extension needs tab connection
-- Status: Chrome detected but relay not connected
-- Fix: Click OpenClaw Browser Relay icon in Chrome toolbar
+### Vinny Vault — Windows Resource Steward
 
-**exec** - Approval required for each invocation
-- Workaround: Use `--security=full` flag for trusted commands
+- **Agent:** vinny-vault
+- **Workspace:** `C:\Users\devpi\.openclaw\workspace\vinny-vault\`
+- **Schedule:** Every Sunday 9:00 AM ET (cron: `0 9 * * 0`)
+- **Cron Job ID:** 371aa328-309a-45da-a431-94a2cad708a9
+- **Authorization Level:** 0 (observe only, no destructive changes)
+- **External Drive:** D:\ (Extreme SSD, exFAT, ~1.8TB free)
+- **Backup Root:** `D:\VinnyVault\`
+  - `D:\VinnyVault\ConfigBackups\` — Configuration backups
+  - `D:\VinnyVault\Quarantine\` — Quarantined files
+  - `D:\VinnyVault\Manifests\` — Backup manifests
+- **Audit Script:** `vinny-vault\skills\windows-resource-steward\scripts\Invoke-VinnyVaultAudit.ps1`
+- **Backup Script:** `vinny-vault\skills\windows-resource-steward\scripts\Backup-VinnyVaultConfigs.ps1`
+- **Reports:** `vinny-vault\reports\` — Weekly snapshots and reports
+- **Activity Log:** `vinny-vault\logs\activity.jsonl`
+- **Sub-agents:** Connie Config, Tony Two-Disks, Frankie Fix-It, Nicky Containers, Gina GameSpace, Sal Security
+- **On-demand:** Can be triggered anytime by asking BotFather to "run Vinny Vault audit"
 
-### Working Tools ✅
+<!-- clawx:begin -->
+## ClawX Tool Notes
 
-| Tool | Status | Notes |
-|------|--------|-------|
-| read | ✅ | Full functionality |
-| write | ✅ | Auto-creates directories |
-| edit | ✅ | Precise text replacement |
-| nodes | ✅ | Lists paired nodes |
-| tts | ✅ | Generates audio successfully |
-| session_status | ✅ | Session info available |
+### uv (Python)
 
----
+- `uv` is bundled with ClawX and on PATH. Do NOT use bare `python` or `pip`.
+- Run scripts: `uv run python <script>` | Install packages: `uv pip install <package>`
 
-### TTS Preferences
+### Browser
 
-- Default channel: whatsapp
-- Output format: MP3
-- Storage: AppData/Local/Temp/
+- `browser` tool provides full automation (scraping, form filling, testing) via an an isolated managed browser.
+- Flow: `action="start"` → `action="snapshot"` (see page + get element refs like `e12`) → `action="act"` (click/type using refs).
+- Open new tabs: `action="open"` with `targetUrl`.
+- To just open a URL for the user to view, use `shell:openExternal` instead.
+### Audio Recording
 
----
+- **Script:** `D:\camera\all_day_recorder_v3.py` (Python, sounddevice/WDM-KS)
+- **Device:** Auto-detect (prefers OBSBOT WDM-KS, falls back to Intel Mic Array)
+- **Format:** 48kHz, 16-bit, stereo WAV, ~11MB/min
+- **Segments:** 10-minute files in `D:\camera\audio\`
+- **Start:** `python D:\camera\all_day_recorder_v3.py [hours] [device_index]`
+- **CRITICAL:** MME, DirectSound, WASAPI all fail from session 0. Only WDM-KS works.
+- **Device indices shift!** Always auto-detect, never hardcode.
+- **Audacity** can't be automated from service session (keyboard automation blocked)
+- **NAudio WASAPI** fails with "Not implemented" from service context
 
-## Git/GitHub Configuration
-
-### Identity
-- **User Name:** TheBotfather
-- **Email:** porfirio.piero+github@gmail.com
-- **Default Branch:** main
-
-### GitHub Account
-- **Username:** Piero-Porfirio
-- **User ID:** 49736924
-- **Remote:** https://github.com/Piero-Porfirio/openclaw-workspace.git
-
-### Credential Handling
-- **Helper:** Windows Credential Manager (wincred)
-- **First Push:** Will prompt for GitHub token/browser auth
-
-### Aliases
-- `gh:` → `https://github.com/` (e.g., `gh:Piero-Porfirio/repo`)
-
----
-
-## Session Management (NEW)
-
-### Sub-Agent Spawning
-
-**Tool:** `sessions_spawn` - Create isolated agent sessions for parallel work
-
-**Usage:**
-```python
-# Spawn a child session
-result = sessions_spawn(
-    task="Detailed task description with context...",
-    agentId="main",  # From agents_list()
-    thinking="off",  # or "on" for deep reasoning
-    timeoutSeconds=300
-)
-
-# Result announced back to parent automatically
-```
-
-**Session Tools:**
-
-| Tool | Purpose |
-|------|---------|
-| `agents_list()` | See available agent IDs |
-| `sessions_spawn(...)` | Create isolated child session |
-| `sessions_list(...)` | Monitor active sessions |
-| `sessions_send(sessionKey, message)` | Push message to child |
-| `sessions_history(...)` | View session transcript |
-
-**Pre-Spawn Checklist:**
-- [ ] Check `agents_list()` for available IDs
-- [ ] Current: only `agentId="main"` available (not configured for isolated)
-- [ ] Task description is specific with full context
-- [ ] Timeout appropriate for complexity
-- [ ] Parent TaskMaster updated before spawn
-- [ ] Result integration planned
-
-**Configuration Required for Isolated Sessions:**
-```json
-{
-  "agents": {
-    "researcher": {
-      "model": "ollama/kimi-k2.5:cloud",
-      "thinking": "off"
-    },
-    "coder": {
-      "model": "ollama/kimi-k2.5:cloud",
-      "thinking": "on"
-    }
-  }
-}
-```
-
-### Sub-Agent Communication Protocols
-
-**Child → Parent:**
-- Results announced automatically when task complete
-- Format: `## Task Complete: [NAME]` header
-- Include status, summary, findings, deliverables, next steps
-
-**Parent → Child:**
-- Use `sessions_send(sessionKey, message)` for mid-task guidance
-- Send context updates, constraints, clarifications
-
-**Best Practices:**
-1. Pass ALL context in task description (children are isolated)
-2. Set appropriate timeouts (60s for quick, 5min for complex)
-3. Update TaskMaster before spawning
-4. Have synthesis plan for multiple children
-5. Handle timeouts gracefully
-
----
-
-### Environment
-
-- Host: Windows 10.0.26120
-- Shell: PowerShell
-- Gateway: Requires manual start for some operations
-- Sub-Agent Support: Partial (main agent only, isolated config needed for full features)
-
----
-
-## Git/GitHub Configuration
-
-### Identity
-- **User Name:** TheBotfather
-- **Email:** porfirio.piero+github@gmail.com
-- **Default Branch:** main
-
-### GitHub Account
-- **Username:** Piero-Porfirio
-- **User ID:** 49736924
-- **Remote:** https://github.com/Piero-Porfirio/openclaw-workspace.git
-- **REMINDER:** Always use Piero-Porfirio (not Porfirio-Piero)
-
-### Credential Handling
-- **Helper:** Windows Credential Manager (wincred)
-- **First Push:** Will prompt for GitHub token/browser auth
-- **Auth Script:** `scripts/github-auth-helper.ps1`
-
-### Quick Commands
-```powershell
-# Check config
-git config --list
-
-# Push current branch
-git push origin HEAD
-
-# Push all branches
-git push --all origin
-```
+<!-- clawx:end -->
