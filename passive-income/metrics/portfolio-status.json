@@ -1,0 +1,8 @@
+{"schemaVersion": "1.0", "description": "Passive Income Portfolio Metrics Tracker", "loops": [
+  {"id": "loop-1", "name": "Digital Product Drop (Gumroad)", "type": "sell-once", "status": "building", "startDate": "2026-07-12"},
+  {"id": "loop-2", "name": "Niche Comparison/Affiliate Site", "type": "affiliate", "status": "researching", "startDate": null},
+  {"id": "loop-3", "name": "Pinterest Traffic Engine", "type": "distribution", "status": "templates-ready", "startDate": null},
+  {"id": "loop-4", "name": "Agentic AI Weekly Newsletter", "type": "sponsor-affiliate", "status": "researching", "startDate": null},
+  {"id": "loop-5", "name": "Compliance Countdown Pages", "type": "programmatic-seo", "status": "database-seeded", "startDate": null},
+  {"id": "loop-6", "name": "Micro-Tool Farm", "type": "seo-affiliate", "status": "planning", "startDate": null}
+]}
