@@ -35,10 +35,10 @@ type StatusData = {
   identity: Record<string, { size: number; modified: string }>;
   platform: { installed: boolean; skillCount: number };
   skills: number;
-  system: { diskSpace: { freeGB: number; totalGB: number; usedPct: number }; nodeProcesses: number; uptimeHours: number; security: { watchdogStatus: string; motionEvents: number; lastMotionTime: string }; recentSessions: number; };
+  diskSpace: { freeGB: number; totalGB: number };
   lastScoutReport: { file: string; preview: string } | null;
-  
-  
+  runningNodeProcesses: number;
+  recentSessionCount: number;
 };
 
 type View = "overview" | "fleet" | "missions" | "automations" | "approvals";
@@ -120,8 +120,8 @@ export default function CommandCenterClient() {
   const working = fleet.filter((agent, index) => agentState(agent, index) === "working").length;
   const registered = fleet.filter((agent) => agent.isRegistered).length;
   const enabledCron = status?.cronJobs.filter((job) => job.enabled).length ?? 0;
-  const totalGB = status?.system.diskSpace.totalGB ?? 0;
-  const freeGB = status?.system.diskSpace.freeGB ?? 0;
+  const totalGB = status?.diskSpace.totalGB ?? 0;
+  const freeGB = status?.diskSpace.freeGB ?? 0;
   const diskUsed = totalGB ? Math.round(((totalGB - freeGB) / totalGB) * 100) : 0;
 
   const activity: ActivityItem[] = useMemo(() => {
@@ -217,7 +217,7 @@ export default function CommandCenterClient() {
           <Metric label="Registered agents" value={`${registered}/${fleet.length}`} detail="Fleet coverage" accent="cyan" />
           <Metric label="Working now" value={String(working)} detail="Live execution" accent="violet" />
           <Metric label="Automations" value={String(enabledCron)} detail="Enabled schedules" accent="emerald" />
-          <Metric label="Sessions" value={String(status.system.recentSessions)} detail="Last 24 hours" accent="blue" />
+          <Metric label="Sessions" value={String(status.recentSessionCount)} detail="Last 24 hours" accent="blue" />
           <Metric label="Skills" value={String(status.skills + status.platform.skillCount)} detail="Available capability" accent="amber" />
           <Metric label="Disk free" value={`${freeGB.toFixed(0)} GB`} detail={`${diskUsed}% utilized`} accent={diskUsed > 85 ? "rose" : "emerald"} />
         </section>
@@ -267,7 +267,7 @@ export default function CommandCenterClient() {
               </section>
 
               <section className="rounded-[28px] border border-white/10 bg-[#0d111b]/90 p-5">
-                <SectionHeading eyebrow="System" title="Infrastructure pulse" action={`${status.system.nodeProcesses} processes`} />
+                <SectionHeading eyebrow="System" title="Infrastructure pulse" action={`${status.runningNodeProcesses} processes`} />
                 <div className="mt-5 space-y-4">
                   <HealthRow label="OpenClaw gateway" value="Connected" percent={96} />
                   <HealthRow label="Agent runtime" value="Nominal" percent={92} />
