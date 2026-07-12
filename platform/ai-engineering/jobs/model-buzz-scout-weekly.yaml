@@ -2,7 +2,7 @@ name: model-buzz-scout-weekly
 enabled: true
 recommended_schedule: "Sunday 08:00 America/New_York"
 mode: research-and-report
-agent: model-buzz-scout
+agent: mikey-models
 skills:
   - weekly-model-intelligence
 task: >

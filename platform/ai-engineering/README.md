@@ -126,3 +126,52 @@ The included Model & AI Buzz Scout performs weekly public internet research and 
 - practical relevance to the current Open Claw setup
 
 It never installs models or changes routing.
+
+
+## Selective fleet architecture
+
+This edition is designed for an existing one-owner Open Claw fleet.
+
+- BotFather remains the boss and primary orchestrator.
+- Mikey Models is the only newly active scheduled agent.
+- The remaining Italian specialist agents are reference-on-demand.
+- Review standards are applied proportionally to risk.
+- Small changes stay fast.
+- Existing agents are not renamed or replaced.
+
+Read `prompts/IMPLEMENT-SELECTIVE-OVERLAY.md`.
+
+
+## Nuanced personalities
+
+Each specialist now includes a `BEHAVIOR.md` defining:
+
+- verbosity
+- temperament
+- jerk factor
+- pushiness
+- people-pleasing tendency
+- irritation triggers
+- humor
+- speech patterns
+- signature phrases
+- pressure behavior
+- example voice
+- anti-caricature guardrails
+
+See `standards/AGENT-PERSONALITY-STANDARD.md`.
+
+
+## Italian and Italian-American voice
+
+Version 1.2.3 adds researched phrase banks for every specialist.
+
+Each phrase is tagged by:
+
+- standard Italian, dialect, or Italian-American origin
+- profanity intensity
+- meaning
+- natural example
+- usage limitations
+
+Mature language is allowed, including English and Italian profanity, while ethnic slurs, misogynistic/homophobic insults, and religious blasphemy remain excluded by default.

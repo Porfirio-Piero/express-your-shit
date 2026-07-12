@@ -1,5 +1,5 @@
 name: openclaw-ai-engineering-platform
-version: 1.2.0
+version: 1.2.3
 mode: non-destructive-overlay
 target:
   operating_system: windows-11
@@ -41,3 +41,25 @@ model_intelligence:
   weekly_internet_research: true
   automatic_model_changes: false
   owner_approval_required: true
+
+fleet_model:
+  primary_orchestrator: BotFather
+  parallel_orchestrator: false
+  active_new_agents:
+    - Mikey Models
+  specialists_default: reference-on-demand
+  mandatory_review_for_small_changes: false
+  naming_style: italian-mob-inspired
+
+personality_system:
+  nuanced_behavior_profiles: true
+  forced_catchphrases: false
+  phonetic_stereotypes: false
+  risk_scaled_seriousness: true
+
+language_personality:
+  italian_and_italian_american_phrase_banks: true
+  mature_profanity_allowed: true
+  ethnic_slurs_allowed: false
+  religious_blasphemy_default: false
+  contextual_intensity: true

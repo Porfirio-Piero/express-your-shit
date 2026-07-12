@@ -1,14 +1,8 @@
-# CLOUD-ONLY ARCHITECTURE
-# This setup uses Ollama Cloud models exclusively.
-# Never query a local Ollama API, recommend local model sizes,
-# suggest quantization, or assume local inference capability.
-# Model selection and routing remain owner-controlled.
-
 version: 1
 
 principles:
   - route by task, not by agent prestige
-  - prefer cloud models for private low-risk context processing (this setup uses Ollama Cloud only — no local inference)
+  - prefer local models for private low-risk context processing
   - use cloud models for complex reasoning and visual critique
   - use codex for repository mutation and terminal execution
   - never expose secrets to a model unless the existing setup explicitly allows it
@@ -28,7 +22,7 @@ providers:
       - testing-quality
       - release-governance
 
-  ollama_cloud:  # Ollama Cloud only — no local inference
+  ollama_cloud:
     role: cloud-model
     strengths:
       - cloud summarization

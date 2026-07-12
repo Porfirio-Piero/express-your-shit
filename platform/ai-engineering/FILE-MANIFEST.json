@@ -1,183 +1,268 @@
 [
   {
     "path": "PLATFORM-MANIFEST.yaml",
-    "sha256": "21b9ad73306b482cb574bf2c8f67574d774a8fbf9f2d004ed886a6cdc9682c25",
-    "bytes": 1053
+    "sha256": "eb044000f574a87ee018477c865963d221849c783f5656bdb6e4a96029c0e15d",
+    "bytes": 1644
   },
   {
     "path": "README.md",
-    "sha256": "1e5666d8799bbe8aa4165cb4eef8c42b68f53b2446a34f2ce600a5c3bde0cfa2",
-    "bytes": 3469
+    "sha256": "6c4a3a2a6485d2a1f34510090ef949fa8406729a0eac6460d32c851100c87a78",
+    "bytes": 4708
   },
   {
     "path": "START-HERE.md",
-    "sha256": "47e8ca2adba2d7bc9693866c5cd1661d99ee44b1196541f29705b55eab6bfee1",
-    "bytes": 627
+    "sha256": "2450ac550130d442c1c69099aab51ac06f96897d12d31b32afb3a010229afd2a",
+    "bytes": 1000
   },
   {
-    "path": "agents/art-director/AGENT.md",
-    "sha256": "190a170d90a517702244dcdbfb56a3d022733d6958aa04c7c524f2f88ebf6b5b",
-    "bytes": 800
+    "path": "agents/bella-buttons/AGENT.md",
+    "sha256": "35429a64225e43558145000fd7b605b9f5fc0e5be260a1f07c291fdadc303ed1",
+    "bytes": 1454
   },
   {
-    "path": "agents/art-director/curiosity-extension.md",
-    "sha256": "19ae8b410ea10368c4a04d17168c39761223400b37cfa04e8e26a45b96f30fe4",
-    "bytes": 351
+    "path": "agents/bella-buttons/BEHAVIOR.md",
+    "sha256": "f7d77c65387db3449d82279dd2698db5265b2577bde04ed559024341b4aa0aeb",
+    "bytes": 1946
   },
   {
-    "path": "agents/art-director/soul-extension.md",
-    "sha256": "22600eba3e71ff0e5cbc4b54dc8184312019e65651f66008c0415e2ffa52f391",
-    "bytes": 315
+    "path": "agents/bella-buttons/CURIOSITY.md",
+    "sha256": "9deb864e9f21096fb51bcfc37a474bd757cc2ae2cbd27350ccb96489aa2f2795",
+    "bytes": 189
   },
   {
-    "path": "agents/capability-evolution/AGENT.md",
-    "sha256": "2735684f0ef59b38a8a0f8c2dfbb72988d995a2b7f82f456d5e559eca5165211",
-    "bytes": 1838
+    "path": "agents/bella-buttons/PHRASES.md",
+    "sha256": "2fc3ad4e25e5e80840f79bd4f580e13d74369d80502606ddb4ed850c2ff8450b",
+    "bytes": 1807
   },
   {
-    "path": "agents/capability-evolution/curiosity-extension.md",
-    "sha256": "f2e45bc5b8bc88db6eea466eed1393c3dd4478ebb396a2152b585e5f7e19f00a",
-    "bytes": 601
+    "path": "agents/bella-buttons/SOUL.md",
+    "sha256": "0942e373eb7c1350db78c801189f2ac3c1dbb651a19aefc6ba0a85820279dd76",
+    "bytes": 402
   },
   {
-    "path": "agents/capability-evolution/soul-extension.md",
-    "sha256": "52cd66f8fe75b2163417e4fb3a989d2787d3254ee8c608a4ab2a7ace2994b235",
-    "bytes": 391
+    "path": "agents/connie-consigliere/AGENT.md",
+    "sha256": "6d754dc3bd0c755373b825dcb9976bf96ee3761ff5f78cc21a8a98c4b3325962",
+    "bytes": 1483
   },
   {
-    "path": "agents/model-buzz-scout/AGENT.md",
-    "sha256": "f89b25c326a3552049c3968a6841545bb1a6621dbab53b0c046d2694a3f276a9",
-    "bytes": 3454
+    "path": "agents/connie-consigliere/BEHAVIOR.md",
+    "sha256": "f365592d59d4b8f60f0bd3b44b69e8c2c58734085a83f0e3929b3efec2f81ae5",
+    "bytes": 2000
   },
   {
-    "path": "agents/model-buzz-scout/CURIOSITY.md",
-    "sha256": "855e1cd16431fb46a515544bd189180f318dff8e255251e28cf8f925c500f909",
-    "bytes": 789
+    "path": "agents/connie-consigliere/CURIOSITY.md",
+    "sha256": "c092d4c9b21a2726d6272d1379045833b770fc7b951e7eba97e3b724f95890e0",
+    "bytes": 189
   },
   {
-    "path": "agents/model-buzz-scout/SOUL.md",
-    "sha256": "410fc255bb8e8418596f83db49d73995cf3a2a8c9d359cd079f3a8e81f833251",
-    "bytes": 684
+    "path": "agents/connie-consigliere/PHRASES.md",
+    "sha256": "45b14db436ab8fa009d9633908d294bcc2ae4c1cbd14d30c23537a135eb171b8",
+    "bytes": 1766
   },
   {
-    "path": "agents/orchestrator/AGENT.md",
-    "sha256": "1f74d686380d9e51e4e6f121c0d8f86efa4a2c5a4b653265fe3a1aedab923ee1",
-    "bytes": 898
+    "path": "agents/connie-consigliere/SOUL.md",
+    "sha256": "4ea4381abf15265b6766e3818aad72d958f3f38bd2d71d08ae98316d0e69ebb3",
+    "bytes": 405
   },
   {
-    "path": "agents/orchestrator/curiosity-extension.md",
-    "sha256": "2e35b1d8523a10f3949b93f8dcf162a760848110c34182c53f78736b96a8c318",
-    "bytes": 365
+    "path": "agents/frankie-fastlane/AGENT.md",
+    "sha256": "d1087376cc2e11caa62661ce8a731c7bd9d67d061d9d27771c49f417ac5b33ef",
+    "bytes": 1434
   },
   {
-    "path": "agents/orchestrator/soul-extension.md",
-    "sha256": "a7b8d319158b94dc83f9e372a7356a2848f8d2096f11bea263faf56c0f866ea7",
-    "bytes": 329
+    "path": "agents/frankie-fastlane/BEHAVIOR.md",
+    "sha256": "a0304a672f87c75ce3b5c6463fda8534e3723b10c59e465f51d8022e497e9fd3",
+    "bytes": 1820
   },
   {
-    "path": "agents/performance-reviewer/AGENT.md",
-    "sha256": "ca1668e8a1605f7783b57d2b52a45219ff4572397d2f6c10e926a1efbf7ab991",
-    "bytes": 684
+    "path": "agents/frankie-fastlane/CURIOSITY.md",
+    "sha256": "c0b8ee3df9a6264c78508e6becf3de301527f19b5ad411d570341a98a9a4d51e",
+    "bytes": 191
   },
   {
-    "path": "agents/performance-reviewer/curiosity-extension.md",
-    "sha256": "31ca63933cb56982f3bbc7ed4116fa0c0273aad05488b33d02f9fae96776b00c",
-    "bytes": 359
+    "path": "agents/frankie-fastlane/PHRASES.md",
+    "sha256": "3d72c6dc25216319acc32617912477508c45352fae06dbf28003b0d503263b43",
+    "bytes": 1707
   },
   {
-    "path": "agents/performance-reviewer/soul-extension.md",
-    "sha256": "dea858fc135a51c5c0ff15d7fa536b43ce422e66b7941cdc0cf3e88f48270c07",
-    "bytes": 323
+    "path": "agents/frankie-fastlane/SOUL.md",
+    "sha256": "8f878eff98bb8265afc86cb85f9233415a472cbf09cba722546c27b5655a4d25",
+    "bytes": 436
   },
   {
-    "path": "agents/product-architect/AGENT.md",
-    "sha256": "2aa18436b55a0749b535f7937bcc0165a9dcfbdb22bab7277a4d80e571432e1c",
-    "bytes": 764
+    "path": "agents/joey-no-bugs/AGENT.md",
+    "sha256": "3975aee27ee6efc4fa33caab08f0b8dab1663fb4b94cb2a69dee64f1aaded85e",
+    "bytes": 1445
   },
   {
-    "path": "agents/product-architect/curiosity-extension.md",
-    "sha256": "d7fa11b4ab6118e5952bfcc156f4039543ed55e3980d7a8c3104c22b0c49b7d6",
-    "bytes": 356
+    "path": "agents/joey-no-bugs/BEHAVIOR.md",
+    "sha256": "20588aea9db44232657cf683b90ba66c8589203706cf2b1cf2920e7285fdcaaf",
+    "bytes": 1924
   },
   {
-    "path": "agents/product-architect/soul-extension.md",
-    "sha256": "87ead65254a7cd9a875cc4602493dd89a36015fb2c12022b64f0a7987d0cecfd",
-    "bytes": 320
+    "path": "agents/joey-no-bugs/CURIOSITY.md",
+    "sha256": "7ef746cda775dee4c9b0784b767a96f01fb0e183c87c1599ec37e5fe87e41873",
+    "bytes": 182
   },
   {
-    "path": "agents/qa-engineer/AGENT.md",
-    "sha256": "205cd651544ccc87dbe5e24f016e19124a9caaa260da102f603e6bbd41ecd116",
-    "bytes": 705
+    "path": "agents/joey-no-bugs/PHRASES.md",
+    "sha256": "1bb3a194ad6e4833b25c9225b60573c435fe995e1b4b963062059bc6c51ea6b4",
+    "bytes": 1901
   },
   {
-    "path": "agents/qa-engineer/curiosity-extension.md",
-    "sha256": "ddff2afac3328af8093135f7ae226c887b0ff60a24ca15355ccb7a5288cf2a0f",
-    "bytes": 350
+    "path": "agents/joey-no-bugs/SOUL.md",
+    "sha256": "b7da5325e73e7f4b64e2945a0f4b98b0c3faea6aab89000390571100b8dbd1a7",
+    "bytes": 411
   },
   {
-    "path": "agents/qa-engineer/soul-extension.md",
-    "sha256": "641aaff42548a726eae09b553961e423feb0681ced17b7fc8beaae1e7df6ddda",
-    "bytes": 314
+    "path": "agents/mikey-models/AGENT.md",
+    "sha256": "b62efb04752edfeef81e8febf275bbeffcab0698ddd5665b02b469de45d03d4a",
+    "bytes": 1837
   },
   {
-    "path": "agents/release-manager/AGENT.md",
-    "sha256": "a6f0467e829e2436b50756153a1dbf1f80445c158542e0e45271e334a55ec690",
-    "bytes": 693
+    "path": "agents/mikey-models/BEHAVIOR.md",
+    "sha256": "04f202f85ef826754f624f2452f3fbc0e2bc3330f8be77b592335abb23ec176b",
+    "bytes": 2138
   },
   {
-    "path": "agents/release-manager/curiosity-extension.md",
-    "sha256": "d8e1205bd1f3a80be1c3996cc8e5c3e96732dae332154efea203853a525e442c",
-    "bytes": 354
+    "path": "agents/mikey-models/CURIOSITY.md",
+    "sha256": "d46a40fc303089151e1ef9c2f172a2aaa0e518ad153c729aa3f02d1f5b6f447d",
+    "bytes": 257
   },
   {
-    "path": "agents/release-manager/soul-extension.md",
-    "sha256": "0d015ff721790dc13dcee8fb86ea18ff021da4a8a47e07c8f9600ffd0a418a2f",
-    "bytes": 318
+    "path": "agents/mikey-models/PHRASES.md",
+    "sha256": "e7684082e9c56f97a80fc990da60bf78e05dccf42173d43f4107a928a8b10d32",
+    "bytes": 1877
   },
   {
-    "path": "agents/security-reviewer/AGENT.md",
-    "sha256": "a6aa2b9017b61ae0cc8540fd47dbea5f2df9fc449b14848db56b5ebfc5669572",
-    "bytes": 741
+    "path": "agents/mikey-models/SOUL.md",
+    "sha256": "9e2957c13b9212dddbfd0a6ea8d753ebd5013bbb901ef3aa6a086e1db49cde2c",
+    "bytes": 605
   },
   {
-    "path": "agents/security-reviewer/curiosity-extension.md",
-    "sha256": "e39e951aeccc23b3cb28c67121ba07c47e9b9629cf188b8a91d3989d1cb28965",
-    "bytes": 356
+    "path": "agents/nico-stack/AGENT.md",
+    "sha256": "afade3a022f5738396168ac6791cb4e0606d44cbe225f0f979c599276007e03d",
+    "bytes": 1444
   },
   {
-    "path": "agents/security-reviewer/soul-extension.md",
-    "sha256": "ec8397807e168cffa1d8ff004f2259e40855c5b7fa22451028e05e834f07bca8",
-    "bytes": 320
+    "path": "agents/nico-stack/BEHAVIOR.md",
+    "sha256": "edbb00cfb402843cb37cfef8bc64e4793d6e6e691c28b8899385e6c144702d48",
+    "bytes": 1949
   },
   {
-    "path": "agents/senior-engineer/AGENT.md",
-    "sha256": "9b0c3893c235b6368fd7c0fbefccbf4655490ba44ed1fcd35b497bbc85b3bdb7",
-    "bytes": 710
+    "path": "agents/nico-stack/CURIOSITY.md",
+    "sha256": "214a9f65b58a3820074d6a6e97f04ea6f62c76730260eee29367aad9adb16e62",
+    "bytes": 168
   },
   {
-    "path": "agents/senior-engineer/curiosity-extension.md",
-    "sha256": "cb2f288c8083967058310baaf867823473f7592ff3000599ce687a768c441494",
-    "bytes": 354
+    "path": "agents/nico-stack/PHRASES.md",
+    "sha256": "036beedaa051d2c557af7ebb2be916bcd9bdc05726b64f78e2bca6f32b850a33",
+    "bytes": 1840
   },
   {
-    "path": "agents/senior-engineer/soul-extension.md",
-    "sha256": "395c03f1b0c0afd34e658be9f32db28778baf353ca5449807af4ee044d2e2317",
-    "bytes": 318
+    "path": "agents/nico-stack/SOUL.md",
+    "sha256": "6183189867921c170574a3a8ca5173823f1e9c51d7b56343c976d083790e8609",
+    "bytes": 396
   },
   {
-    "path": "agents/ux-designer/AGENT.md",
-    "sha256": "e0ab0fbeb37c083f54df41aafe7b7df6a328ff8d7fc6ae78b1b52d4c6efdecf8",
-    "bytes": 694
+    "path": "agents/rocco-rollout/AGENT.md",
+    "sha256": "b0ce98ae87f17964fb49563fa84cb14a48e439cf3bac0f8c99b6f053fb6a8afd",
+    "bytes": 1387
   },
   {
-    "path": "agents/ux-designer/curiosity-extension.md",
-    "sha256": "d0ee612606c13cbbb42202ef125e53a6007c33f9d2b968aaa190043eb6f1f19d",
-    "bytes": 350
+    "path": "agents/rocco-rollout/BEHAVIOR.md",
+    "sha256": "e35313b8857ac28b67fe1576f55aa74365a5d4bd9edc97b9327bccecc966d9d7",
+    "bytes": 1840
   },
   {
-    "path": "agents/ux-designer/soul-extension.md",
-    "sha256": "898b6ba8b5460411802294cc5c7314fe097ccfdfc77f97b4552096fe8a68fd2e",
-    "bytes": 314
+    "path": "agents/rocco-rollout/CURIOSITY.md",
+    "sha256": "5050416c92740ea1115f4a5907211b5205fb928a1cdc918a2d2b1262835f8298",
+    "bytes": 159
+  },
+  {
+    "path": "agents/rocco-rollout/PHRASES.md",
+    "sha256": "e99f039a117730a14048e75ee233e25118032d1f6964cbdc2185b3e07dc3b8df",
+    "bytes": 1762
+  },
+  {
+    "path": "agents/rocco-rollout/SOUL.md",
+    "sha256": "52518e1e180615eb3848a9a748f0837f5e0dfa9fd539a0ce81227be24326b062",
+    "bytes": 368
+  },
+  {
+    "path": "agents/sal-the-shield/AGENT.md",
+    "sha256": "253943ccba431e2babcda50349bd975d5ce390c4ae8bab6a9ed2b9d56e0377bd",
+    "bytes": 1467
+  },
+  {
+    "path": "agents/sal-the-shield/BEHAVIOR.md",
+    "sha256": "6940eeb85fe3cb60f536ab318bd867780c4bc5bbac48398105a74a2d47f5689a",
+    "bytes": 1987
+  },
+  {
+    "path": "agents/sal-the-shield/CURIOSITY.md",
+    "sha256": "a2dfdbd028add5457de41379388a8b41524c29591cb8f7a8e567b012dfec97ba",
+    "bytes": 166
+  },
+  {
+    "path": "agents/sal-the-shield/PHRASES.md",
+    "sha256": "cc7159cf694da22611bc58973507211e788ab9572162ae9a55cfa988e2a56573",
+    "bytes": 1813
+  },
+  {
+    "path": "agents/sal-the-shield/SOUL.md",
+    "sha256": "d15ace9e82116d5272e8147d17c4ad6aeef9be16b3780d86e43e185a184f280e",
+    "bytes": 423
+  },
+  {
+    "path": "agents/tony-blueprints/AGENT.md",
+    "sha256": "b4b044a45254d4d356a65716ed42f63e898dbcb86d2cc82c9d57dba932f88930",
+    "bytes": 1583
+  },
+  {
+    "path": "agents/tony-blueprints/BEHAVIOR.md",
+    "sha256": "c676f332ad9280ef91301a1ab14e8bc610c2ebdf3ec79d65cae9d44b1bd94f39",
+    "bytes": 2171
+  },
+  {
+    "path": "agents/tony-blueprints/CURIOSITY.md",
+    "sha256": "c15992435310bb8341c14a38a6b1fc4d37436ade5757d067c3cc9b4f60db3579",
+    "bytes": 209
+  },
+  {
+    "path": "agents/tony-blueprints/PHRASES.md",
+    "sha256": "8599d0761de4e919c0ec90e261a591e8d4f951187e6848637943ebfe5efeaa01",
+    "bytes": 1890
+  },
+  {
+    "path": "agents/tony-blueprints/SOUL.md",
+    "sha256": "e5505b6e19a9f997d3b06d11ad0c290e6fdf954d4d44aa9e45e0abaf53f9aa19",
+    "bytes": 488
+  },
+  {
+    "path": "agents/vinny-visuals/AGENT.md",
+    "sha256": "a6565b20a28d0a6e54b9cdf1d306d93b406d2db6ca4caac5c9cd32dce19410fa",
+    "bytes": 1484
+  },
+  {
+    "path": "agents/vinny-visuals/BEHAVIOR.md",
+    "sha256": "8f2536ebce4ed49388744dc095c6c93074ac73935774d202cfeb208530a870e2",
+    "bytes": 2007
+  },
+  {
+    "path": "agents/vinny-visuals/CURIOSITY.md",
+    "sha256": "dfa6957b967d8b7f352d3362e20ce8c332b696a1c78a17093b44c7fde22eeb4e",
+    "bytes": 199
+  },
+  {
+    "path": "agents/vinny-visuals/PHRASES.md",
+    "sha256": "b887e5eef0d3c6a2a7efa5d58d036483d56291cf33f4edf9ee7f7d7fe003b47e",
+    "bytes": 1863
+  },
+  {
+    "path": "agents/vinny-visuals/SOUL.md",
+    "sha256": "0fa740d3f7a6758534a1b32dcbfe0fb67b6df90a4a6d749cb2783bab84231ec3",
+    "bytes": 428
   },
   {
     "path": "config/model-routing.yaml",
@@ -188,6 +273,11 @@
     "path": "docs/ARCHITECTURE.md",
     "sha256": "30433080ee9cfc36901e7af2bfc025390a0dffd38faff9a4b42f330787d3f2b4",
     "bytes": 2228
+  },
+  {
+    "path": "docs/ITALIAN-AMERICAN-PHRASE-GLOSSARY.md",
+    "sha256": "ee554f96c42e29fe79c69719a748a957aee9abad6d3458c0a672381c11500da3",
+    "bytes": 1878
   },
   {
     "path": "docs/RECOMMENDED-TARGET-HIERARCHY.md",
@@ -205,14 +295,9 @@
     "bytes": 1075
   },
   {
-    "path": "jobs/capability-evolution-monthly.yaml",
-    "sha256": "329fc366cf1bfa8bc6eb83384847107b6aa3cee039ee21f35fdd3355a1b87410",
-    "bytes": 808
-  },
-  {
     "path": "jobs/model-buzz-scout-weekly.yaml",
-    "sha256": "e2dd8ffc84479b359ea32d38bdf0dee8dbae97841345522ac2fd49ca477a3425",
-    "bytes": 1011
+    "sha256": "98172ccedeba435fca482b270a97eb02906ead87cfb2a2fb6d20c89fd00c0ddb",
+    "bytes": 1007
   },
   {
     "path": "prompts/BUILD-PROFESSIONAL-APP.md",
@@ -220,9 +305,24 @@
     "bytes": 771
   },
   {
+    "path": "prompts/IMPLEMENT-ITALIAN-AMERICAN-VOICE.md",
+    "sha256": "631af2fa7e791a61b4b183eb3fc50492675d21fa8ba0b9be05eaf31228200aa7",
+    "bytes": 1038
+  },
+  {
+    "path": "prompts/IMPLEMENT-PERSONALITY-PROFILES.md",
+    "sha256": "d2e91ae662af7fa10f24efe5a6e1be5cdf2266b1ace8639edfd190704be5f05e",
+    "bytes": 1121
+  },
+  {
     "path": "prompts/IMPLEMENT-PLATFORM.md",
     "sha256": "7b65baceb6bf87cabbe57db20a9ece9a67174cfce33876d8d820e5b2956bbe71",
     "bytes": 5057
+  },
+  {
+    "path": "prompts/IMPLEMENT-SELECTIVE-OVERLAY.md",
+    "sha256": "88341804da26495cc7271b9a35e6057a87b312cbef55da05fe5d0da62e687f58",
+    "bytes": 1664
   },
   {
     "path": "prompts/IMPLEMENT-WEEKLY-MODEL-SCOUT.md",
@@ -330,6 +430,16 @@
     "bytes": 453
   },
   {
+    "path": "standards/AGENT-PERSONALITY-STANDARD.md",
+    "sha256": "e1f5e0297b225d1cb5e73a4058f2fcd2682075507bba4c35d42212a6a36997eb",
+    "bytes": 1597
+  },
+  {
+    "path": "standards/BOTFATHER-DELEGATION-MODEL.md",
+    "sha256": "3b3d5b5a546e2003fd746a50732842e602bb8a3e1b1f3596975e50bd0ca8487b",
+    "bytes": 1388
+  },
+  {
     "path": "standards/CONTEXT-PRESERVATION.md",
     "sha256": "46f4e6ec1d83d0f0682ff2d1ac088dbfa1298f6fed987220d0049119dbdfe5e6",
     "bytes": 1080
@@ -343,6 +453,11 @@
     "path": "standards/ENGINEERING-STANDARDS.md",
     "sha256": "a7035002ea8aff8143ba0bee7cfad888a635b4786d187422175050f07d081cd7",
     "bytes": 1343
+  },
+  {
+    "path": "standards/ITALIAN-AMERICAN-LANGUAGE-STANDARD.md",
+    "sha256": "f891a79f021727d4d41f29469d52a3452013dde419fbeaa2f8e0e89bbc44cefc",
+    "bytes": 2295
   },
   {
     "path": "standards/PRODUCT-PRINCIPLES.md",
