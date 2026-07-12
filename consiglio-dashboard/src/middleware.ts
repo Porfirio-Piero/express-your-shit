@@ -4,8 +4,8 @@ import { NextResponse } from "next/server"
 export default auth((req) => {
   const { pathname } = req.nextUrl
 
-  // Public paths
-  const publicPaths = ["/auth/signin", "/auth/error", "/api/auth", "/api/agents"]
+  // Public paths — no auth required
+  const publicPaths = ["/auth/signin", "/auth/error", "/api/auth", "/api/agents", "/api/status"]
   
   if (publicPaths.some(path => pathname.startsWith(path))) {
     return NextResponse.next()
