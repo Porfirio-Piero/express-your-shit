@@ -13,25 +13,25 @@ graph TB
         end
 
         subgraph "Channels"
-            TG[Telegram Bot<br/>@OpenClaw Bot]
+            TG[Telegram Bot<br/>@OpenClaw Bot<br/>DM Policy: Open]
             WA[WhatsApp<br/>Pairing Mode]
         end
 
         subgraph "Primary Agent — Don BotFather"
             BF[main<br/>ollama/kimi-k2.6:cloud<br/>Boss of Bosses]
-            BF_SOUL[SOUL.md<br/>IDENTITY.md<br/>MEMORY.md]
-            BF_SKILLS[51 Skills]
+            BF_FILES[SOUL.md • IDENTITY.md • MEMORY.md<br/>AGENTS.md • USER.md • TOOLS.md<br/>COMPANY.md • HEARTBEAT.md • CURIOSITY.md]
+            BF_SKILLS[51 Workspace Skills<br/>14 Platform Skills]
         end
 
         subgraph "Active Capos"
-            DD[dapper-dan<br/>Dapper Dan the Builder<br/>ollama/kimi-k2.7:cloud]
-            BB[breaking-ben<br/>Benjamin "Bricks" Testa<br/>ollama/glm-5.1:cloud]
-            CD[codex-developer<br/>Nico "The Architect" Codex<br/>ollama/glm-5.1:cloud]
-            COS[chief-of-staff<br/>Consigliere Chief<br/>ollama/kimi-k2.7:cloud]
-            MM[model-buzz-scout<br/>Mikey "The Ear" Models<br/>ollama/glm-5.1:cloud]
+            DD[dapper-dan<br/>Dapper Dan the Builder<br/>ollama/kimi-k2.7-code:cloud<br/>BEHAVIOR.md + PHRASES.md]
+            BB[breaking-ben<br/>Benjamin Bricks Testa<br/>ollama/glm-5.1:cloud<br/>BEHAVIOR.md + PHRASES.md]
+            CD[codex-developer<br/>Nico the Architect Codex<br/>ollama/glm-5.1:cloud<br/>BEHAVIOR.md + PHRASES.md]
+            COS[chief-of-staff<br/>Consigliere Chief<br/>ollama/kimi-k2.7-code:cloud<br/>BEHAVIOR.md + PHRASES.md]
+            MM[model-buzz-scout<br/>Mikey the Ear Models<br/>ollama/glm-5.1:cloud<br/>BEHAVIOR.md + PHRASES.md]
         end
 
-        subgraph "Reference Specialists (On-Demand)"
+        subgraph "Reference Specialists — On Demand"
             TB[Tony Blueprints<br/>Product Architecture]
             BEL[Bella Buttons<br/>UX Design]
             VV[Vinny Visuals<br/>Visual & Brand]
@@ -43,69 +43,108 @@ graph TB
             CC[Connie Consigliere<br/>Strategy]
         end
 
-        subgraph "Cron Jobs — Active"
-            C1[model-buzz-scout-weekly<br/>Sunday 8:00 AM ET]
-            C2[Overnight Pipeline<br/>5 stages nightly]
-            C3[Daily Status Report<br/>7:00 AM ET]
-            C4[Morning Briefing<br/>7:30 AM ET]
-            C5[Morning/Nightly Tech News]
-            C6[Vinny Vault Weekly<br/>Sunday 9:00 AM ET]
+        subgraph "Cron Jobs — 8 Active"
+            C1[model-buzz-scout-weekly<br/>Sun 8:00 AM ET]
+            C2[Overnight Pipeline<br/>Nightly 5 stages]
+            C3[Daily Status<br/>7:00 AM ET]
+            C4[Morning Briefing<br/>7:30 AM ET Weekdays]
+            C5[Tech News<br/>3x daily]
+            C6[Vinny Vault Weekly<br/>Sun 9:00 AM ET]
             C7[3-Hour Check-In]
             C8[Proactive: 4x daily]
         end
 
         subgraph "Security & Monitoring"
             CAM[OBSBOT Tiny 4K<br/>Main Security Cam]
-            SEC[Security Watchdog<br/>Port 3198]
-            MOT[Motion Tracker<br/>Port 3197]
-            CAMS[Camera Server<br/>Port 3199]
-            TL[Timelapse Compiler<br/>Port 3201]
-            SNAP[Periodic Reporter<br/>Port 3202]
+            SEC[Watchdog :3198]
+            MOT[Motion Tracker :3197]
+            CAMS[Camera Server :3199]
+            TL[Timelapse :3201]
+            SNAP[Periodic Reporter :3202]
+            STREAM[Live MJPEG :3200]
         end
 
         subgraph "Data & Storage"
-            WS[Workspace<br/>C:\Users\devpi\.openclaw\workspace]
+            WS[Workspace<br/>~/.openclaw/workspace/]
             EXT[D: Extreme SSD<br/>~167 GB Free]
-            MEM[Memory System<br/>Active Memory + Wiki]
-            DAILY[daily notes/<br/>memory/YYYY-MM-DD.md]
+            MEM[Active Memory + Wiki<br/>Local Embedding Search]
+            DAILY[memory/YYYY-MM-DD.md<br/>Daily notes]
         end
+    end
 
-        subgraph "Deployments"
-            VERCEL[Vercel<br/>7 projects linked]
-            GH[GitHub<br/>Porfirio-Piero org]
-        end
+    subgraph "CI/CD Pipeline — GitHub Actions"
+        GH[GitHub<br/>Porfirio-Piero org]
+        GHA[GitHub Actions<br/>ci-cd-vercel.yml]
+        CQL[CodeQL Analysis<br/>Security + Quality]
+        AUDIT[pnpm audit<br/>Dependency Audit]
+        VPREV[Vercel Preview<br/>PR deploys]
+        VPROD[Vercel Production<br/>Main branch]
     end
 
     TG --> GW
     WA --> GW
     GW --> BF
-    BF --> DD
-    BF --> BB
-    BF --> CD
-    BF --> COS
-    BF --> MM
-    BF -.->|on demand| TB
-    BF -.->|on demand| BEL
-    BF -.->|on demand| VV
-    BF -.->|on demand| NS
-    BF -.->|on demand| JNB
-    BF -.->|on demand| SAL
-    BF -.->|on demand| FF
-    BF -.->|on demand| RR
-    BF -.->|on demand| CC
+    BF --> DD & BB & CD & COS & MM
+    BF -.->|on demand| TB & BEL & VV & NS & JNB & SAL & FF & RR & CC
 
-    CAM --> SEC
-    CAM --> MOT
-    CAM --> CAMS
-    CAM --> TL
-    CAM --> SNAP
+    CAM --> SEC & MOT & CAMS & TL & SNAP & STREAM
+    BF --> WS & MEM & DAILY
 
-    BF --> WS
-    BF --> MEM
-    BF --> DAILY
-
-    BF --> VERCEL
     BF --> GH
+    GH --> GHA
+    GHA --> CQL & AUDIT
+    GHA --> VPREV
+    GHA --> VPROD
+```
+
+## Build → Test → Security → Deploy Pipeline
+
+```mermaid
+graph LR
+    subgraph "1. Spec & Design"
+        SPEC[Spec File Created<br/>PRD.md]
+        DEPS[Dependencies Mapped<br/>package.json]
+        UX[UI/UX Design<br/>Completed]
+        PM[Product Manager<br/>Review ✓]
+    end
+
+    subgraph "2. Development"
+        CODE[Code Changes<br/>BotFather / Dapper Dan]
+        LOCAL[Local Dev<br/>pnpm dev]
+    end
+
+    subgraph "3. CI Pipeline — GitHub Actions"
+        LINT[Lint<br/>pnpm lint]
+        TYPE[Type Check<br/>pnpm typecheck]
+        TEST[Tests<br/>pnpm test]
+        BUILD[Build<br/>pnpm build]
+    end
+
+    subgraph "4. Security"
+        CQL[CodeQL Analysis<br/>security-extended<br/>security-and-quality]
+        DEPSEC[pnpm audit<br/>--audit-level=high]
+        SNYK[Snyk<br/>Security Code Review<br/>+ Grading]
+    end
+
+    subgraph "5. Deploy"
+        GHMAIN[Git Push<br/>main branch]
+        VPREV[Vercel Preview<br/>PR deploys]
+        VPROD[Vercel Production<br/>Auto-deploy on merge]
+    end
+
+    subgraph "6. Verify"
+        HEALTH[Health Check<br/>HTTP 200]
+        POST[Post-Deploy<br/>Verification]
+    end
+
+    SPEC --> CODE --> LOCAL
+    LOCAL --> LINT --> TYPE --> TEST --> BUILD
+    BUILD --> CQL --> DEPSEC
+    DEPSEC --> SNYK
+    SNYK --> GHMAIN
+    GHMAIN --> VPROD
+    CODE --> VPREV
+    VPROD --> HEALTH --> POST
 ```
 
 ## Agent Hierarchy
@@ -115,10 +154,10 @@ graph TD
     P[Piero Porfirio<br/>Owner] --> BF[Don BotFather<br/>Primary Orchestrator]
 
     BF --> DD[Dapper Dan the Builder<br/>Construction Capo<br/>Kimi K2.7-Code Cloud]
-    BF --> BB[Benjamin "Bricks" Testa<br/>Demolition & QA Capo<br/>GLM 5.1 Cloud]
-    BF --> CD[Nico "The Architect" Codex<br/>Architecture Capo<br/>GLM 5.1 Cloud]
+    BF --> BB[Benjamin Bricks Testa<br/>Demolition & QA Capo<br/>GLM 5.1 Cloud]
+    BF --> CD[Nico the Architect Codex<br/>Architecture Capo<br/>GLM 5.1 Cloud]
     BF --> COS[Consigliere Chief<br/>Coordination Capo<br/>Kimi K2.7-Code Cloud]
-    BF --> MM[Mikey "The Ear" Models<br/>Intelligence Scout<br/>GLM 5.1 Cloud]
+    BF --> MM[Mikey the Ear Models<br/>Intelligence Scout<br/>GLM 5.1 Cloud]
 
     BF -.->|delegate| TB[Tony Blueprints<br/>Product Architecture]
     BF -.->|delegate| BEL[Bella Buttons<br/>UX & Interface Design]
@@ -138,118 +177,36 @@ graph TD
     style MM fill:#6366f1,stroke:#fff,color:#fff
 ```
 
-## Build → Test → Security → Deploy Pipeline
+## CI/CD Pipeline Details
 
-```mermaid
-graph LR
-    subgraph "Development"
-        DEV[Local Dev<br/>npm run dev]
-        CODE[Code Changes<br/>BotFather / Dapper Dan]
-    end
+### GitHub Actions Workflow: `ci-cd-vercel.yml`
 
-    subgraph "Build"
-        BUILD[npm run build<br/>TypeScript Check<br/>Next.js Build]
-    end
+**Triggers:** Push to main, Pull Requests, Manual dispatch
 
-    subgraph "Security"
-        AUDIT[npm audit<br/>Dependency Check]
-        DEP[Dependabot<br/>GitHub Alerts]
-    end
+**Jobs:**
 
-    subgraph "Deploy"
-        VERCEL[Vercel --prod<br/>Auto-deploy via Git push]
-        GH_PUSH[GitHub Push<br/>main branch]
-    end
+| Job | Purpose | Details |
+|-----|---------|---------|
+| **CI Pipeline** | Lint → Type Check → Test → Build | pnpm install, lint, typecheck, test, build |
+| **CodeQL Analysis** | Security scanning | `security-extended` + `security-and-quality` queries |
+| **Dependency Audit** | Dependency vulnerability check | `pnpm audit --audit-level=high` |
+| **Vercel Preview** | PR deployments | Deploy preview on pull requests |
+| **Vercel Production** | Production deployment | Deploy on merge to main |
+| **Summary** | Pipeline status | Aggregates all job results |
 
-    subgraph "Verify"
-        STATUS[Health Check<br/>HTTP 200]
-        SNAP[Camera Snap<br/>Post-deploy verification]
-    end
+**Security Scanning:**
+- ✅ CodeQL (GitHub native) — JavaScript/TypeScript analysis
+- ✅ pnpm audit — dependency vulnerability scanning
+- ⚠️ Snyk — NOT YET INSTALLED (needs `snyk` CLI + auth token)
+- ✅ GitHub Dependabot — automated dependency updates
 
-    CODE --> DEV --> BUILD
-    BUILD --> AUDIT
-    AUDIT --> VERCEL
-    AUDIT --> GH_PUSH
-    VERCEL --> STATUS
-    GH_PUSH --> VERCEL
-
-    DEP -.-> AUDIT
-
-    style BUILD fill:#3b82f6,stroke:#fff,color:#fff
-    style AUDIT fill:#f59e0b,stroke:#fff,color:#fff
-    style VERCEL fill:#22c55e,stroke:#fff,color:#fff
-    style STATUS fill:#a855f7,stroke:#fff,color:#fff
-```
-
-## Skill Map — 51 Workspace Skills + 14 Platform Skills
-
-```
-workspace/skills/
-├── action-tracker/          # Track action items
-├── api-integration/         # API integration patterns
-├── botfather/               # BotFather persona
-├── breaking-ben/            # Breaking Ben persona
-├── calendar-sync/           # Google Calendar sync
-├── cc-godmode/              # God mode utilities
-├── chief-of-staff/          # Chief of Staff persona
-├── codex-developer/         # Codex Developer persona
-├── context-anchor/          # Context preservation
-├── daily-briefing/          # Morning briefing
-├── dapper-dan/              # Dapper Dan persona
-├── data-analysis/           # Data analysis
-├── database/                # Database operations
-├── devops/                  # DevOps operations
-├── document/                # Document handling
-├── email/                   # Email integration
-├── lead-researcher/         # Lead research
-├── memory/                  # Memory management
-├── ollama-local/            # Ollama local models
-├── ollama-memory-embeddings/ # Memory embeddings
-├── openclaw-stealth-browser/ # Stealth browser
-├── overnight-complexity-validator/ # Overnight validation
-├── overnight-development-checkpoints/ # Build checkpoints
-├── proactive-soul/          # Proactive behavior
-├── scheduler/               # Task scheduling
-├── security/                # Security operations
-├── skill-vetter/            # Skill vetting
-├── swarmclaw/               # Swarm orchestration
-├── tavily/                  # Tavily search
-├── testing/                 # Testing framework
-├── uptime-kuma/             # Uptime monitoring
-├── web-research/            # Web research
-├── weekly-model-intelligence/ # Model buzz scout
-└── wiki-system/             # Wiki maintenance
-
-platform/ai-engineering/skills/
-├── product-discovery/       # Product discovery
-├── design-system/           # Design system review
-├── ux-quality/              # UX quality
-├── fullstack-engineering/   # Full-stack engineering
-├── visual-review/           # Visual review
-├── accessibility/           # Accessibility review
-├── testing-quality/         # Testing quality
-├── security-review/         # Security review
-├── performance-review/      # Performance review
-├── release-governance/      # Release governance
-├── context-preservation/    # Context preservation
-├── agent-evolution/         # Agent evolution
-├── personality-craft/        # Personality crafting
-└── weekly-model-intelligence/ # Weekly model intel
-```
-
-## Identity Files (The Boss's Memory)
-
-| File | Purpose | Size |
-|------|---------|------|
-| SOUL.md | Who I am, personality, principles | ~4 KB |
-| IDENTITY.md | Speech patterns, models, delegation | ~3 KB |
-| MEMORY.md | Long-term memory, project history | ~25 KB |
-| AGENTS.md | Fleet config, routing rules | ~7 KB |
-| USER.md | About Piero, preferences, household | ~2 KB |
-| TOOLS.md | Camera config, scripts, environment | ~6 KB |
-| COMPANY.md | Autonomous company doctrine | ~5 KB |
-| HEARTBEAT.md | Status schedule, security checks | ~4 KB |
-| CURIOSITY.md | Open threads, things I'm thinking about | ~2 KB |
+**Deployment Flow:**
+1. Spec → Dependencies → UI/UX Design → PM Review
+2. Code changes pushed to feature branch
+3. GitHub Actions runs: lint → typecheck → test → build → CodeQL → audit
+4. On PR: Vercel preview deploy with comment on PR
+5. On merge to main: Vercel production deploy with health check
+6. Post-deploy verification (HTTP 200 check)
 
 ## Key File Locations
 
@@ -262,18 +219,33 @@ platform/ai-engineering/skills/
 | Platform Standards | `workspace/platform/ai-engineering/standards/` |
 | Platform Skills | `workspace/platform/ai-engineering/skills/` |
 | Workspace Skills | `workspace/skills/*/SKILL.md` |
+| CI/CD Workflow | `workspace/.github/workflows/ci-cd-vercel.yml` |
 | Memory Daily Notes | `workspace/memory/YYYY-MM-DD.md` |
 | Camera Scripts | `workspace/camera-tools/` |
 | Camera Storage | `D:\camera\` (external SSD) |
 | Vinny Vault | `workspace/vinny-vault/` |
 | Consiglio Dashboard | `workspace/consiglio-dashboard/` |
+| Environment Map | `workspace/ENVIRONMENT-MAP.md` |
+| Onboarding Guide | `workspace/NEW-AGENT-ONBOARDING.md` |
 
-## Security Notes
+## Vercel Projects (107 linked)
 
-- **Snyk**: NOT installed (gap in pipeline)
-- **npm audit**: Available per project
-- **Dependabot**: Enabled via GitHub
-- **Docker**: Not installed on this machine
-- **Deployment**: Vercel (auto-deploy via git push) or manual `npx vercel --prod`
-- **Camera Security**: OBSBOT armed 24/7, motion detection, timelapse
+Business sites, SaaS products, and tools — all deployed via Vercel with auto-deploy on git push.
+
+**Active SaaS Products:**
+- Consiglio Dashboard (command center)
+- Norm Is Right
+- Context Switch
+- FollowUpFlow
+- LandlordMinder
+- Liar or Fire
+- InvoiceSnap
+- CartClaw Lite
+- TaskRhythm
+- CompliancePulse
+
+**Security Notes:**
+- Snyk: NOT YET INSTALLED (gap — needs `npm install -g snyk` + auth)
+- Docker: NOT INSTALLED on this machine
+- Camera: OBSBOT armed 24/7 with motion detection
 - **Never reboot the machine**

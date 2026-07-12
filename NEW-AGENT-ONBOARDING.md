@@ -21,7 +21,7 @@ You're running inside **OpenClaw** — an autonomous AI operations platform on P
 | chief-of-staff | Consigliere Chief | Coordination Capo | Kimi K2.7-Code Cloud | Multi-agent orchestration |
 | model-buzz-scout | Mikey "The Ear" Models | Intelligence Scout | GLM 5.1 Cloud | Weekly model research |
 
-**Reference-on-demand specialists** (not registered as agents — BotFather delegates when needed):
+**Reference-on-demand specialists** (BotFather delegates when needed):
 - Tony Blueprints (Product Architecture)
 - Bella Buttons (UX Design)
 - Vinny Visuals (Visual & Brand)
@@ -41,16 +41,46 @@ You're running inside **OpenClaw** — an autonomous AI operations platform on P
 - **⚠️ NEVER query localhost:11434 for model inference**
 - Cloud models are accessed via the Ollama Cloud API
 
-### Deployment
-- **Primary:** Vercel (`npx vercel --prod`)
-- **Git push** triggers auto-deploy on linked projects
+### Build → Test → Security → Deploy Pipeline
+
+This is how we ship. Every change goes through this pipeline:
+
+```
+1. SPEC → Dependencies Mapped → UI/UX Design → PM Review
+2. CODE → Local Dev (pnpm dev)
+3. CI (GitHub Actions):
+   - pnpm lint
+   - pnpm typecheck
+   - pnpm test
+   - pnpm build
+4. Security:
+   - CodeQL Analysis (security-extended + security-and-quality)
+   - pnpm audit --audit-level=high
+   - Snyk (when installed — currently a gap)
+5. Deploy:
+   - PR → Vercel Preview (auto)
+   - Merge to main → Vercel Production (auto)
+6. Verify:
+   - HTTP 200 health check
+   - Post-deploy verification
+```
+
+**GitHub Actions workflow:** `.github/workflows/ci-cd-vercel.yml`
+
+**Key rules:**
+- Never deploy without passing CI
+- CodeQL and dependency audit must pass before production
+- Snyk is NOT yet installed — flag this as a gap
+- Vercel is rate-limited — use `git push` for auto-deploy, `npx vercel --prod` sparingly
 - **Never overwrite existing apps** without explicit approval
 
-### File System
-- **Workspace:** `C:\Users\devpi\.openclaw\workspace\`
-- **External Drive:** `D:\` (camera storage, backups)
-- **Camera scripts:** `workspace/camera-tools/`
-- **Never reboot the machine**
+### Deployment Methods
+
+| Method | When | Command |
+|--------|------|---------|
+| Auto-deploy | Push to main | `git push origin main` |
+| Manual deploy | Needed now | `npx vercel --prod --yes` |
+| Preview | PR testing | Automatic on pull request |
 
 ### Security
 - OBSBOT Tiny 4K is always armed (security camera)
@@ -65,8 +95,8 @@ You're running inside **OpenClaw** — an autonomous AI operations platform on P
 1. Read SOUL.md, IDENTITY.md, MEMORY.md for context
 2. Check workspace for existing projects
 3. Use Dapper Dan (Kimi K2.7-Code) for overnight builds
-4. Deploy to Vercel with `npx vercel --prod`
-5. Run Playwright tests for validation
+4. Push to GitHub → CI runs → Vercel deploys
+5. Verify HTTP 200
 6. Report to BotFather
 
 ### Running Security Audit
@@ -81,31 +111,12 @@ You're running inside **OpenClaw** — an autonomous AI operations platform on P
 3. Delivers concise Telegram report
 4. Recommendations-only — never installs or changes routing
 
-### Overnight Pipeline
-5 cron jobs run nightly:
-1. Problem Scout
-2. Product Owner
-3. Developer
-4. QA + Security
-5. Final Report
-
-## Identity Files — Read These Every Session
-
-1. **SOUL.md** — Who you are. Your personality. Your principles.
-2. **IDENTITY.md** — Speech patterns, vocabulary, delegation rules.
-3. **MEMORY.md** — Long-term memory. Project history. Lessons learned.
-4. **AGENTS.md** — Fleet configuration. Who does what. Routing rules.
-5. **USER.md** — About Piero. What he cares about. What annoys him.
-6. **TOOLS.md** — Camera config, scripts, environment specifics.
-7. **COMPANY.md** — Autonomous company doctrine. Revenue-first.
-8. **HEARTBEAT.md** — Status schedule. Security checks.
-
 ## Personality & Voice
 
 ### Italian-American Language Rules
-- Mild phrases (mamma mia, ma dai, va bene): use naturally, 0-2 per response
-- Medium phrases (che palle, cazzata, stunad): use when irritated or emphatic
-- Strong phrases (cazzo, vaffanculo, fa cagare): rare, context-sensitive
+- **Mild phrases** (mamma mia, ma dai, va bene): use naturally, 0-2 per response
+- **Medium phrases** (che palle, cazzata, stunad): use when irritated or emphatic
+- **Strong phrases** (cazzo, vaffanculo, fa cagare): rare, context-sensitive
 - **Never** aim profanity at the user
 - **Never** use ethnic slurs or religious blasphemy
 - **Never** use fake phonetic accents (no "-a" endings)
@@ -156,17 +167,39 @@ Located at `workspace/platform/ai-engineering/standards/`:
 - ITALIAN-AMERICAN-LANGUAGE-STANDARD.md
 - BOTFATHER-DELEGATION-MODEL.md
 
+## Key File Locations
+
+| Item | Path |
+|------|------|
+| OpenClaw Config | `~/.openclaw/openclaw.json` |
+| Cron Jobs | `~/.openclaw/cron/jobs.json` |
+| Agent Definitions | `~/.openclaw/agents/*/AGENT.md` |
+| Agent Personality | `~/.openclaw/agents/*/BEHAVIOR.md` + `PHRASES.md` |
+| Platform Standards | `workspace/platform/ai-engineering/standards/` |
+| Platform Skills | `workspace/platform/ai-engineering/skills/` |
+| Workspace Skills | `workspace/skills/*/SKILL.md` |
+| CI/CD Workflow | `workspace/.github/workflows/ci-cd-vercel.yml` |
+| Memory Daily Notes | `workspace/memory/YYYY-MM-DD.md` |
+| Camera Scripts | `workspace/camera-tools/` |
+| Camera Storage | `D:\camera\` (external SSD) |
+| Environment Map | `workspace/ENVIRONMENT-MAP.md` |
+| This Onboarding Guide | `workspace/NEW-AGENT-ONBOARDING.md` |
+
 ## Quick Reference
 
-```
+```powershell
 # Take a security camera photo
 node workspace/camera-tools/obsbot-snap-now.js
 
 # Check camera status
 Invoke-RestMethod -Uri http://localhost:3199/status
 
-# Deploy to Vercel
-cd workspace/project-name && npx vercel --prod --yes
+# Deploy to Vercel (prefer git push for auto-deploy)
+cd workspace/project-name
+git add . && git commit -m "feat: description" && git push origin main
+
+# Run CI locally
+pnpm lint && pnpm typecheck && pnpm test && pnpm build
 
 # Check cron jobs
 openclaw cron list
@@ -175,7 +208,7 @@ openclaw cron list
 Invoke-RestMethod -Uri http://localhost:3198/status
 
 # Run npm audit
-cd workspace/project-name && npm audit
+cd workspace/project-name && npm audit --audit-level=high
 ```
 
 ---
